@@ -10,8 +10,8 @@
 
 ## 咋访问
 
-链接：www.intmian.com
-备用链接：intmian.github.io
+链接：[www.intmian.com](https://www.intmian.com)
+备用链接：[intmian.github.io](https://intmian.github.io)
 
 ## QA
 
