@@ -14,7 +14,7 @@
         
             堆与最基本的堆溢出-fastbin | 
         
-        mian的blog
+        mian的博客
     </title>
 
     <!-- dns prefetch -->
@@ -37,7 +37,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="mian">
-    <meta name="description" itemprop="description" content="这是mian的博客">
+    <meta name="description" itemprop="description" content="一些关于堆的小知识和基本的利用 fastbin">
     <meta name="keywords" content=",pwn,堆">
 
     <!-- Site Verification -->
@@ -62,14 +62,14 @@
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="mian的blog">
+    <meta name="apple-mobile-web-app-title" content="mian的博客">
 
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="堆与最基本的堆溢出-fastbin | mian的blog">
+    <meta property="og:title" content="堆与最基本的堆溢出-fastbin | mian的博客">
     <meta property="og:image" content="/img/pic.png" />
-    <meta property="og:description" content="这是mian的博客">
+    <meta property="og:description" content="一些关于堆的小知识和基本的利用 fastbin">
     <meta property="og:article:tag" content="pwn"> <meta property="og:article:tag" content="堆"> 
 
     
@@ -78,8 +78,8 @@
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="堆与最基本的堆溢出-fastbin | mian的blog">
-    <meta name="twitter:description" content="这是mian的博客">
+    <meta name="twitter:title" content="堆与最基本的堆溢出-fastbin | mian的博客">
+    <meta name="twitter:description" content="一些关于堆的小知识和基本的利用 fastbin">
     <meta name="twitter:image" content="/img/pic.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="http://yoursite.com" />
@@ -100,7 +100,7 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": "mian的blog",
+        "name": "mian的博客",
         "logo": "/img/pic.png"
     },
     "author": {
@@ -116,7 +116,7 @@
     "url": "http://yoursite.com/2018/06/14/最基本的堆溢出-fastbin/index.html",
     "datePublished": "6月 14, 2018",
     "dateModified": "6月 14, 2018",
-    "description": "这是mian的博客",
+    "description": "一些关于堆的小知识和基本的利用 fastbin",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://yoursite.com"
@@ -329,7 +329,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#堆与最基本的堆溢出-fastbin"><span class="post-toc-number">1.</span> <span class="post-toc-text">堆与最基本的堆溢出-fastbin</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基础知识"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">基础知识</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#fastbin"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">fastbin</span></a></li></ol></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基础知识"><span class="post-toc-number">1.</span> <span class="post-toc-text">基础知识</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#fastbin"><span class="post-toc-number">2.</span> <span class="post-toc-text">fastbin</span></a></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -481,7 +481,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的blog&title=堆与最基本的堆溢出-fastbin&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/06/14/最基本的堆溢出-fastbin/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的博客&title=堆与最基本的堆溢出-fastbin&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/06/14/最基本的堆溢出-fastbin/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -500,7 +500,8 @@
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
         <p>一些关于堆的小知识和基本的利用 fastbin</p>
-<h1 id="堆与最基本的堆溢出-fastbin"><a href="#堆与最基本的堆溢出-fastbin" class="headerlink" title="堆与最基本的堆溢出-fastbin"></a>堆与最基本的堆溢出-fastbin</h1><h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><p>内存上的空间会被划分为若干个chunk</p>
+<a id="more"></a>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><p>内存上的空间会被划分为若干个chunk</p>
 <p>chunk包括以下两种：</p>
 <p>已分配的堆块：</p>
 <pre><code>     chunk-&gt;+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -540,7 +541,6 @@ nextchunk-&gt; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 </blockquote>
 <p>可以看到，chunk头中包含的大小信息，主要用来在获取内存中相邻chunk的地址（当前chunk地址减去前一chunk的大小，为前一chunk的地址；当前chunk地址加上当前chunk的大小，为后一chunk的地址）。而mem中的fd和bk只在当前chunk处于未被使用时才有意义，因为当我使用了此chunk后mem里的空间被用来存储数据。<br>通过这些未被使用的fd、bk chunk组成了一张链表。通常差不大小的chunk会被放在一起组成一张链表，其被称为bin。bin的集合被malloc合并，被称为bins。</p>
 <p>fastbin维护一大堆的链表，当申请较小内存空间时它们会被从fastbin中剪除，并返回此地址。<br>在free时，为了快速回收这些空间，将不通过bk仅由fd将chunk插进fastbin。并且其满足后进先出的原理</p>
-<hr>
 <h2 id="fastbin"><a href="#fastbin" class="headerlink" title="fastbin"></a>fastbin</h2><p>由于fastbin没有bk，是一个单向链表，因此可能会触发任意写的问题。</p>
 <p>fastbin中的东西实际上是通过在内存上连续排布来实现的。当堆栈顶部的chunk被出栈以后实际上fastbin会指向次chunk的上一个。</p>
 <p>此过程是通过fastbin中此大小的指针指向chunk的fd来实现的。所以如果fd被通过某种技术覆写，那么malloc就会返回被覆写入的地址。如果mem被丢入一个十分大的数据就会把下面的覆写了，这会导致再进行两次malloc就会返回你所定义的伪chunk中的内容。</p>
@@ -853,7 +853,7 @@ It will not impact the appearance and can give developers a lot of support :)
 
         <!--Copyright-->
         <div id="copyright">
-            Copyright&nbsp;©&nbsp;2018&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>mian的blog
+            Copyright&nbsp;©&nbsp;2018&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>mian的博客
         </div>
 
         <!-- Paradox Footer Right Section -->

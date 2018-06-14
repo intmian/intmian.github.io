@@ -14,7 +14,7 @@
         
             unlink | 
         
-        mian的blog
+        mian的博客
     </title>
 
     <!-- dns prefetch -->
@@ -37,7 +37,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="mian">
-    <meta name="description" itemprop="description" content="这是mian的博客">
+    <meta name="description" itemprop="description" content="一些堆溢出方面的关于unlink的知识">
     <meta name="keywords" content=",pwn,堆">
 
     <!-- Site Verification -->
@@ -62,14 +62,14 @@
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="mian的blog">
+    <meta name="apple-mobile-web-app-title" content="mian的博客">
 
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="unlink | mian的blog">
+    <meta property="og:title" content="unlink | mian的博客">
     <meta property="og:image" content="/img/pic.png" />
-    <meta property="og:description" content="这是mian的博客">
+    <meta property="og:description" content="一些堆溢出方面的关于unlink的知识">
     <meta property="og:article:tag" content="pwn"> <meta property="og:article:tag" content="堆"> 
 
     
@@ -78,8 +78,8 @@
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="unlink | mian的blog">
-    <meta name="twitter:description" content="这是mian的博客">
+    <meta name="twitter:title" content="unlink | mian的博客">
+    <meta name="twitter:description" content="一些堆溢出方面的关于unlink的知识">
     <meta name="twitter:image" content="/img/pic.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="http://yoursite.com" />
@@ -100,7 +100,7 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": "mian的blog",
+        "name": "mian的博客",
         "logo": "/img/pic.png"
     },
     "author": {
@@ -116,7 +116,7 @@
     "url": "http://yoursite.com/2018/06/14/unlink/index.html",
     "datePublished": "6月 14, 2018",
     "dateModified": "6月 14, 2018",
-    "description": "这是mian的博客",
+    "description": "一些堆溢出方面的关于unlink的知识",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://yoursite.com"
@@ -329,7 +329,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#unlink"><span class="post-toc-number">1.</span> <span class="post-toc-text">unlink</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原理"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#条件："><span class="post-toc-number">1.2.</span> <span class="post-toc-text">条件：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#流程："><span class="post-toc-number">1.3.</span> <span class="post-toc-text">流程：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最终结果"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">最终结果</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#例子"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">例子</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#预期利用方式"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">预期利用方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#利用思路"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">利用思路:</span></a></li></ol></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原理"><span class="post-toc-number">1.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#条件："><span class="post-toc-number">2.</span> <span class="post-toc-text">条件：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#流程："><span class="post-toc-number">3.</span> <span class="post-toc-text">流程：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最终结果"><span class="post-toc-number">4.</span> <span class="post-toc-text">最终结果</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#例子"><span class="post-toc-number">5.</span> <span class="post-toc-text">例子</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#预期利用方式"><span class="post-toc-number">6.</span> <span class="post-toc-text">预期利用方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#利用思路"><span class="post-toc-number">7.</span> <span class="post-toc-text">利用思路:</span></a></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -481,7 +481,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的blog&title=unlink&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/06/14/unlink/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的博客&title=unlink&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/06/14/unlink/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -500,18 +500,14 @@
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
         <p>一些堆溢出方面的关于unlink的知识</p>
-<h1 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h1><hr>
+<a id="more"></a>
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>glibc中间维护的bins其实是用来存放malloc时从heap中割下来的堆,为了避免在heap中割下了太多的连续的free chunk，系统会将free chunk自动合并到top chunk中去（top chunk指系统heap中最高位未分配的那个chunk）或者合并成为更大的一个chunk。</p>
-<hr>
 <h2 id="条件："><a href="#条件：" class="headerlink" title="条件："></a>条件：</h2><p>相邻的两块chunk 一块为top chunk 一块为free chunk 或者两块两块 free chunk。所以我们要做的是先连续割两块chunk，保证他们是连续的，以保证他们会unlink。</p>
 <blockquote>
 <p>在溢出时之所以要覆写p位，就是为了能够触发unlink</p>
 </blockquote>
-<hr>
 <h2 id="流程："><a href="#流程：" class="headerlink" title="流程："></a>流程：</h2><p>如果上一块是free chunk<br>&emsp;&emsp;合并上一块chunk并对上一块做unlink<br>如果下一块是<br>&emsp;&emsp;top：合并到top<br>&emsp;&emsp;一般chunk：<br>&emsp;&emsp;&emsp;&emsp;是free chunk：合并下一块chunk，并对下一块做unlin。最终加入unsortedbin<br>&emsp;&emsp;&emsp;&emsp;正在使用中：加入unsortedbin</p>
-<hr>
 <h2 id="最终结果"><a href="#最终结果" class="headerlink" title="最终结果"></a>最终结果</h2><p>所有的同样大小的free chunk递归合并</p>
-<hr>
 <h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>假定有三块连续的smallchunk<br>第一块第二块freed，第三块issued。<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80<br>fd = &amp;smallbin<br>bk = &amp;smallbin<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x81(p位+1代表上一块已经使用已经使用)<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></p>
 <p>free(p)(第二块),就会导致一二两块合并，从而触发unlink<br>系统检验p+size 与p-prevsize得到了上下两个块的头</p>
 <blockquote>
@@ -526,13 +522,11 @@
     BK -&gt; FD = FD
 }
 </code></pre><p>相当于将这个块从bin中脱链。然后系统会将上一个块更改size之类的，然后链到unsortedbin上。</p>
-<hr>
 <h2 id="预期利用方式"><a href="#预期利用方式" class="headerlink" title="预期利用方式"></a>预期利用方式</h2><p>将程序劫持到shellcode中</p>
 <blockquote>
 <p>shellcode是一段用于利用软件漏洞而执行的代码，以其经常让攻击者获得shell而得名。 shellcode常常使用机器语言编写。</p>
 </blockquote>
 <p>利用unlink导致返回了weichunk中指向的地址。最后触发任意写，将必须触发的函数在got表中值改到shellcode，或者更改函数指针变量的值导致触发system()。</p>
-<hr>
 <h2 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路:"></a>利用思路:</h2><p>首先很直观地想到通过堆溢出q堆盖掉后面的FD和BK，将fd改为gou entry -12，将bk 改为 shellcode 的地址，将size低位改为1。在free(q)时会发生如下过程：</p>
 <pre><code>free(q)
 FD = P-&gt;fd = got entry -12
@@ -854,7 +848,7 @@ It will not impact the appearance and can give developers a lot of support :)
 
         <!--Copyright-->
         <div id="copyright">
-            Copyright&nbsp;©&nbsp;2018&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>mian的blog
+            Copyright&nbsp;©&nbsp;2018&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>mian的博客
         </div>
 
         <!-- Paradox Footer Right Section -->

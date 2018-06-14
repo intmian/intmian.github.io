@@ -14,7 +14,7 @@
         
             栈溢出指南 | 
         
-        mian的blog
+        mian的博客
     </title>
 
     <!-- dns prefetch -->
@@ -37,7 +37,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="mian">
-    <meta name="description" itemprop="description" content="这是mian的博客">
+    <meta name="description" itemprop="description" content="一个关于栈溢出的指南">
     <meta name="keywords" content=",pwn,栈">
 
     <!-- Site Verification -->
@@ -62,14 +62,14 @@
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="mian的blog">
+    <meta name="apple-mobile-web-app-title" content="mian的博客">
 
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="栈溢出指南 | mian的blog">
+    <meta property="og:title" content="栈溢出指南 | mian的博客">
     <meta property="og:image" content="/img/pic.png" />
-    <meta property="og:description" content="这是mian的博客">
+    <meta property="og:description" content="一个关于栈溢出的指南">
     <meta property="og:article:tag" content="pwn"> <meta property="og:article:tag" content="栈"> 
 
     
@@ -78,8 +78,8 @@
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="栈溢出指南 | mian的blog">
-    <meta name="twitter:description" content="这是mian的博客">
+    <meta name="twitter:title" content="栈溢出指南 | mian的博客">
+    <meta name="twitter:description" content="一个关于栈溢出的指南">
     <meta name="twitter:image" content="/img/pic.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="http://yoursite.com" />
@@ -100,7 +100,7 @@
     "@type": "Article",
     "publisher": {
         "@type": "Organization",
-        "name": "mian的blog",
+        "name": "mian的博客",
         "logo": "/img/pic.png"
     },
     "author": {
@@ -116,7 +116,7 @@
     "url": "http://yoursite.com/2018/06/14/栈溢出指南/index.html",
     "datePublished": "6月 14, 2018",
     "dateModified": "6月 14, 2018",
-    "description": "这是mian的博客",
+    "description": "一个关于栈溢出的指南",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://yoursite.com"
@@ -329,7 +329,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#栈溢出简易指南"><span class="post-toc-number">1.</span> <span class="post-toc-text">栈溢出简易指南</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#主题："><span class="post-toc-number">1.1.</span> <span class="post-toc-text">主题：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#shellcode"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">shellcode</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#shellcode的编写"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">shellcode的编写</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#return-to-address"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">return-to-address</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#EIP的定位"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">EIP的定位</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#exp的写法"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">exp的写法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#return-to-register-绕过aslr"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">return-to-register(绕过aslr)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#原理"><span class="post-toc-number">1.4.1.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现"><span class="post-toc-number">1.4.2.</span> <span class="post-toc-text">实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#局限"><span class="post-toc-number">1.4.3.</span> <span class="post-toc-text">局限</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#return-to-libc-绕过NX"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">return to libc(绕过NX)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数据执行保护"><span class="post-toc-number">1.5.1.</span> <span class="post-toc-text">数据执行保护</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#原理-1"><span class="post-toc-number">1.5.2.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#利用"><span class="post-toc-number">1.5.3.</span> <span class="post-toc-text">利用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#局限-1"><span class="post-toc-number">1.5.4.</span> <span class="post-toc-text">局限</span></a></li></ol></li></ol></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#主题："><span class="post-toc-number">1.</span> <span class="post-toc-text">主题：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#shellcode"><span class="post-toc-number">2.</span> <span class="post-toc-text">shellcode</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#shellcode的编写"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">shellcode的编写</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#return-to-address"><span class="post-toc-number">3.</span> <span class="post-toc-text">return-to-address</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#EIP的定位"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">EIP的定位</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#exp的写法"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">exp的写法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#return-to-register-绕过aslr"><span class="post-toc-number">4.</span> <span class="post-toc-text">return-to-register(绕过aslr)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#原理"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#局限"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">局限</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#return-to-libc-绕过NX"><span class="post-toc-number">5.</span> <span class="post-toc-text">return to libc(绕过NX)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数据执行保护"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">数据执行保护</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#原理-1"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#利用"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">利用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#局限-1"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">局限</span></a></li></ol></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -481,7 +481,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的blog&title=栈溢出指南&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/06/14/栈溢出指南/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的博客&title=栈溢出指南&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/06/14/栈溢出指南/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -500,13 +500,13 @@
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
         <p>一个关于栈溢出的指南</p>
-<h1 id="栈溢出简易指南"><a href="#栈溢出简易指南" class="headerlink" title="栈溢出简易指南"></a>栈溢出简易指南</h1><h2 id="主题："><a href="#主题：" class="headerlink" title="主题："></a>主题：</h2><ul>
+<a id="more"></a>
+<h2 id="主题："><a href="#主题：" class="headerlink" title="主题："></a>主题：</h2><ul>
 <li><p>基本栈溢出</p>
 </li>
 <li><p>针对缓存区溢出防护的对策</p>
 </li>
 </ul>
-<hr>
 <h2 id="shellcode"><a href="#shellcode" class="headerlink" title="shellcode"></a>shellcode</h2><p>栈溢出的最终目的是执行shellcode，夺取shell，因此本文将会从shellcode开始讲起。</p>
 <p>shellcode通常是软件漏洞利用中的一小段代码，主要用于启动shell或干一些奇怪的事来让攻击控制正台机器</p>
 <blockquote>
@@ -527,7 +527,6 @@ return 0;
 <blockquote>
 <p>提升权限为root，即调用suid(0)<br>启开bash，全面控制系统，即调用execve(“/bin/bash, NULL, NULL);<br>打开网络端口，让攻击者连接该端口进行控制<br>反向连接攻击者提供的端口，进行反向控制。（反弹shell）</p>
 </blockquote>
-<hr>
 <h3 id="shellcode的编写"><a href="#shellcode的编写" class="headerlink" title="shellcode的编写"></a>shellcode的编写</h3><p>虽然现在到处都可以找到现成的shellcode，但是我认为到还是有必要学习shellcode的编写。</p>
 <p>下面我将阐述关于shellcode编写构成中的小问题的解决</p>
 <p>虽然说由于栈溢出的漏洞多半是不能在构成参数的字节里中出现0。但是很明显，在代码中多半会出现0。</p>
@@ -617,7 +616,6 @@ int 0x80
 <p>\x31\xd2\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x52<br>\x53\x89\xe1\x31\xc0\xb0\x0b\xcd</p>
 </blockquote>
 <p>这就是我们的shellcode了</p>
-<hr>
 <h2 id="return-to-address"><a href="#return-to-address" class="headerlink" title="return-to-address"></a>return-to-address</h2><p>有了以上的这些知识我们就可以使用最为简单的ret2addr攻击了。<br>技术的核心是使用覆盖EIP来返回到确认地址，虽然十分简单粗暴，但是随着32位与64位的普及与alsr技术的普及逐渐失去功效，但是在某些特殊的场合这种技术仍然闪烁着光辉。千里之途，始于足下，下面让我们来学习这门技术吧。</p>
 <p>首先我们先温习一遍内存中的数据存放</p>
 <blockquote>
@@ -644,7 +642,6 @@ sh.interactive() # 直接反弹shell进行交互
 </code></pre><blockquote>
 <p>更改？？？？？的内容就可以了。</p>
 </blockquote>
-<hr>
 <h2 id="return-to-register-绕过aslr"><a href="#return-to-register-绕过aslr" class="headerlink" title="return-to-register(绕过aslr)"></a>return-to-register(绕过aslr)</h2><p>虽然说我们上文的技术十分有效，但是魔高一尺，道高一丈，安全技术人员发明了aslr技术对程序进行保护使得偏移量甚至达到2g，这让我们难以确认shellcode的真正位置。</p>
 <blockquote>
 <p>aslr在linux系统上是一个编译选项而非像windows一样是一个链接选项。linux的alsr安全性高于windwos，但是会拖累程序的运行速度，所以aslr在linux上并非很普遍。</p>
@@ -666,7 +663,6 @@ sh.interactive() # 直接反弹shell进行交互
 </blockquote>
 <p>我们可以通过objdump和grep命令来寻找call xxx相关的指令，然后在EIP中覆写这个地址，然后想办法把shellcode放到寄存器所在的地址去。然后就成功了。</p>
 <h3 id="局限"><a href="#局限" class="headerlink" title="局限"></a>局限</h3><p>如果程序中的寄存器指的地方你覆写不了（比如说在溢出点上面），或者下面的程序修改了这个寄存器的值，那这个方法就无能为力了。</p>
-<hr>
 <h2 id="return-to-libc-绕过NX"><a href="#return-to-libc-绕过NX" class="headerlink" title="return to libc(绕过NX)"></a>return to libc(绕过NX)</h2><h3 id="数据执行保护"><a href="#数据执行保护" class="headerlink" title="数据执行保护"></a>数据执行保护</h3><p>在linux环境下所说的NX与windows平台下的DEP是同一个东西，即数据执行保护。</p>
 <p>其功能为通过将非代码段的代码设为不可执行，从而避免程序流被劫持到堆栈等位置的shellcode中。一旦EIP移动到非代码段中，CPU就会报异常，然后杀死这个进程。</p>
 <p>在64位系统上，这个防护的实现主要通过内存页上的NX位。在windows环境下的32位系统则通过软件模拟的方式实现了这一防护。而linux的32位操作系统则没有这样的防护可以选择.</p>
@@ -990,7 +986,7 @@ It will not impact the appearance and can give developers a lot of support :)
 
         <!--Copyright-->
         <div id="copyright">
-            Copyright&nbsp;©&nbsp;2018&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>mian的blog
+            Copyright&nbsp;©&nbsp;2018&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>mian的博客
         </div>
 
         <!-- Paradox Footer Right Section -->
