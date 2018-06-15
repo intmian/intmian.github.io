@@ -12,7 +12,7 @@
     
     <title>
         
-            友链 | 
+            巧绕NX与ascii armoring-ret2plt | 
         
         mian的博客
     </title>
@@ -37,8 +37,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="mian">
-    <meta name="description" itemprop="description" content="这是mian的博客">
-    <meta name="keywords" content="">
+    <meta name="description" itemprop="description" content="前面讲完了plt、got，我们来个相关的。">
+    <meta name="keywords" content=",plt&got,pwn,栈">
 
     <!-- Site Verification -->
     
@@ -67,29 +67,62 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="友链 | mian的博客">
+    <meta property="og:title" content="巧绕NX与ascii armoring-ret2plt | mian的博客">
     <meta property="og:image" content="/img/pic.png" />
-    <meta property="og:description" content="这是mian的博客">
-    
+    <meta property="og:description" content="前面讲完了plt、got，我们来个相关的。">
+    <meta property="og:article:tag" content="plt&amp;got"> <meta property="og:article:tag" content="pwn"> <meta property="og:article:tag" content="栈"> 
 
+    
+        <meta property="article:published_time" content="6月 15, 2018" />
+        <meta property="article:modified_time" content="6月 15, 2018" />
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="友链 | mian的博客">
-    <meta name="twitter:description" content="这是mian的博客">
+    <meta name="twitter:title" content="巧绕NX与ascii armoring-ret2plt | mian的博客">
+    <meta name="twitter:description" content="前面讲完了plt、got，我们来个相关的。">
     <meta name="twitter:image" content="/img/pic.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="http://yoursite.com" />
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://yoursite.com/links/index.html" />
+        <link rel="canonical" href="http://yoursite.com/2018/06/15/巧绕NX与ascii-armoring-ret2plt/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "mian的博客",
+        "logo": "/img/pic.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "mian",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/pic.png"
+        },
+        "description": "你好，我是mian，欢迎来到我的博客。有朋自远方来，不亦乐乎。随便走走看看吧"
+    },
+    "headline": "巧绕NX与ascii armoring-ret2plt",
+    "url": "http://yoursite.com/2018/06/15/巧绕NX与ascii-armoring-ret2plt/index.html",
+    "datePublished": "6月 15, 2018",
+    "dateModified": "6月 15, 2018",
+    "description": "前面讲完了plt、got，我们来个相关的。",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://yoursite.com"
+    }
+}
+</script>
 
 
     
@@ -271,173 +304,329 @@
 
                     <!-- Post TOC -->
 
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ret2plt"><span class="post-toc-number">2.</span> <span class="post-toc-text">ret2plt</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ascii-armoring"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">ascii armoring</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#思路"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">思路</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#过程"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#对准EIP"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">对准EIP</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#找到strcpy的位置"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text">找到strcpy的位置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#找到PPR的地址"><span class="post-toc-number">2.3.3.</span> <span class="post-toc-text">找到PPR的地址</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#system的拷贝"><span class="post-toc-number">2.3.4.</span> <span class="post-toc-text">system的拷贝</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#写入哪个plt表空间为好呢？"><span class="post-toc-number">2.3.5.</span> <span class="post-toc-text">写入哪个plt表空间为好呢？</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#“-bin-bash”的地址"><span class="post-toc-number">2.3.6.</span> <span class="post-toc-text">“\bin\bash”的地址</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#攻击向量"><span class="post-toc-number">2.3.7.</span> <span class="post-toc-text">攻击向量</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#局限"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">局限</span></a></li></ol></li></ol>
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+    
+
+
+
+
 
 <!-- Layouts -->
 
-    <!-- Single Links Page -->
-    <style>
-    .md-links {
-        min-height: calc(100% - 120px - 5pc - 6em);
-        text-align: center;
-        overflow: auto;
-        padding: 0;
-        margin: 0 auto;
-        max-width: 320px;
-    }
+    <!-- Post Module -->
+    <div class="material-post_container">
 
-    @media screen and (min-width: 680px) {
-        .md-links {
-            max-width: 640px;
-        }
-    }
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
 
-    @media screen and (min-width: 1000px) {
-        .md-links {
-            max-width: 960px;
-        }
-    }
-
-    @media screen and (min-width: 1320px) {
-        .md-links {
-            max-width: 1280px;
-        }
-    }
-
-    @media screen and (min-width: 1640px) {
-        .md-links {
-            max-width: 1600px;
-        }
-    }
-
-    @media screen and (max-width: 480px) {
-        .md-links {
-            min-height: calc(100% - 200px - 5pc - 6em);
-            margin-top: 6em;
-        }
-    }
-
-    .md-links-item {
-        background: #fff;
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
-        height: 72px;
-        line-height: 15px;
-        margin: 20px 10px;
-        padding: 0px 0px;
-        transition: box-shadow 0.25s;
-    }
-
-    .md-links a {
-        color: #333;
-        text-decoration: none;
-    }
-
-    .md-links li {
-        width: 300px;
-        float: left;
-        list-style: none;
-    }
-
-    .md-links-item img {
-        float: left;
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 11px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
-    }
-
-    .md-links-item:hover {
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .md-links-item a:hover{
-        cursor: pointer;
-    }
-
-    .md-links-title {
-        font-size: 20px;
-        line-height: 50px;
-    }
-
-    #scheme-Paradox .mdl-mini-footer{
-        clear: left;
-    }
-    #bottom{
-        position: relative;
-    }
-</style>
-
-<ul class="md-links">
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
     
         
-            <li class="md-links-item">
-                <a href="http://veritas501.space" title="veritas501" target="_blank">
-                    <img src="http://veritas501.space/images/avatar.gif" alt="veritas501" width="72px"/>
-                    <span class="md-links-title">veritas501</span><br />
-                    <span>v爷爷</span>
-                </a>
-            </li>
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
         
-            <li class="md-links-item">
-                <a href="http://li4n0.github.io" title="li4n0" target="_blank">
-                    <img src="https://avatars1.githubusercontent.com/u/34324462?s=460&amp;v=4" alt="li4n0" width="72px"/>
-                    <span class="md-links-title">li4n0</span><br />
-                    <span>司大哥</span>
-                </a>
-            </li>
+    
+            <p class="article-headline-p">
+                巧绕NX与ascii armoring-ret2plt
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/pic.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>mian</strong>
+        <span>6月 15, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAAC40lEQVR42u3awW7cMAwE0P3/n26vBYpoZyi32UjPp6BxbT0XKMEhX7+uvF7Y2NjY2NjY2NjYH8l+xdef96//7t/PX/88+21+ZmxsbOwb2G/+618eqL2n/bjrd+X3YGNjY9/Abg+RFK2v7lzf89Wpds6MjY2NjZ0Xqv2P2LY32NjY2Nj1I5YHStqMpwokNjY2NvYsoJkNANpnJgHWf8rSsLGxsT+evTPo/a6fv3m+jY2Njf0x7PaatRDrAz013H1zcmxsbOxD2Uncsz5u25DM7kwGyW+iKGxsbOxD2XlxSoL+PBja+UCzMAsbGxv7VPZsRSYPemaftV24jD4xNjY29mXsfNVm56B5sXygWcLGxsY+mp00CUnL0S5l1sFQ/OmHm0rY2NjYR7D3Fx/XEVJSwJL780KLjY2NfQM7Lzk7h36W2g4ksLGxsW9mt/HNzjJQ8g+Qr+9gY2Nj38POW4i8vOUNQ95OtE0ONjY29j3s/Wg+/2R5mDVczZmFStjY2Ng/nP3Ua2ZR1LORFjY2Nvad7HalJjn6bEg8GzxHgwdsbGzsQ9l5rN+WsVkYlBSnaBiwLmDY2NjYx7HbVyafYBYzzQrVsIBhY2NjX8DeaVHqY8UrPnljg42NjX0DO288ZsuUSQncCbDywTM2Njb2DeydJiQvdTvh1NbwGBsbG/tQ9n5w0xa2nbYkeVq0soONjY19HLt+xOi3LbsdSBStCDY2NvZB7LbxaFdz8tYlD6Fmd2JjY2Ofys4j+CSIb0tX23L8ww4MGxsb+wh2tPhSvr4Nj/KhRfvn2NjY2Key94tEPuKdgfPiWhQwbGxs7OPYeTCUD3H3rzZ4etMmYWNjY1/AzhdrkpclkVNb2PInYGNjY2PPitbOoWcD5uIJ2NjY2Nij0jUbALQLOlFDhY2NjX0BO3nN/iA2IeVBUh5pYWNjY5/Nbge9ScGrQ5943DscNmNjY2Mfyr7nwsbGxsbGxsbGxv6Y6zePqsOm3XuMHQAAAABJRU5ErkJggg==">
+    
+</ul>
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/plt-got/">plt&got</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/pwn/">pwn</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/栈/">栈</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
         
-            <li class="md-links-item">
-                <a href="https://ch1p.top/" title="ch1p" target="_blank">
-                    <img src="https://avatars1.githubusercontent.com/u/32428352?s=460&amp;v=4" alt="ch1p" width="72px"/>
-                    <span class="md-links-title">ch1p</span><br />
-                    <span>薯片</span>
-                </a>
-            </li>
+            <!-- Busuanzi Views -->
+            <a class="post_share-link" href="#">
+                <li class="mdl-menu__item">
+                    <span id="busuanzi_container_page_pv">
+                        <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+                    </span>
+                </li>
+            </a>
         
-            <li class="md-links-item">
-                <a href="http://blog.ckj123.co/" title="ckj123" target="_blank">
-                    <img src="https://upload.jianshu.io/users/upload_avatars/9653874/02dda116-6e65-47a3-9c4c-9aeed4c6ac3d.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240" alt="ckj123" width="72px"/>
-                    <span class="md-links-title">ckj123</span><br />
-                    <span>ckj</span>
-                </a>
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=巧绕NX与ascii armoring-ret2plt&url=http://yoursite.com/2018/06/15/巧绕NX与ascii-armoring-ret2plt/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
             </li>
-        
-            <li class="md-links-item">
-                <a href="http://mki603.top/" title="Mki603" target="_blank">
-                    <img src="http://qlogo4.store.qq.com/qzone/173490987/173490987/100?1523730155" alt="Mki603" width="72px"/>
-                    <span class="md-links-title">Mki603</span><br />
-                    <span>mki</span>
-                </a>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=巧绕NX与ascii armoring-ret2plt&url=http://yoursite.com/2018/06/15/巧绕NX与ascii-armoring-ret2plt/index.html&via=mian" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
             </li>
-        
-            <li class="md-links-item">
-                <a href="https://arisxu.github.io/" title="aris" target="_blank">
-                    <img src="http://qlogo1.store.qq.com/qzone/872137472/872137472/100?1527865425" alt="aris" width="72px"/>
-                    <span class="md-links-title">aris</span><br />
-                    <span>徐大哥</span>
-                </a>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/06/15/巧绕NX与ascii-armoring-ret2plt/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
             </li>
-        
-            <li class="md-links-item">
-                <a href="https://oyiadin.github.io/" title="oyiadin" target="_blank">
-                    <img src="http://qlogo2.store.qq.com/qzone/1196307933/1196307933/100?1524488591" alt="oyiadin" width="72px"/>
-                    <span class="md-links-title">oyiadin</span><br />
-                    <span>o爷爷</span>
-                </a>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的博客&title=巧绕NX与ascii armoring-ret2plt&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/06/15/巧绕NX与ascii-armoring-ret2plt/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
             </li>
-        
+        </a>
+    
+
+    <!-- Share Telegram -->
     
 </ul>
 
-<script type="text/ls-javascript" id="page-links-script">
-    var adjustFooter = function() {
-        if( ($('#bottom').offset().top + $('#bottom').outerHeight() )<$(window).height() ) {
-            var footerBottom = $(window).height() - $('#bottom').outerHeight() - $('#bottom').offset().top;
-            $('#bottom').css('bottom', '-' + footerBottom + 'px');
-        }
-    };
-    $(document).ready(function() {
-        adjustFooter();
-    });
-</script>
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>前面讲完了plt、got，我们来个相关的。</p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><del>前排广告位招租</del><br>最近忙于乱七八糟的事，导致没时间更博客。除了开发方面，bin方面也需要多多努力，避免被别人远远甩在后面</p>
+<hr>
+<h2 id="ret2plt"><a href="#ret2plt" class="headerlink" title="ret2plt"></a>ret2plt</h2><h3 id="ascii-armoring"><a href="#ascii-armoring" class="headerlink" title="ascii armoring"></a>ascii armoring</h3><p>为了针对1997年的黑客提出的 <strong>return-to-libc</strong> 技术，ascii morning被提出，以将libc的函数地址的第一个字节进行零化的方式阻止了system地址被写入栈中导致程序流被劫持到了libc中奇怪的地方，从而拿到shell。</p>
+<blockquote>
+<p>零字节可以截断字符串使黑客无法将system地址写入栈。</p>
+</blockquote>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>还记得我们是怎么写shellcode的嘛，就是千方百计地通过各种方式搞出零字节。这次我们也要使用这种精神。</p>
+<p>为了对抗ascii armoring我们不再使用libc中的函数，我们使用<strong>plt</strong>中的<strong>strcpy</strong>一点点的把system的地址拼接出来,写入plt表中的某个函数的空间中。最后再劫持程序流到这个空间中去，从而拿到shell。</p>
+<p>这就有一个问题，我们都知道开了NX之后程序不再可以在栈中执行shellcode，这让需要执行这么多strcpy的我们感觉很麻烦。因此我们通过一种被称为 <strong>PPR</strong> 的技术，这样子我们就可以连续地执行多个函数。</p>
+<p>PPR由两个pop、和一个ret组成，专门负责清空两个已经用过的参数（plt表中需要写入的东西与需要被写入地system地址的一部分）并且用ret返回到下一个参数中去。</p>
+<p>假定有</p>
+<pre><code>（堆栈中的内容）
+strcpy@plt
+system[0]
+xxx@plt[0]
+PPR的地址
+strcpy@plt &lt;--------EIP指向这里
+（某处）
+pop eax    &lt;--------PPR的地址
+pop eax
+ret
+</code></pre><p>我用文字来描述一般</p>
+<ol>
+<li>程序流走向了strcpy@plt这里后把PPR的地址当成函数的返回地址并把system[0]和xxx@plt[0]当成了函数的两个两个参数运行</li>
+<li>执行完了strcpy后<code>ret</code>返回了某处的PPR源码中，然后通过两个<code>pop eax</code>将两个参数从栈中清除出去（通过增加了esp的值到了两个参数下面），然后通过<code>ret</code>，取出下一个strcpy的地址，并控制程序流到了那里。</li>
+<li>返回第一过程。</li>
+</ol>
+<p>这样子我们就通过预先的栈溢出来控制程序的连续走向不同的plt表中的函数，来达成一个非常复杂的功能，而不是像ret-libc那样只能达成一个单独的函数的功能</p>
+<blockquote>
+<p>PPR技术主要是为了清除参数，在其他情况中如果没有参数则不需要PPR技术只需把下一个函数的地址填入返回地址中</p>
+</blockquote>
+<h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><p><img src="https://img-blog.csdn.net/20150801224756198" alt="payload"></p>
+<p>我们需要从栈中注入如上图大小的块</p>
+<p>但是我们还有几个技术问题没有解决</p>
+<blockquote>
+<ol>
+<li>PPR的代码放在哪里？</li>
+<li>strcpy在plt表中的位置</li>
+<li>system的地址在哪里？</li>
+<li>放在plt表的哪里</li>
+<li>/bin/bash放在那里</li>
+</ol>
+</blockquote>
+<p>我们按照一步步流程来</p>
+<h4 id="对准EIP"><a href="#对准EIP" class="headerlink" title="对准EIP"></a>对准EIP</h4><p>这个打开ida可以解决问题或者用我们的gdb调一调也可以解决。</p>
+<h4 id="找到strcpy的位置"><a href="#找到strcpy的位置" class="headerlink" title="找到strcpy的位置"></a>找到strcpy的位置</h4><p>可以通过ida来反编译函数来获得地址（没开aslr的情况）。</p>
+<h4 id="找到PPR的地址"><a href="#找到PPR的地址" class="headerlink" title="找到PPR的地址"></a>找到PPR的地址</h4><p>我们唯一可以控制的空间只有栈和plt表，而对后者的控制是建立在PPR的地址已经找到了上。那我们就不能自由的注入PPR了。索性这种平衡栈帧的代码非常（<del>并不</del>）常见。我们去可执行段里随便找一个，然后拿来用。</p>
+<h4 id="system的拷贝"><a href="#system的拷贝" class="headerlink" title="system的拷贝"></a>system的拷贝</h4><p>由于<strong>ASCII armoring</strong>机制，system的地址含有零字节，造成strcpy拷贝结束，达不到预期的攻击效果。攻击者找到4个地址空间，它的首字节分别是system地址的第一个byte, 第二个byte，第三个byte和第四个byte，然后一个个byte拷贝，将这4个byte拼凑到GOT里面。从而绕过直接拷贝system地址造成失败。</p>
+<blockquote>
+<p>时下最流行的<strong>ubantu</strong>没有这个特性哦。</p>
+</blockquote>
+<p>我们强行逆一波，然后在内存里找到，然后在记在小本本上。</p>
+<blockquote>
+<p>需要注意，虽然说我们都是经验<del>并不</del>丰富的攻击者，但是还需要特别注意一下，需要找的是内存中存放的字节，而不是字节的ascii码。</p>
+</blockquote>
+<p>也可以使用<code>find</code>命令在内存中找。为了精确定位，我们应当在内存镜像中寻找以避免地址在加载中偏移,形如<code>find /b 0xaaaaaaaa, 0xbbbbbbbb, 0xcc</code>的<strong>gdb</strong>命令可以在a…到b…的空间内写入cc。</p>
+<blockquote>
+<p>内存镜像的工作原理与硬盘的热备份类似，内存镜像是将内存数据做两个拷贝，分别放在主内存和镜像内存中。</p>
+</blockquote>
+<h4 id="写入哪个plt表空间为好呢？"><a href="#写入哪个plt表空间为好呢？" class="headerlink" title="写入哪个plt表空间为好呢？"></a>写入哪个plt表空间为好呢？</h4><p>看了我前文的内容你是否有疑惑，我用的<code>strcpy</code>并不是一个字符拷贝函数，而是字符串拷贝函数，也就是说这四个字符的位置可能会溢出，盖掉其他的plt表项，其中可能就包括strcpy。这就让我们需要选一个trycpy前面的，我就随便选个puts吧。</p>
+<p>逆一波程序就可以拿到puts的地址了。</p>
+<blockquote>
+<p>本文使用了puts作为目标地址，你当然可以选择其他的。</p>
+</blockquote>
+<h4 id="“-bin-bash”的地址"><a href="#“-bin-bash”的地址" class="headerlink" title="“\bin\bash”的地址"></a>“\bin\bash”的地址</h4><p>同样的，为了精确攻击，我们最好找一个现成的。</p>
+<p>Linux里面有个shell环境变量，表示前使用哪个shell，它的值通常是”/bin/bash”，如下：</p>
+<blockquote>
+<p>$ env | grep -i shell<br>SHELL=/bin/bash</p>
+</blockquote>
+<p>每个进程的环境变量都保存在主线程的栈上，因此可以在主线程栈空间上找到该字符串。由于本文的代码为单线程 ，因此可以沿着esp地址往上找即可：</p>
+<pre><code>(gdb) x/1000s $esp
+…
+0xffffd8b4: &quot;/home/ivan/exploit/stack4&quot;
+0xffffd8ce: &quot;SHELL=/bin/bash&quot;
+0xffffd8de: &quot;TERM=xterm&quot;
+</code></pre><p>…</p>
+<blockquote>
+<p>环境变量也是作为参数传进主程序的。</p>
+</blockquote>
+<h4 id="攻击向量"><a href="#攻击向量" class="headerlink" title="攻击向量"></a>攻击向量</h4><p>根据上面的方法我们可以得出我们需要注入的内容。</p>
+<p>A*x<br>strcpy@plt + PPR + puts@got[0] + addr of system[0]<br>strcpy@plt + PPR + puts@got[1] + addr of system[1]<br>strcpy@plt + PPR + puts@got[2] + addr of system[2]<br>strcpy@plt + PPR + puts@got[3] + addr of system[3]<br>puts@plt + exit + addr of “/bin/bash”</p>
+<h3 id="局限"><a href="#局限" class="headerlink" title="局限"></a>局限</h3><ol>
+<li>需要确切的地址难以对抗<strong>aslr</strong>防护。</li>
+<li>需要<strong>过于多的条件</strong>，难以满足多变的情况。</li>
+<li>在内存中需要寻找<strong>过于多</strong>的地址。</li>
+<li>需要注入plt表的值，在64位天然零化的情况下难以为继</li>
+<li>与ROP技术相比，不具备完备性，局限性太强</li>
+</ol>
+<p>正因为许许多多的漏洞导致了ret2plt并没有流行起来。</p>
+
+    
+
+    
+</div>
 
 
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/06/14/linux上的延迟重定位/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
 
 
 
@@ -642,6 +831,14 @@ It will not impact the appearance and can give developers a lot of support :)
 </aside>
 
                     
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
 
                     
 
