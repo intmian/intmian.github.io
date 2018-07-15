@@ -12,7 +12,7 @@
     
     <title>
         
-            ROP与ROP的实践 | 
+            归档: 2018/7 | 
         
         mian的博客
     </title>
@@ -37,8 +37,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="mian">
-    <meta name="description" itemprop="description" content="Return-oriented programming（ROP）是一种很常见的攻击技术，是一种具有图灵完备性的超级攻击方式。">
-    <meta name="keywords" content=",pwn,栈">
+    <meta name="description" itemprop="description" content="这是mian的博客">
+    <meta name="keywords" content="">
 
     <!-- Site Verification -->
     
@@ -67,62 +67,29 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="ROP与ROP的实践 | mian的博客">
+    <meta property="og:title" content="归档: 2018/7 | mian的博客">
     <meta property="og:image" content="/img/pic.png" />
-    <meta property="og:description" content="Return-oriented programming（ROP）是一种很常见的攻击技术，是一种具有图灵完备性的超级攻击方式。">
-    <meta property="og:article:tag" content="pwn"> <meta property="og:article:tag" content="栈"> 
-
+    <meta property="og:description" content="这是mian的博客">
     
-        <meta property="article:published_time" content="6月 19, 2018" />
-        <meta property="article:modified_time" content="6月 22, 2018" />
+
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="ROP与ROP的实践 | mian的博客">
-    <meta name="twitter:description" content="Return-oriented programming（ROP）是一种很常见的攻击技术，是一种具有图灵完备性的超级攻击方式。">
+    <meta name="twitter:title" content="归档: 2018/7 | mian的博客">
+    <meta name="twitter:description" content="这是mian的博客">
     <meta name="twitter:image" content="/img/pic.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="http://yoursite.com" />
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://yoursite.com/2018/06/19/ROP/index.html" />
+        <link rel="canonical" href="http://yoursite.com/archives/2018/07/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
-
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "publisher": {
-        "@type": "Organization",
-        "name": "mian的博客",
-        "logo": "/img/pic.png"
-    },
-    "author": {
-        "@type": "Person",
-        "name": "mian",
-        "image": {
-            "@type": "ImageObject",
-            "url": "/img/pic.png"
-        },
-        "description": "你好，我是mian，欢迎来到我的博客。有朋自远方来，不亦乐乎。随便走走看看吧"
-    },
-    "headline": "ROP与ROP的实践",
-    "url": "http://yoursite.com/2018/06/19/ROP/index.html",
-    "datePublished": "6月 19, 2018",
-    "dateModified": "6月 22, 2018",
-    "description": "Return-oriented programming（ROP）是一种很常见的攻击技术，是一种具有图灵完备性的超级攻击方式。",
-    "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "http://yoursite.com"
-    }
-}
-</script>
 
 
     
@@ -302,255 +269,96 @@
                         </button>
                     
 
-                    <!-- Post TOC -->
-
+                    <!-- Index Module -->
+<div class="material-index mdl-grid">
     
-    <!-- Back Button -->
-    <!--
-    <div class="material-back" id="backhome-div" tabindex="0">
-        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
-           href="#" onclick="window.history.back();return false;"
-           target="_self"
-           role="button"
-           data-upgraded=",MaterialButton,MaterialRipple">
-            <i class="material-icons" role="presentation">arrow_back</i>
-            <span class="mdl-button__ripple-container">
-                <span class="mdl-ripple"></span>
-            </span>
-        </a>
-    </div>
-    -->
+    <div class="locate-thumbnail-symbol"></div>
 
-    <!-- Left aligned menu below button -->
-    <button id="post-toc-trigger-btn"
-        class="mdl-button mdl-js-button mdl-button--icon">
-        <i class="material-icons">format_list_numbered</i>
-    </button>
-
-    
-    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#何为ROP"><span class="post-toc-number">1.</span> <span class="post-toc-text">何为ROP</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#背景"><span class="post-toc-number">2.</span> <span class="post-toc-text">背景</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#传参方式的改变"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">传参方式的改变</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#天然零化"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">天然零化</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原理"><span class="post-toc-number">3.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#局限"><span class="post-toc-number">4.</span> <span class="post-toc-text">局限</span></a></li></ol>
-        <!--
-        <li class="mdl-menu__item">
-            Some Action
-        </li>
-        -->
-    </ul>
+    <!-- Pin on top -->
     
 
-
-
-
-
-<!-- Layouts -->
-
-    <!-- Post Module -->
-    <div class="material-post_container">
-
-        <div class="material-post mdl-grid">
-            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
-
-                <!-- Post Header(Thumbnail & Title) -->
-                
-    <!-- Paradox Post Header -->
+    <!-- Normal Post -->
+    
+        
+            
+                <!-- Paradox Thumbnail -->
+                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
+    <!-- Post Thumbnail -->
     
         
             <!-- Random Thumbnail -->
             <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-            <script type="text/ls-javascript" id="post-thumbnail-script">
-    var randomNum = Math.floor(Math.random() * 19 + 1);
+        
+    
 
-    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+        <!-- Post Title -->
+        <p class="article-headline-p"><a href="/2018/07/15/ROP/">ROP与ROP的实践</a></p>
+    </div>
+
+    <!-- Post Excerpt -->
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
+        
+            Return-oriented programming（ROP）是一种很常见的攻击技术，是一种具有图灵完备性的超级攻击方式。
+        
+        &nbsp;&nbsp;&nbsp;
+        <span>
+            <a href="/2018/07/15/ROP/" target="_self">阅读全文</a>
+        </span>
+    </div>
+    <!-- Post_entry Info-->
+    <div id="post_entry-info">
+        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
+            <!-- Author Avatar -->
+            <div id="author-avatar">
+                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
+            </div>
+            <div>
+                <strong>mian</strong>
+                <span>7月 15, 2018</span>
+            </div>
+        </div>
+        <div id="post_entry-right-info">
+            <!-- Category -->
+            <span class="post_entry-category">
+                <a class="post_category-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路</a>
+            </span>
+
+            
+
+            
+
+            <!-- Post Views -->
+            <span class="post_entry-views">
+            </span>
+        </div>
+    </div>
+</div>
+
+            
+            
+        
+    
+
+    
+
+    
+        <script type="text/ls-javascript" id="thumbnail-script">
+    var randomNum;
+
+    var locatePost = $('.locate-thumbnail-symbol').next();
+    for(var i = 0; i < 10; i++) {
+        randomNum = Math.floor(Math.random() * 19 + 1);
+
+        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
+        locatePost.children('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
     $('.post_thumbnail-random').addClass('lazy');
+
+        locatePost = locatePost.next();
+    }
 </script>
 
-        
-    
-            <p class="article-headline-p">
-                ROP与ROP的实践
-            </p>
-        </div>
-
-
-
-
-
-                
-                    <!-- Paradox Post Info -->
-                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
-
-    <!-- Author Avatar -->
-    <div id="author-avatar">
-        <img src="/img/pic.png" width="44px" height="44px" alt="Author Avatar"/>
-    </div>
-    <!-- Author Name & Date -->
-    <div>
-        <strong>mian</strong>
-        <span>6月 19, 2018</span>
-    </div>
-
-    <div class="section-spacer"></div>
-
-    <!-- Favorite -->
-    <!--
-        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
-            <i class="material-icons" role="presentation">favorite</i>
-            <span class="visuallyhidden">favorites</span>
-        </button>
-    -->
-
-    <!-- Qrcode -->
-    
-        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-    <i class="material-icons" role="presentation">devices other</i>
-    <span class="visuallyhidden">devices other</span>
-</button>
-<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
-    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
-    
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACYUlEQVR42u3aQVLEMAwEwP3/p+EBy5qR5DiB6pwoKhi3D5Yz8uvrXz8vPDw8PDw8PDy8h/Fe8fP+/g9Dv/3+0/ufRpjMDQ8PD+8kL/k36/fXy5G/M5kbHh4e3nlePsWkDKxLyKeyMV8aPDw8vKfx5lOcLCseHh7eX+Stw4VktPzQjIeHh/d8XuGDP556fsieRL14eHh453nVBtjJn2/o7+Hh4eEtec2LTa3Dd7LRb5gbHh4e3sW8vIk1jxWqzbNqMIGHh4d3hpf8s2q7K7/w2mt94eHh4T2Bt97ck4nmrbK8bFQXBQ8PD+8kLwlVJ8FEr2w0D994eHh4R3jVRlSyueclJy8Po5QaDw8PbxMvObbmjN7RPF+CKDLGw8PDu5hXjW6TgpGPMzl24+Hh4d3Lm0wuCQ4mVw2SsBgPDw/vJC+H5YuSX5yqjhbFynh4eHgX86pPYYPeWjw2fDHg4eHhbeVVA4Jqw2xydXUdlxS+GPDw8PCO8HoXWKsH9NfgGRUGPDw8vAGvF6TmgUICqx6m8fDw8O7iTdr/VwTB1eM+Hh4e3l28fOPuXYfqRRLVhcbDw8M7z2tuxINgtxr7rmF4eHh4J3m/NONbDbBdB+htXwx4eHh4m3iTS1dJgZnEvs3LXnh4eHgX86pN+mq8uzcgXi8xHh4e3kleNW6obui9ALdZQvDw8PAO8vLQIZ9Qb7Q8zMXDw8P7K7z5384jiUIYgYeHh3crr3qM7gW+vZgDDw8P7zwvb3qNWvvB8lWvFODh4eGd51UbYDk+2crnS4aHh4d3kvf/Hjw8PDw8PDw8vAc83+PCzkpwH8sTAAAAAElFTkSuQmCC">
-    
-</ul>
-    
-
-    <!-- Tags (bookmark) -->
-    
-    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-        <i class="material-icons" role="presentation">bookmark</i>
-        <span class="visuallyhidden">bookmark</span>
-    </button>
-    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
-        <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/pwn/">pwn</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/栈/">栈</a>
-    </ul>
-    
-
-    <!-- Share -->
-    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-    <i class="material-icons" role="presentation">share</i>
-    <span class="visuallyhidden">share</span>
-</button>
-<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
-    
-
-    
-        
-            <!-- Busuanzi Views -->
-            <a class="post_share-link" href="#">
-                <li class="mdl-menu__item">
-                    <span id="busuanzi_container_page_pv">
-                        <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
-                    </span>
-                </li>
-            </a>
-        
-    
-
-    <!-- Share Weibo -->
-    
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=ROP与ROP的实践&url=http://yoursite.com/2018/06/19/ROP/index.html&pic=&searchPic=false&style=simple" target="_blank">
-            <li class="mdl-menu__item">
-                分享到微博
-            </li>
-        </a>
-    
-
-    <!-- Share Twitter -->
-    
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=ROP与ROP的实践&url=http://yoursite.com/2018/06/19/ROP/index.html&via=mian" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Twitter
-            </li>
-        </a>
-    
-
-    <!-- Share Facebook -->
-    
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/06/19/ROP/index.html" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Facebook
-            </li>
-        </a>
-    
-
-    <!-- Share Google+ -->
-    
-
-    <!-- Share LinkedIn -->
-    
-
-    <!-- Share QQ -->
-    
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的博客&title=ROP与ROP的实践&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/06/19/ROP/index.html" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 QQ
-            </li>
-        </a>
-    
-
-    <!-- Share Telegram -->
-    
-</ul>
-
-</div>
-
-                
-
-                <!-- Post Content -->
-                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
-    
-        <p>Return-oriented programming（<strong>ROP</strong>）是一种很常见的攻击技术，是一种具有图灵完备性的超级攻击方式。</p>
-<a id="more"></a>
-<h2 id="何为ROP"><a href="#何为ROP" class="headerlink" title="何为ROP"></a>何为ROP</h2><p><strong>rop</strong> 即 <strong>面向返回的编程</strong>。上文我们讲到了ret2plt，rop就是ret2plt在64位的升级版本。rop也可以用来做32位的题，是一种相当上位的攻击技术。可以替代我们之前讲的几乎所有溢出利用。可以绕过aslr与dep(NX)。</p>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h3 id="传参方式的改变"><a href="#传参方式的改变" class="headerlink" title="传参方式的改变"></a>传参方式的改变</h3><p>在64位程序中，<a href="https://en.wikipedia.org/wiki/X86_calling_conventions#System_V_AMD64_ABI" target="_blank" rel="noopener">calling conventions</a>规定参数依靠寄存器传递，前面6个参数依次以rdi, rsi, rdx, rcx, r8和r9寄存来传递，后面的参数则用栈来传递。这样子我们之前的那些依靠栈来传递参数的方法似乎就难以使用。</p>
-<h3 id="天然零化"><a href="#天然零化" class="headerlink" title="天然零化"></a>天然零化</h3><p>64位相较32位对于32位可以掌控更多（<strong>40亿</strong>倍，大约16<strong>EB</strong>）的内存。而我们显然用不到这么多内存（<del>笔者连加一条8g内存都心痛</del>），在linux中规定只使用后48位的内存，而前面的那些就全部置零，这些零字节会截断字符串，形成了天然的防护。</p>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>linux x64采用了<strong>寄存器传参</strong>，因此难以使用我们平时使用的寄存器传参。我们上文讲到了ret2plt利用所谓的PPR结构来在libc或者其他的可执行块里找到一些片段来调用。</p>
-<ul>
-<li style="list-style: none"><input type="checkbox" checked> x</li>
-</ul>
-<h2 id="局限"><a href="#局限" class="headerlink" title="局限"></a>局限</h2><ul>
-<li>依然无法绕过aslr。</li>
-<li>技巧性有点强。</li>
-<li>需要其他的栈溢出或者注入来做铺垫。</li>
-</ul>
-
-    
-
     
 </div>
-
-
-                
-
-                <!-- Post Comments -->
-                
-                    
-                
-            </div>
-
-            <!-- Post Prev & Next Nav -->
-            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
-    <!-- Prev Nav -->
-    
-
-    <!-- Section Spacer -->
-    <div class="section-spacer"></div>
-
-    <!-- Next Nav -->
-    
-        <a href="/2018/06/15/巧绕NX与ascii-armoring-ret2plt/" id="post_nav-older" class="next-content">
-            旧篇
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_forward</i>
-            </button>
-        </a>
-    
-</nav>
-
-        </div>
-    </div>
-
 
 
                     
@@ -630,7 +438,7 @@
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2018/06/">六月 2018<span class="sidebar_archives-count">10</span></a>
+                <a class="sidebar_archives-link" href="/archives/2018/07/">七月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/06/">六月 2018<span class="sidebar_archives-count">9</span></a>
             </ul>
         </li>
         
