@@ -74,7 +74,7 @@
 
     
         <meta property="article:published_time" content="7月 15, 2018" />
-        <meta property="article:modified_time" content="7月 15, 2018" />
+        <meta property="article:modified_time" content="7月 21, 2018" />
     
 
     <!-- The Twitter Card protocol -->
@@ -115,7 +115,7 @@
     "headline": "ROP与ROP的实践",
     "url": "http://yoursite.com/2018/07/15/ROP/index.html",
     "datePublished": "7月 15, 2018",
-    "dateModified": "7月 15, 2018",
+    "dateModified": "7月 21, 2018",
     "description": "Return-oriented programming（ROP）是一种很常见的攻击技术，是一种具有图灵完备性的超级攻击方式。",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -502,8 +502,10 @@
         <p>Return-oriented programming（<strong>ROP</strong>）是一种很常见的攻击技术，是一种具有图灵完备性的超级攻击方式。</p>
 <a id="more"></a>
 <h2 id="何为ROP"><a href="#何为ROP" class="headerlink" title="何为ROP"></a>何为ROP</h2><p><strong>rop</strong> 即 <strong>面向返回的编程</strong>。上文我们讲到了ret2plt，rop就是ret2plt在64位的升级版本。rop也可以用来做32位的题，是一种相当上位的攻击技术。可以替代我们之前讲的几乎所有溢出利用。可以绕过aslr与dep(NX)。</p>
+<hr>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h3 id="传参方式的改变"><a href="#传参方式的改变" class="headerlink" title="传参方式的改变"></a>传参方式的改变</h3><p>在64位程序中，<a href="https://en.wikipedia.org/wiki/X86_calling_conventions#System_V_AMD64_ABI" target="_blank" rel="noopener">calling conventions</a>规定参数依靠寄存器传递，前面6个参数依次以rdi, rsi, rdx, rcx, r8和r9寄存来传递，后面的参数则用栈来传递。这样子我们之前的那些依靠栈来传递参数的方法似乎就难以使用。</p>
 <h3 id="天然零化"><a href="#天然零化" class="headerlink" title="天然零化"></a>天然零化</h3><p>64位相较32位对于32位可以掌控更多（<strong>40亿</strong>倍，大约16<strong>EB</strong>）的内存。而我们显然用不到这么多内存（<del>笔者连加一条8g内存都心痛</del>），在linux中规定只使用后48位的内存，而前面的那些就全部置零，这些零字节会截断字符串，形成了天然的防护。</p>
+<hr>
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>linux x64采用了<strong>寄存器传参</strong>，因此难以使用我们平时使用的寄存器传参。</p>
 <table>
 <thead>
@@ -554,6 +556,14 @@
             <!-- Post Prev & Next Nav -->
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
+    
+        <a href="/2018/07/21/我踩过的c++的坑/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
     
 
     <!-- Section Spacer -->
@@ -653,7 +663,7 @@
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2018/07/">七月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/06/">六月 2018<span class="sidebar_archives-count">9</span></a>
+                <a class="sidebar_archives-link" href="/archives/2018/07/">七月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/06/">六月 2018<span class="sidebar_archives-count">9</span></a>
             </ul>
         </li>
         
@@ -671,7 +681,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                <a class="sidebar_archives-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路<span class="sidebar_archives-count">10</span></a>
+                <a class="sidebar_archives-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/categories/从零开始的编程之路/">从零开始的编程之路<span class="sidebar_archives-count">1</span></a>
             </ul>
         </li>
         
@@ -729,7 +739,7 @@
         <li>
             <a href="/archives">
                 文章总数
-                <span class="sidebar-badge">10</span>
+                <span class="sidebar-badge">11</span>
             </a>
         </li>
         

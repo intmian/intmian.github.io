@@ -12,7 +12,7 @@
     
     <title>
         
-            标签: pwn | 
+            我踩过的c++的坑 | 
         
         mian的博客
     </title>
@@ -37,8 +37,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="mian">
-    <meta name="description" itemprop="description" content="这是mian的博客">
-    <meta name="keywords" content="">
+    <meta name="description" itemprop="description" content="c++坑还挺多的，以后每个坑我都记录下来持续更新">
+    <meta name="keywords" content=",c++,编程">
 
     <!-- Site Verification -->
     
@@ -67,29 +67,62 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="标签: pwn | mian的博客">
+    <meta property="og:title" content="我踩过的c++的坑 | mian的博客">
     <meta property="og:image" content="/img/pic.png" />
-    <meta property="og:description" content="这是mian的博客">
-    
+    <meta property="og:description" content="c++坑还挺多的，以后每个坑我都记录下来持续更新">
+    <meta property="og:article:tag" content="c++"> <meta property="og:article:tag" content="编程"> 
 
+    
+        <meta property="article:published_time" content="7月 21, 2018" />
+        <meta property="article:modified_time" content="7月 21, 2018" />
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="标签: pwn | mian的博客">
-    <meta name="twitter:description" content="这是mian的博客">
+    <meta name="twitter:title" content="我踩过的c++的坑 | mian的博客">
+    <meta name="twitter:description" content="c++坑还挺多的，以后每个坑我都记录下来持续更新">
     <meta name="twitter:image" content="/img/pic.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="http://yoursite.com" />
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://yoursite.com/tags/pwn/index.html" />
+        <link rel="canonical" href="http://yoursite.com/2018/07/21/我踩过的c++的坑/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "mian的博客",
+        "logo": "/img/pic.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "mian",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/pic.png"
+        },
+        "description": "你好，我是mian，欢迎来到我的博客。有朋自远方来，不亦乐乎。随便走走看看吧"
+    },
+    "headline": "我踩过的c++的坑",
+    "url": "http://yoursite.com/2018/07/21/我踩过的c++的坑/index.html",
+    "datePublished": "7月 21, 2018",
+    "dateModified": "7月 21, 2018",
+    "description": "c++坑还挺多的，以后每个坑我都记录下来持续更新",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://yoursite.com"
+    }
+}
+</script>
 
 
     
@@ -269,509 +302,259 @@
                         </button>
                     
 
-                    <!-- Index Module -->
-<div class="material-index mdl-grid">
-    
-    <div class="locate-thumbnail-symbol"></div>
+                    <!-- Post TOC -->
 
-    <!-- Pin on top -->
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#在类的实例化时不能使用其他的类的构造函数"><span class="post-toc-number">1.</span> <span class="post-toc-text">在类的实例化时不能使用其他的类的构造函数</span></a></li></ol>
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
     
 
-    <!-- Normal Post -->
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
     
         
             <!-- Random Thumbnail -->
             <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
 
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/07/15/ROP/">ROP与ROP的实践</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            Return-oriented programming（ROP）是一种很常见的攻击技术，是一种具有图灵完备性的超级攻击方式。
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/07/15/ROP/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
-            </div>
-            <div>
-                <strong>mian</strong>
-                <span>7月 15, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/06/15/巧绕NX与ascii-armoring-ret2plt/">巧绕NX与ascii armoring-ret2plt</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            前面讲完了plt、got，我们来个相关的。
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/06/15/巧绕NX与ascii-armoring-ret2plt/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
-            </div>
-            <div>
-                <strong>mian</strong>
-                <span>6月 15, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/06/14/pwn的小知识的杂记/">pwn的杂记</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            这是我的一些pwn的随笔
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/06/14/pwn的小知识的杂记/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
-            </div>
-            <div>
-                <strong>mian</strong>
-                <span>6月 14, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/06/14/unlink/">unlink</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            一些堆溢出方面的关于unlink的知识
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/06/14/unlink/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
-            </div>
-            <div>
-                <strong>mian</strong>
-                <span>6月 14, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/06/14/实用小工具/">bin实用小工具</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            一些bin学习过程中常用的工具
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/06/14/实用小工具/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
-            </div>
-            <div>
-                <strong>mian</strong>
-                <span>6月 14, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/06/14/最基本的堆溢出-fastbin/">堆与最基本的堆溢出-fastbin</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            一些关于堆的小知识和基本的利用 fastbin
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/06/14/最基本的堆溢出-fastbin/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
-            </div>
-            <div>
-                <strong>mian</strong>
-                <span>6月 14, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/06/14/格式化字符串漏洞/">格式化字符串漏洞</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            printf家族的格式化漏洞
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/06/14/格式化字符串漏洞/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
-            </div>
-            <div>
-                <strong>mian</strong>
-                <span>6月 14, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/06/14/栈溢出指南/">栈溢出指南</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            一个关于栈溢出的指南
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/06/14/栈溢出指南/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
-            </div>
-            <div>
-                <strong>mian</strong>
-                <span>6月 14, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-
-    
-
-    
-        <script type="text/ls-javascript" id="thumbnail-script">
-    var randomNum;
-
-    var locatePost = $('.locate-thumbnail-symbol').next();
-    for(var i = 0; i < 10; i++) {
-        randomNum = Math.floor(Math.random() * 19 + 1);
-
-        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
     $('.post_thumbnail-random').addClass('lazy');
-
-        locatePost = locatePost.next();
-    }
 </script>
 
+        
+    
+            <p class="article-headline-p">
+                我踩过的c++的坑
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/pic.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>mian</strong>
+        <span>7月 21, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAAC4UlEQVR42u3aQW7jMBAEQP//09nrAgvZ3Rxlo5ClkwFLFosBMpgevr6OvF7Y2NjY2NjY2NjYj2S/4uvv+68+T57993cuAeWasbGxsU9gf/jXf7HEdiMmi56sGRsbG/scdlJ42hfnv/lh0Uubi42NjY2dF7ArxvsClmxWUlCxsbGxsdcKWFLY3t85+RYbGxsbexTQxFFR+8vJtz+QpWFjY2M/nn3XoPd/fn7QfBsbGxv7R9nt1S4lj5bykcDiyrGxsbE3ZeeLW4uQ8nYiHyfnMRM2Njb2Cez8BZMSNYmHkjFA9C5sbGzsTdlrhxrbEtI2EkmY1Q4ksLGxsXdlJ0Uij3jmxzfzozxt8ISNjY29K3ttaDrfiLbtyRueb5lvY2NjYz+YPb+KEjIuaWvxFjY2NvYJ7Dwkaoe+75dSjGmDWKruwLCxsbG3YCctRD4AaFuF/Ahmez82Njb2Oez5uLctfjmvDZ5GJ5WwsbGxt2NPSEkhzFuLdoMWQyVsbGzsX8tei9rbYW0bGE0KJzY2NvZp7LUgKbkzD/HbAz23tSLY2NjYW7NbZP5tu9H5OPnDndjY2NibstsiNBncroVBaxtUzLexsbGxN2InyLVAam0j8rgqCrywsbGxD2BPSsi9Q+J2YBD9CbGxsbG3Zi8egombkDzQb1dSPIuNjY29KTsvP5N2pT3Qc1d0hY2NjX0OO29C1pqHtaYiH/pGgw1sbGzsTdn5IZh2GLy2ofm72jEDNjY29q7sSXhUNwPxPZO25HKbsLGxsQ9g5xFS3n7kEVVeOPOnsLGxsU9gz4P4JCpqI6f2c7K52NjY2Huz26KVR0t58NQ2SPVYAhsbG/sA9uQYZR735wOJ/EBPtB3Y2NjY2EFslDckk9YleXvRimBjY2MfzM4HrmtvaUcU2NjY2Nj5kPXe9qON+/MNwsbGxj6HvTbozWP69rhkMnKomxlsbGzsTdnnXNjY2NjY2NjY2NiPuf4A+fHsb8R0o7oAAAAASUVORK5CYII=">
+    
+</ul>
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/c/">c++</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/编程/">编程</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+        
+            <!-- Busuanzi Views -->
+            <a class="post_share-link" href="#">
+                <li class="mdl-menu__item">
+                    <span id="busuanzi_container_page_pv">
+                        <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+                    </span>
+                </li>
+            </a>
+        
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=我踩过的c++的坑&url=http://yoursite.com/2018/07/21/我踩过的c++的坑/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=我踩过的c++的坑&url=http://yoursite.com/2018/07/21/我踩过的c++的坑/index.html&via=mian" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/07/21/我踩过的c++的坑/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的博客&title=我踩过的c++的坑&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/07/21/我踩过的c++的坑/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>c++坑还挺多的，以后每个坑我都记录下来<br>持续更新</p>
+<a id="more"></a>
+<h2 id="在类的实例化时不能使用其他的类的构造函数"><a href="#在类的实例化时不能使用其他的类的构造函数" class="headerlink" title="在类的实例化时不能使用其他的类的构造函数"></a>在类的实例化时不能使用其他的类的构造函数</h2><p>例如</p>
+<pre><code>TCHAR current_directiom[100];
+GetCurrentDirectoryW(200, current_directiom);
+Installer in(wstring(curren));
+</code></pre><p>理论上没毛病。</p>
+<p>但是在笔者的环境中in被视为一个函数而非一个类。</p>
+<p>必须要写成</p>
+<pre><code>TCHAR current_directiom[100];
+GetCurrentDirectoryW(200, current_directiom);
+wstring path(current_directiom);
+Installer in(path);
+</code></pre><p>才行</p>
+<pre><code>char current_directiom[100];
+GetCurrentDirectoryA(200, current_directiom);
+string path = string(current_directiom) + string(&quot;\\data\\setting.ini&quot;);
+</code></pre><p>而这样的却又是可以的，迷</p>
+
+    
+
     
 </div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/07/15/ROP/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
 
 
                     
@@ -987,6 +770,14 @@ It will not impact the appearance and can give developers a lot of support :)
 </aside>
 
                     
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
 
                     
 
