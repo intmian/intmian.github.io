@@ -74,7 +74,7 @@
 
     
         <meta property="article:published_time" content="7月 15, 2018" />
-        <meta property="article:modified_time" content="7月 21, 2018" />
+        <meta property="article:modified_time" content="7月 28, 2018" />
     
 
     <!-- The Twitter Card protocol -->
@@ -115,7 +115,7 @@
     "headline": "ROP与ROP的实践",
     "url": "http://yoursite.com/2018/07/15/ROP/index.html",
     "datePublished": "7月 15, 2018",
-    "dateModified": "7月 21, 2018",
+    "dateModified": "7月 28, 2018",
     "description": "Return-oriented programming（ROP）是一种很常见的攻击技术，是一种具有图灵完备性的超级攻击方式。",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -329,7 +329,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#何为ROP"><span class="post-toc-number">1.</span> <span class="post-toc-text">何为ROP</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#背景"><span class="post-toc-number">2.</span> <span class="post-toc-text">背景</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#传参方式的改变"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">传参方式的改变</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#天然零化"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">天然零化</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原理"><span class="post-toc-number">3.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#局限"><span class="post-toc-number">4.</span> <span class="post-toc-text">局限</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#何为ROP"><span class="post-toc-number">1.</span> <span class="post-toc-text">何为ROP</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#背景"><span class="post-toc-number">2.</span> <span class="post-toc-text">背景</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#传参方式的改变"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">传参方式的改变</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#天然零化"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">天然零化</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原理"><span class="post-toc-number">3.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#攻击步骤"><span class="post-toc-number">4.</span> <span class="post-toc-text">攻击步骤</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何构建ROP链"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">如何构建ROP链</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#局限"><span class="post-toc-number">5.</span> <span class="post-toc-text">局限</span></a></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -502,11 +502,14 @@
         <p>Return-oriented programming（<strong>ROP</strong>）是一种很常见的攻击技术，是一种具有图灵完备性的超级攻击方式。</p>
 <a id="more"></a>
 <h2 id="何为ROP"><a href="#何为ROP" class="headerlink" title="何为ROP"></a>何为ROP</h2><p><strong>rop</strong> 即 <strong>面向返回的编程</strong>。上文我们讲到了ret2plt，rop就是ret2plt在64位的升级版本。rop也可以用来做32位的题，是一种相当上位的攻击技术。可以替代我们之前讲的几乎所有溢出利用。可以绕过aslr与dep(NX)。</p>
+<blockquote>
+<p>广义的ROP包括了上文所讲到的任何返回式的攻击方式，不过我们今天要讲的是狭义的ROP</p>
+</blockquote>
 <hr>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><h3 id="传参方式的改变"><a href="#传参方式的改变" class="headerlink" title="传参方式的改变"></a>传参方式的改变</h3><p>在64位程序中，<a href="https://en.wikipedia.org/wiki/X86_calling_conventions#System_V_AMD64_ABI" target="_blank" rel="noopener">calling conventions</a>规定参数依靠寄存器传递，前面6个参数依次以rdi, rsi, rdx, rcx, r8和r9寄存来传递，后面的参数则用栈来传递。这样子我们之前的那些依靠栈来传递参数的方法似乎就难以使用。</p>
 <h3 id="天然零化"><a href="#天然零化" class="headerlink" title="天然零化"></a>天然零化</h3><p>64位相较32位对于32位可以掌控更多（<strong>40亿</strong>倍，大约16<strong>EB</strong>）的内存。而我们显然用不到这么多内存（<del>笔者连加一条8g内存都心痛</del>），在linux中规定只使用后48位的内存，而前面的那些就全部置零，这些零字节会截断字符串，形成了天然的防护。</p>
 <hr>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>linux x64采用了<strong>寄存器传参</strong>，因此难以使用我们平时使用的寄存器传参。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>linux x64采用了<strong>寄存器传参</strong>，因此难以使用我们平时使用的栈传参。</p>
 <table>
 <thead>
 <tr>
@@ -517,23 +520,36 @@
 <tbody>
 <tr>
 <td style="text-align:center">1</td>
-<td style="text-align:center">RCX</td>
+<td style="text-align:center">RDI</td>
 </tr>
 <tr>
 <td style="text-align:center">2</td>
-<td style="text-align:center">RDX</td>
+<td style="text-align:center">RSI</td>
 </tr>
 <tr>
 <td style="text-align:center">3</td>
-<td style="text-align:center">R8</td>
+<td style="text-align:center">RDX</td>
 </tr>
 <tr>
 <td style="text-align:center">4</td>
+<td style="text-align:center">RCX</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">R8</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
 <td style="text-align:center">R9</td>
 </tr>
 </tbody>
 </table>
-<p>而且在开启NX我们上文讲到了ret2plt利用所谓的PPR结构来在libc或者其他的可执行块里找到一些片段来调用。</p>
+<p>由于我们不能直接<strong>控制</strong>寄存器。</p>
+<p>我们上文讲到的<strong>ret2plt</strong>利用所谓的PPR结构来在libc或者其他的可执行块里找到一些片段来调用。</p>
+<p>现在我们也用这种方法来进行攻击。将我们需要执行的指令连成<strong>ROP链</strong>来进行ROP攻击。</p>
+<hr>
+<h2 id="攻击步骤"><a href="#攻击步骤" class="headerlink" title="攻击步骤"></a>攻击步骤</h2><h3 id="如何构建ROP链"><a href="#如何构建ROP链" class="headerlink" title="如何构建ROP链"></a>如何构建ROP链</h3><p>因为我们的攻击的最终目的一定是获得shell，所以我们最终需要让程序执行<code>system(&quot;\bin\sh&quot;)</code>这条指令</p>
+<hr>
 <h2 id="局限"><a href="#局限" class="headerlink" title="局限"></a>局限</h2><ul>
 <li>技巧性有点强。</li>
 <li>需要其他的栈溢出或者注入来做铺垫。</li>
