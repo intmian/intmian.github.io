@@ -509,29 +509,29 @@
 <h2 id="文件外函数的调用原理"><a href="#文件外函数的调用原理" class="headerlink" title="文件外函数的调用原理"></a>文件外函数的调用原理</h2><h3 id="函数调用的汇编实现"><a href="#函数调用的汇编实现" class="headerlink" title="函数调用的汇编实现"></a>函数调用的汇编实现</h3><p>假如有这样一个代码<code>system(&quot;cat flag&quot;)</code></p>
 <p>在程序流流向这里的时候会发生什么样的事情呢？</p>
 <p>我事先写好了一个这样的程序。让我们拖到ida里面好好看一看。</p>
-<pre><code>push    offset command ; &quot;cat flag&quot;
-call    _system
-add     esp, 10h
+<pre><code>    push    offset command ; &quot;cat flag&quot;
+    call    _system
+    add     esp, 10h
 </code></pre><p>可以看见他调用了_system，这个_system和libc里面的system不是一个东西。</p>
 <p>我们点开_system可以看见</p>
-<pre><code>.plt:08048410 ; =============== S U B R O U T I N E =========================
-.plt:08048410
-.plt:08048410 ; Attributes: thunk
-.plt:08048410
-.plt:08048410 ; int system(const char *command)
-.plt:08048410 _system         proc near               ; CODE XREF: main+163↓p
-.plt:08048410
-.plt:08048410 command         = dword ptr  4
-.plt:08048410
-.plt:08048410                 jmp     ds:off_804A014
-.plt:08048410 _system         endp
-.plt:08048410
-.plt:08048416 ; --------------------------------------------------------------
+<pre><code>    .plt:08048410 ; =============== S U B R O U T I N E =========================
+    .plt:08048410
+    .plt:08048410 ; Attributes: thunk
+    .plt:08048410
+    .plt:08048410 ; int system(const char *command)
+    .plt:08048410 _system         proc near               ; CODE XREF: main+163↓p
+    .plt:08048410
+    .plt:08048410 command         = dword ptr  4
+    .plt:08048410
+    .plt:08048410                 jmp     ds:off_804A014
+    .plt:08048410 _system         endp
+    .plt:08048410
+    .plt:08048416 ; --------------------------------------------------------------
 </code></pre><p>我们发现了这里面有着plt三个字，这就是所谓的plt表中的一部分。</p>
 <p>再点开</p>
-<pre><code>ds:off_804A014
+<pre><code>    ds:off_804A014
 </code></pre><p>我们就会发现</p>
-<pre><code>.got.plt:0804A014 off_804A014     dd offset system        ; DATA XREF: _system↑r
+<pre><code>    .got.plt:0804A014 off_804A014     dd offset system        ; DATA XREF: _system↑r
 </code></pre><p>我们发现了这里面有着got三个字，这就是所谓的got表中的一部分。</p>
 <h3 id="生成汇编"><a href="#生成汇编" class="headerlink" title="生成汇编"></a>生成汇编</h3><p>为什么需要有plt与got这些东西，而不在程序中直接<code>call system</code>这样的方法来访问system，的原因在于system是在glibc库中，而glibc属于动态库。</p>
 <blockquote>
@@ -552,20 +552,20 @@ add     esp, 10h
 <h3 id="函数的调用"><a href="#函数的调用" class="headerlink" title="函数的调用"></a>函数的调用</h3><p>在完成了重定向之后，函数的调用还面临着一个问题。那就是，在无法改变代码段的情况下，应当如何利用数据段中的偏移量呢。</p>
 <p>答案是程序在链接中就生成一小段专门利用偏移量的代码。</p>
 <p>链接器生成额外的伪代码如下：</p>
-<pre><code>.text
-...
+<pre><code>    .text
+    ...
 
-// 调用system的call指令
-call system_stub
-...
+    // 调用system的call指令
+    call system_stub
+    ...
 
-system_stub:
-mov rax, [system函数的储存地址] ; 获取system重定位之后的地址
-jmp rax ; 跳过去执行system函数
+    system_stub:
+    mov rax, [system函数的储存地址] ; 获取system重定位之后的地址
+    jmp rax ; 跳过去执行system函数
 
-.data
-...
-system函数的储存地址 ;这里储存system函数重定位后的地址
+    .data
+    ...
+    system函数的储存地址 ;这里储存system函数重定位后的地址
 </code></pre><p>在链接的过程中，如果发现函数实际上是动态链接库的代码，就会添加以上代码，并将system改为system_sub。</p>
 <p>所以实际上在函数的调用中我们需要两样东西</p>
 <blockquote>
@@ -582,56 +582,56 @@ system函数的储存地址 ;这里储存system函数重定位后的地址
 </blockquote>
 <p>这就产生了一个问题：程序如何知道GOT表中某一数据项是否已经被载入（因为程序中的函数可能会被执行多次，这样子就不必每一次都去重定位了）。</p>
 <p>在程序中地具体实现大致为</p>
-<pre><code>void system@plt()
-{
-address_good:
-jmp *system@got            // 链接器将system@got填成下一语句lookup_system的地址
-return；
-lookup_system:
-        调用重定位函数查找system地址，并写到system@got
+<pre><code>    void system@plt()
+    {
+    address_good:
+    jmp *system@got            // 链接器将system@got填成下一语句lookup_system的地址
+    return；
+    lookup_system:
+            调用重定位函数查找system地址，并写到system@got
 
-        goto address_good;
-}
+            goto address_good;
+    }
 </code></pre><p>当第一次运行system函数时，程序流会跳到system@plt，然后会顺势执行jmp *system@got，但是很显然，got表中的数据项并没有填充正确的值。其实程序流并没有前往所谓的system@got，实际上它前往了lookup_system中去，这个函数的功能是调用重定位的函数来寻找system的函数地址，并将其写入system@got中去，然后再跳到addr_good，执行system然后返回到调用者。这样子下面的lookup_system就相当于被废除了。</p>
 <p>然后在第二次调用system时，就直接走向system的真正的地址中。</p>
 <p>事实上重定位中的最后实现并没有每一个plt中都含有符号解析与重定位的那一部分。所以程序中实现具体实现为。</p>
-<pre><code>jmp     *system@got
-push    id(当前函数在plt中的偏移量/2)
-jmp     common@plt
+<pre><code>    jmp     *system@got
+    push    id(当前函数在plt中的偏移量/2)
+    jmp     common@plt
 </code></pre><h3 id="公共plt的具体实现"><a href="#公共plt的具体实现" class="headerlink" title="公共plt的具体实现"></a>公共plt的具体实现</h3><p>在上文中我们基本缕清了函数重定向的前世今生与大致实现方式。接下来我要重点讲一下这个公共的函数的实现方式。</p>
 <p>我们先在ida里看看这个函数的具体实现，在这里ida的F5已经无能为力了，我们硬刚下源码试试</p>
-<pre><code>.plt:08048300 common          proc near               ; CODE XREF: .plt:0804831B↓j
-.plt:08048300                                         ; .plt:0804832B↓j ...
-.plt:08048300 ; __unwind {
-.plt:08048300                 push    ds:dword_804A004
-.plt:08048306                 jmp     ds:dword_804A008
-.plt:08048306 common          endp
+<pre><code>    .plt:08048300 common          proc near               ; CODE XREF: .plt:0804831B↓j
+    .plt:08048300                                         ; .plt:0804832B↓j ...
+    .plt:08048300 ; __unwind {
+    .plt:08048300                 push    ds:dword_804A004
+    .plt:08048306                 jmp     ds:dword_804A008
+    .plt:08048306 common          endp
 </code></pre><p>很显然这个所谓的804A008就是所谓的重定向函数，而上面的804A004，就是参数。</p>
 <p>而在这些地方放的就是</p>
-<pre><code>.got.plt:0804A004 dword_804A004   dd 0                    ; DATA XREF: common↑r
-.got.plt:0804A008 ; int (*dword_804A008)(void)
-.got.plt:0804A008 dword_804A008   dd 0                    ; DATA XREF: common+6↑r
+<pre><code>    .got.plt:0804A004 dword_804A004   dd 0                    ; DATA XREF: common↑r
+    .got.plt:0804A008 ; int (*dword_804A008)(void)
+    .got.plt:0804A008 dword_804A008   dd 0                    ; DATA XREF: common+6↑r
 </code></pre><p>在下面我们发现了</p>
-<pre><code>.got.plt:0804A00C off_804A00C     dd offset read          ; DATA XREF: _read↑r
-.got.plt:0804A010 off_804A010     dd offset __gmon_start__
-.got.plt:0804A010                                         ; DATA XREF: ___gmon_start__↑r
-.got.plt:0804A014 off_804A014     dd offset __libc_start_main
-.got.plt:0804A014                                         ; DATA XREF: ___libc_start_main↑r
-.got.plt:0804A018 off_804A018     dd offset write         ; DATA XREF: _write↑r
-.got.plt:0804A018 _got_plt        ends
-.got.plt:0804A018
+<pre><code>    .got.plt:0804A00C off_804A00C     dd offset read          ; DATA XREF: _read↑r
+    .got.plt:0804A010 off_804A010     dd offset __gmon_start__
+    .got.plt:0804A010                                         ; DATA XREF: ___gmon_start__↑r
+    .got.plt:0804A014 off_804A014     dd offset __libc_start_main
+    .got.plt:0804A014                                         ; DATA XREF: ___libc_start_main↑r
+    .got.plt:0804A018 off_804A018     dd offset write         ; DATA XREF: _write↑r
+    .got.plt:0804A018 _got_plt        ends
+    .got.plt:0804A018
 </code></pre><p>发现接着跑下去就已经看不懂了</p>
 <p>随手点一个进去</p>
-<pre><code>extern:0804A034                 extrn write:near        ; CODE XREF: _write↑j
-extern:0804A034                                         ; DATA XREF: .got.plt:off_804A018↑o
+<pre><code>    extern:0804A034                 extrn write:near        ; CODE XREF: _write↑j
+    extern:0804A034                                         ; DATA XREF: .got.plt:off_804A018↑o
 </code></pre><p>好像是一个声明一样的东西。</p>
 <p>经过了观看大神写的微博以后，我发现如果使用gdb进行动态调试的话，这个common，在没有进行运行时，其的值为0x0，在运行后会变成它的值会变成另一个值，而这个值最终指向的是 <strong>_dl_runtime_resolve</strong>,而这一个处于动态链接器中的函数。</p>
 <h3 id="dl-runtime-resolve"><a href="#dl-runtime-resolve" class="headerlink" title="_dl_runtime_resolve"></a>_dl_runtime_resolve</h3><p>因为每一个plt表里的函数都需要调用这个公共的dlresolve项，所以dlresolve得知道需要查找的是哪一个函数，并将GOT表的值写在哪个函数的plt段。因为在plt表里push了一个参数，我上面也写了你如果去算算的话，它与函数在plt表中的偏移量相同</p>
 <p>在程序内部，维持有一个重定位信息表。利用<code>readelf -r test</code>,可以看见.rel.plt段中的消息</p>
-<pre><code>Offset     Info     Type             Sym.Value  Sym. Name
-080496f8   00000107 R_386_JUMP_SLOT  00000000   puts
-080496fc   00000207 R_386_JUMP_SLOT  00000000   __gmon_start__
-08049700   00000407 R_386_JUMP_SLOT 000000000   __libc_start_main
+<pre><code>    Offset     Info     Type             Sym.Value  Sym. Name
+    080496f8   00000107 R_386_JUMP_SLOT  00000000   puts
+    080496fc   00000207 R_386_JUMP_SLOT  00000000   __gmon_start__
+    08049700   00000407 R_386_JUMP_SLOT 000000000   __libc_start_main
 </code></pre><p>程序可以通过这个公共的offset表，找到应当被填写GOT表函数的地址的位置。</p>
 <blockquote>
 <p>其实想要彻底搞清楚这个过程还需要对于elf文件在linux系统的装载有着更深的理解才行，所以我这边的讲解只是浅尝辄止不深究了。</p>
@@ -659,7 +659,7 @@ extern:0804A034                                         ; DATA XREF: .got.plt:of
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2018/06/14/pwn的小知识的杂记/" id="post_nav-newer" class="prev-content">
+        <a href="/2018/06/14/最基本的堆溢出-fastbin/" id="post_nav-newer" class="prev-content">
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
                 <i class="material-icons">arrow_back</i>
             </button>
@@ -673,7 +673,7 @@ extern:0804A034                                         ; DATA XREF: .got.plt:of
 
     <!-- Next Nav -->
     
-        <a href="/2018/06/14/unlink/" id="post_nav-older" class="next-content">
+        <a href="/2018/06/14/栈溢出指南/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
@@ -765,7 +765,7 @@ extern:0804A034                                         ; DATA XREF: .got.plt:of
             </a>
             <ul class="dropdown-menu">
             <li>
-                <a class="sidebar_archives-link" href="/archives/2018/07/">七月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/06/">六月 2018<span class="sidebar_archives-count">9</span></a>
+                <a class="sidebar_archives-link" href="/archives/2018/07/">七月 2018<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/06/">六月 2018<span class="sidebar_archives-count">9</span></a>
             </ul>
         </li>
         
@@ -783,7 +783,7 @@ extern:0804A034                                         ; DATA XREF: .got.plt:of
             </a>
             <ul class="dropdown-menu">
                 <li>
-                <a class="sidebar_archives-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/categories/从零开始的编程之路/">从零开始的编程之路<span class="sidebar_archives-count">1</span></a>
+                <a class="sidebar_archives-link" href="/categories/一些小教程/">一些小教程<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路<span class="sidebar_archives-count">11</span></a></li><li><a class="sidebar_archives-link" href="/categories/从零开始的编程之路/">从零开始的编程之路<span class="sidebar_archives-count">1</span></a>
             </ul>
         </li>
         
@@ -841,7 +841,7 @@ extern:0804A034                                         ; DATA XREF: .got.plt:of
         <li>
             <a href="/archives">
                 文章总数
-                <span class="sidebar-badge">11</span>
+                <span class="sidebar-badge">13</span>
             </a>
         </li>
         
