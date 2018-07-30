@@ -74,7 +74,7 @@
 
     
         <meta property="article:published_time" content="7月 15, 2018" />
-        <meta property="article:modified_time" content="7月 28, 2018" />
+        <meta property="article:modified_time" content="7月 30, 2018" />
     
 
     <!-- The Twitter Card protocol -->
@@ -115,7 +115,7 @@
     "headline": "ROP与ROP的实践",
     "url": "http://yoursite.com/2018/07/15/ROP/index.html",
     "datePublished": "7月 15, 2018",
-    "dateModified": "7月 28, 2018",
+    "dateModified": "7月 30, 2018",
     "description": "Return-oriented programming（ROP）是一种很常见的攻击技术，是一种具有图灵完备性的超级攻击方式。",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -329,7 +329,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#何为ROP"><span class="post-toc-number">1.</span> <span class="post-toc-text">何为ROP</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#背景"><span class="post-toc-number">2.</span> <span class="post-toc-text">背景</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#传参方式的改变"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">传参方式的改变</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#天然零化"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">天然零化</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原理"><span class="post-toc-number">3.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#攻击步骤"><span class="post-toc-number">4.</span> <span class="post-toc-text">攻击步骤</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何构建ROP链"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">如何构建ROP链</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#局限"><span class="post-toc-number">5.</span> <span class="post-toc-text">局限</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#何为ROP"><span class="post-toc-number">1.</span> <span class="post-toc-text">何为ROP</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#背景"><span class="post-toc-number">2.</span> <span class="post-toc-text">背景</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#传参方式的改变"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">传参方式的改变</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#天然零化"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">天然零化</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原理"><span class="post-toc-number">3.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#攻击步骤"><span class="post-toc-number">4.</span> <span class="post-toc-text">攻击步骤</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何构建ROP链"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">如何构建ROP链</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ROP的功能"><span class="post-toc-number">5.</span> <span class="post-toc-text">ROP的功能</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#局限"><span class="post-toc-number">6.</span> <span class="post-toc-text">局限</span></a></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -502,6 +502,7 @@
         <p>Return-oriented programming（<strong>ROP</strong>）是一种很常见的攻击技术，是一种具有图灵完备性的超级攻击方式。</p>
 <a id="more"></a>
 <h2 id="何为ROP"><a href="#何为ROP" class="headerlink" title="何为ROP"></a>何为ROP</h2><p><strong>rop</strong> 即 <strong>面向返回的编程</strong>。上文我们讲到了ret2plt，rop就是ret2plt在64位的升级版本。rop也可以用来做32位的题，是一种相当上位的攻击技术。可以替代我们之前讲的几乎所有溢出利用。可以绕过aslr与dep(NX)。</p>
+<p>我所理解的的ROP就是有去有回，需要多次劫持程序流的攻击。</p>
 <blockquote>
 <p>广义的ROP包括了上文所讲到的任何返回式的攻击方式，不过我们今天要讲的是狭义的ROP</p>
 </blockquote>
@@ -548,7 +549,18 @@
 <p>我们上文讲到的<strong>ret2plt</strong>利用所谓的PPR结构来在libc或者其他的可执行块里找到一些片段来调用。</p>
 <p>现在我们也用这种方法来进行攻击。将我们需要执行的指令连成<strong>ROP链</strong>来进行ROP攻击。</p>
 <hr>
-<h2 id="攻击步骤"><a href="#攻击步骤" class="headerlink" title="攻击步骤"></a>攻击步骤</h2><h3 id="如何构建ROP链"><a href="#如何构建ROP链" class="headerlink" title="如何构建ROP链"></a>如何构建ROP链</h3><p>因为我们的攻击的最终目的一定是获得shell，所以我们最终需要让程序执行<code>system(&quot;\bin\sh&quot;)</code>这条指令</p>
+<h2 id="攻击步骤"><a href="#攻击步骤" class="headerlink" title="攻击步骤"></a>攻击步骤</h2><h3 id="如何构建ROP链"><a href="#如何构建ROP链" class="headerlink" title="如何构建ROP链"></a>如何构建ROP链</h3><p>因为我们的攻击的最终目的一定是获得shell，所以我们最终需要让程序执行<code>system(&quot;\bin\sh&quot;)</code>这条指令。那就需要覆盖程序返回地址到我们想要执行的地方。</p>
+<blockquote>
+<p>buffer|canary|saved fame pointer|saved returned address</p>
+</blockquote>
+<p>那么我们需要在栈里面写入”/bin/sh\0”。因为栈的内容是我们可以控制的，所以可以写入。那么我们需要找到例如<code>pop rdi</code>这样的语句。我们可以使用诸如<strong>ROPgadget</strong>这样的工具，具体用法请看官方文档。</p>
+<p>但是有一点需要注意，我们找到的语句必须包含一个返回<code>ret(retq)</code>，不然会顺着语句一路执行下去。</p>
+<p>当然，我们有些时候会碰到程序过于小，导致根本没有rop片段可以利用，例如上次笔者碰见的一个500b的题，那我们需要利用libc的gadget，但是我们一般情况下不知道题目的libc，所以需要不断leak出服务器端的libc。</p>
+<blockquote>
+<p>如果对于libc的地址，aslr等不是很清楚的话，建议再读一读<strong>elf</strong>的内容。</p>
+</blockquote>
+<h2 id="ROP的功能"><a href="#ROP的功能" class="headerlink" title="ROP的功能"></a>ROP的功能</h2><p>rop看似复杂，限制很多。但是总可以从程序中找到一枝半叶，而组成极其强大的功能。<del>rop真的可以为所欲为。</del></p>
+<p>甚至，高手的rop可以实现循环、分支、条件等等逻辑。有人指出rop具有图灵完备性。</p>
 <hr>
 <h2 id="局限"><a href="#局限" class="headerlink" title="局限"></a>局限</h2><ul>
 <li>技巧性有点强。</li>
