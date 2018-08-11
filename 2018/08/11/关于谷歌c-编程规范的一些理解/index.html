@@ -12,7 +12,7 @@
     
     <title>
         
-            linux上的链接 | 
+            关于谷歌c++编程规范 | 
         
         mian的博客
     </title>
@@ -37,8 +37,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="mian">
-    <meta name="description" itemprop="description" content="linux上的软链接与硬连接">
-    <meta name="keywords" content=",linux">
+    <meta name="description" itemprop="description" content="这是mian的博客">
+    <meta name="keywords" content=",c++,编程">
 
     <!-- Site Verification -->
     
@@ -67,26 +67,26 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="linux上的链接 | mian的博客">
+    <meta property="og:title" content="关于谷歌c++编程规范 | mian的博客">
     <meta property="og:image" content="/img/pic.png" />
-    <meta property="og:description" content="linux上的软链接与硬连接">
-    <meta property="og:article:tag" content="linux"> 
+    <meta property="og:description" content="这是mian的博客">
+    <meta property="og:article:tag" content="c++"> <meta property="og:article:tag" content="编程"> 
 
     
-        <meta property="article:published_time" content="6月 14, 2018" />
-        <meta property="article:modified_time" content="7月 01, 2018" />
+        <meta property="article:published_time" content="8月 11, 2018" />
+        <meta property="article:modified_time" content="8月 11, 2018" />
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="linux上的链接 | mian的博客">
-    <meta name="twitter:description" content="linux上的软链接与硬连接">
+    <meta name="twitter:title" content="关于谷歌c++编程规范 | mian的博客">
+    <meta name="twitter:description" content="这是mian的博客">
     <meta name="twitter:image" content="/img/pic.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="http://yoursite.com" />
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://yoursite.com/2018/06/14/linux上的延迟重定位/index.html" />
+        <link rel="canonical" href="http://yoursite.com/2018/08/11/关于谷歌c-编程规范的一些理解/index.html" />
     
 
     <!-- Structured-data for SEO -->
@@ -112,11 +112,11 @@
         },
         "description": "你好，我是mian，欢迎来到我的博客。有朋自远方来，不亦乐乎。随便走走看看吧"
     },
-    "headline": "linux上的链接",
-    "url": "http://yoursite.com/2018/06/14/linux上的延迟重定位/index.html",
-    "datePublished": "6月 14, 2018",
-    "dateModified": "7月 01, 2018",
-    "description": "linux上的软链接与硬连接",
+    "headline": "关于谷歌c++编程规范",
+    "url": "http://yoursite.com/2018/08/11/关于谷歌c-编程规范的一些理解/index.html",
+    "datePublished": "8月 11, 2018",
+    "dateModified": "8月 11, 2018",
+    "description": "这是mian的博客",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://yoursite.com"
@@ -329,7 +329,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#linux内部文件管理"><span class="post-toc-number">2.</span> <span class="post-toc-text">linux内部文件管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#硬链接与软链接"><span class="post-toc-number">3.</span> <span class="post-toc-text">硬链接与软链接</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#连接的创建"><span class="post-toc-number">4.</span> <span class="post-toc-text">连接的创建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#硬链接"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">硬链接</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#软链接"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">软链接</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#删除"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">删除</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#后记"><span class="post-toc-number">5.</span> <span class="post-toc-text">后记</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#谷歌命名规范"><span class="post-toc-number">1.</span> <span class="post-toc-text">谷歌命名规范</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为啥不用匈牙利命名法"><span class="post-toc-number">2.</span> <span class="post-toc-text">为啥不用匈牙利命名法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#谷歌规范检查工具"><span class="post-toc-number">3.</span> <span class="post-toc-text">谷歌规范检查工具</span></a></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -367,7 +367,7 @@
         
     
             <p class="article-headline-p">
-                linux上的链接
+                关于谷歌c++编程规范
             </p>
         </div>
 
@@ -386,7 +386,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>mian</strong>
-        <span>6月 14, 2018</span>
+        <span>8月 11, 2018</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -408,7 +408,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAAC5ElEQVR42u3aQY4iMRAEQP7/6d3rSiMgs2ztgB19Gg007fClurL8+HPl9cDGxsbGxsbGxsb+SPYjvv79/rNf+Pmdn58+XVbwlNmasbGxsW9gtwtql5Vs2ZtFv/yd12vGxsbGvofdLvf1I599p7132xZjY2NjY28teK/B+cZhY2NjY+8tYEkglTc2m9sebGxs7AvYRUATDAPa+L5tV/5rloaNjY398ezZoPd3//61+TY2Njb2h7Hbqx3B5kOC9aL1ZuXY2NjYh7Lz0KcdGMyiqLzhaQcS2NjY2Key25jmdZTflrp2hDx7LjY2NvYN7Nc/1xaePLSabUo+3MXGxsa+k503GCstREtKmqUNWRo2Njb2F7KTsGalCOUh1KztWZpvY2NjYx/Ebg+4tzHQ7CnJXUWkhY2NjX0oO28A2hHvbOOSFiVpn7CxsbHvYeev8m2Isx5a5cWsHvRiY2NjH8RuB6tJiWrL3sqmD0MlbGxs7GvYxYGY8uBO/un6MBgbGxv7bHbyit+Wrjb0yQ9WJuUKGxsb+zb2bLw6K4FJeJQXyPqJ2NjY2Iey2yakLUKzspS3QxtOKmFjY2N/OXs9+mn/s7dAFgeJsLGxsQ9lz0KlPOjZO2CYbRA2Njb2DeyVozMrLUQbIbUtEDY2NvZt7CS4aeP+HJAX1GErhY2NjX0ouw192uM4b4KecmAwG1FjY2Nj38lOXu7zQGdlO5I1DKci2NjY2EewV1qIlSM7UckZxVtPXdjY2NiHsltwHtYPo5+glA7bFWxsbOwL2HmzMSwhC9uXtzd1AcPGxsb+cvbKAcq8jcmXuOsAaBQqYWNjYx/EzotWPgBOxgxt67I0csDGxsa+gN02Fe2QoB0e56ESNjY2NvYuTN0exHe1rVEx38bGxsa+kr0+KsijpXazokEvNjY29qHsdrg7Y+wNkoZHdrCxsbGPY68PemeNx+zTfOXY2NjYN7DvubCxsbGxsbGxsbE/5voLT2OHKf2k5HkAAAAASUVORK5CYII=">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAAC4klEQVR42u3ay1LDMAwF0P7/T8OWGah7JaUQ7JMV0ziJjxdo9Hh8HHk9sLGxsbGxsbGxsW/JfsTXDy9q/f717veVz774/anqnrGxsbH3Zr/41/9ko2tGfijJG5I3v/gKNjY29gHsZwFgvdF1oFqHwOQ4qsEMGxsbG3uSMCSJR4LBxsbGxn4fe7255Nk1JikSYWNjY2NPikrVg6j+0msqvL2Who2NjX179iR4/NXfv9rfxsbGxr4xu3dNUoW8qJQXsKI9Y2NjY2/K7o3IJCWha0v8vQEgbGxs7HPY1eZugsxX5s3dXmqEjY2NvTe7WtbvHcE68OTDPdWEBxsbG/sEdl7oqa6clIryu4WDxsbGxt6UnacB+bhMtR3bS4TKCmxsbOxN2dW26zp5yA+i+vX8W9jY2NinsfM0YzKgMzmsJKQ12wPY2NjYW7DzbVWbu/OgNSohYWNjYx/DzoNQXvR5y6aLjQRsbGzsM9l5AOslAxNYPpqDjY2NfSZ7veneAE3eoM2TmVGqg42Njb01u1fKrwa8PMglgSpJmbCxsbHPYSewPLRM1uehtDwwhI2Njb01O3l1M2wUf09KTsndC7oi2NjY2P+QnRf6q+DqptfH0StgYWNjY+/KTgBJk6A3ytMLddXiFzY2NvYJ7Dw5ydOJpPFQTXiqLWpsbGzsE9jX4idhqZcgFcph2NjY2Juyq4OM1VHIq461uhIbGxv7HHZeMLqKkTSMe8f6IpRiY2Njb8rOxxyroznVN08OBRsbG/tkdvXqNQnmzeNqIIzaA9jY2NhbsKuBIW+1RkElHsfJRzmf7hAbGxt7a3YvaOXJSa8ZnJexojdgY2NjH8DuBYy8PJQ8NS9ylWdOsbGxsQ9jrxur89HMavvhglQEGxsb+zB2vq3qs5NAGK3ExsbGPoDdK+gkh5g0catjPdUvYmNjY+/N7g01VtvA85JTxMsDGDY2NvYW7HMubGxsbGxsbGxs7Ntcn4ggchQnZGT8AAAAAElFTkSuQmCC">
     
 </ul>
     
@@ -421,7 +421,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/linux/">linux</a>
+        <a class="post_tag-link" href="/tags/c/">c++</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/编程/">编程</a>
     </ul>
     
 
@@ -448,7 +448,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=linux上的链接&url=http://yoursite.com/2018/06/14/linux上的延迟重定位/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=关于谷歌c++编程规范&url=http://yoursite.com/2018/08/11/关于谷歌c-编程规范的一些理解/index.html&pic=&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -457,7 +457,7 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=linux上的链接&url=http://yoursite.com/2018/06/14/linux上的延迟重定位/index.html&via=mian" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=关于谷歌c++编程规范&url=http://yoursite.com/2018/08/11/关于谷歌c-编程规范的一些理解/index.html&via=mian" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -466,7 +466,7 @@
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/06/14/linux上的延迟重定位/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/08/11/关于谷歌c-编程规范的一些理解/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Facebook
             </li>
@@ -481,7 +481,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的博客&title=linux上的链接&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/06/14/linux上的延迟重定位/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的博客&title=关于谷歌c++编程规范&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/08/11/关于谷歌c-编程规范的一些理解/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -499,122 +499,30 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <p>linux上的软链接与硬连接</p>
-<a id="more"></a>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>按照计划我应当更新绕过NX的一些攻击方式，但是我觉得既然讲了绑定，那就顺便来讲讲有关于链接的话题吧。</p>
-<h2 id="linux内部文件管理"><a href="#linux内部文件管理" class="headerlink" title="linux内部文件管理"></a>linux内部文件管理</h2><p>在现代操作系统中，文件的意义是使信息独立于进程长期存在。而为了方便文件被多个进程相互独立的调用，linux系统设置了一组通用的api来对文件或其他被看作文件的东西进行操作。也就是说linux把所有除了进程以外的东西全部当成文件。</p>
-<p>文件的操作是通过所谓的字节流来进行。而上文提到的通用的api就是来管理与操作这些字节流的，最常见自然是对文件或者屏幕（终端的用户输入）进行管理的api。并且，为了方便进行管理这些文件，linux使用了文件夹这一系统。</p>
+        <h2 id="谷歌命名规范"><a href="#谷歌命名规范" class="headerlink" title="谷歌命名规范"></a>谷歌命名规范</h2><p><strong>一个图片大纲</strong></p>
+<div align="center"><br><br><img src="google.png" alt="图片大纲"><br><br></div>
+
+<p>附上我看见过的最全面的博客</p>
+<p><a href="http://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/contents/" target="_blank" rel="noopener">谷歌c++规范</a></p>
+<h2 id="为啥不用匈牙利命名法"><a href="#为啥不用匈牙利命名法" class="headerlink" title="为啥不用匈牙利命名法"></a>为啥不用匈牙利命名法</h2><p>早期坚定拥护匈牙利命名法的Microsoft在 .NET Framework后，已经不再建议程序员使用匈牙利命名法了。</p>
+<p>微软新的变量名称建议General Naming Conventions原文如下：</p>
 <blockquote>
-<p>在linus写linux的最初版本时文件夹还不是一项必须要实现的功能，例如大名鼎鼎的unix系统就不能实现这个功能。</p>
+<p>Donot use Hungarian notation. Hungarian notation isthe practice of including a prefix in identifiers to encode some metadata aboutthe parameter, such as the data type of the identifier.</p>
 </blockquote>
-<p>如果有细心的朋友在根目录下<code>ls -a</code>,就会发现有很多文件夹</p>
-<pre><code>/              根目录
-├── bin     存放用户二进制文件
-├── boot    存放内核引导配置文件
-├── dev     存放设备文件
-├── etc     存放系统配置文件
-├── home    用户主目录
-├── lib     动态共享库
-├── lost+found  文件系统恢复时的恢复文件
-├── media   可卸载存储介质挂载点
-├── mnt     文件系统临时挂载点
-├── opt     附加的应用程序包
-├── proc    系统内存的映射目录，提供内核与进程信息
-├── root    root 用户主目录
-├── sbin    存放系统二进制文件
-├── srv     存放服务相关数据
-├── sys     sys 虚拟文件系统挂载点
-├── tmp     存放临时文件
-├── usr     存放用户应用程序
-└── var     存放邮件、系统日志等变化文件
-</code></pre><p>其中的home文件夹就是我们平常所使用的最多的文件夹。</p>
+<p>附上一句很经典的原话：</p>
 <blockquote>
-<p>笔者认为linux在系统文件的隐藏，这一方面做的比windows高得多。虽然windows的文件夹目录更为直观，但是同时也产生了用户很容误删这些关键的系统文件的问题。</p>
-<blockquote>
-<p><del>当然windows其它方面的易用性与生态会把linux秒成渣。</del></p>
-<blockquote>
-<p><del>但这又有什么用呢，服务器是linux的，你还不是老老实实得需要用linux做pwn题</del></p>
+<p>“避免使用匈牙利记法，它会让你的承诺落空。赘物并非信息，而是混淆耳目的伪信息。”</p>
 </blockquote>
-</blockquote>
-</blockquote>
-<p>需要注意的是因为万物皆为文件的设计，所以linux中的文件夹并非与windows一样，是一个高于普通文件的顶层设计的产物，而是一种特殊的文件。</p>
-<p>使用命令 <code>mkdir</code> 创建目录时，若期望创建的目录的名称与现有的文件名（或目录名）重复，则会创建失败。</p>
-<p>Linux 将设备当做文件进行处理下面这段终端记录展示了如何打开设备文件 /dev/input/event5 并读取文件内容。文件 event5 表示一种输入设备，其可能是鼠标或键盘等。查看文件 /proc/bus/input/devices 可知 event5 对应设备的类型。设备文件 /dev/input/event5 使用 read() 以字符流的方式被读取。结构体 input_event 被定义在内核头文件 linux/input.h 中。</p>
-<pre><code>int fd;
-struct input_event ie;
-fd = open(&quot;/dev/input/event5&quot;, O_RDONLY);
-read(fd, &amp;ie, sizeof(struct input_event));
-printf(&quot;type = %d  code = %d  value = %d\n&quot;,
-            ie.type, ie.code, ie.value);
-close(fd);
-</code></pre><p>从这里可以看出设备可以作为文件来进行读写。</p>
-<h2 id="硬链接与软链接"><a href="#硬链接与软链接" class="headerlink" title="硬链接与软链接"></a>硬链接与软链接</h2><p>虽然文件这一数据结构的作用是存放数据，但是显然，它也存放了一些与这些数据相关的另一些数据，例如创建时间，文件名等信息。</p>
-<blockquote>
-<p>插一些题文无关的内容，文件并不以文件名来作为系统中的唯一标识，而将文件的 <strong>inode</strong> 号作为文件的唯一标识。就和windwos系统中不以进程名而已句柄来分辨进程其实是一个道理。</p>
-</blockquote>
-<p>一般来说将我们将这两种数据称作</p>
-<blockquote>
+<h2 id="谷歌规范检查工具"><a href="#谷歌规范检查工具" class="headerlink" title="谷歌规范检查工具"></a>谷歌规范检查工具</h2><p>Cpplint是一个python脚本，Google使用它作为自己的C++代码规范检查工具。如果你所在的公司也使用Google C++代码规范，那么你有必要了解下Cpplint。</p>
+<p> 下面说一下Cpplint在windows下的简单使用：</p>
 <ol>
-<li>用户数据</li>
-<li>元数据</li>
+<li><p>从<a href="http://google-styleguide.googlecode.com/svn/trunk/cpplint/cpplint.py" target="_blank" rel="noopener">此处</a>下载cpplint.py源码，并将其存放到D:\soft\Cpplint\cpplint.py中；</p>
+</li>
+<li><p>安装python2，并将D:\ProgramFiles\Python27 添加到系统环境变量Path中；</p>
+</li>
 </ol>
-</blockquote>
-<p>需要注意的是，进程对于文件其实是非独占的。换言之，多个进程可以使用同一个文件。文件的共享是一个难题。可以想象，如果说没有限制的使用同一个文件会导致读取方面产生多大的问题。</p>
-<p>为解决文件的共享使用，Linux 系统引入了两种链接：<strong>硬链接</strong> (hard link) 与 <strong>软链接</strong>（又称符号链接，即 soft link 或 symbolic link）。</p>
-<p>链接的作用有</p>
-<blockquote>
-<ol>
-<li>解决了文件的共享使用</li>
-<li>隐藏文件路径</li>
-<li>增加权限安全</li>
-<li>节省存储空间</li>
-<li>…</li>
-</ol>
-</blockquote>
-<p>上文也提到了linux系统下有文件夹这一个架构，那么如果我们需要在不同的文件下同时保留一个文件，我们当然可以简单的直接拷贝一份，但是这样浪费了大量的空间，而且在程序真正需要去改变文件的数据时会导致多个文件的数据不同步，丢失了我们复制一份的初衷。</p>
-<p>我们需要一种结构，在改变它的数据时同时会改变原始的数据，而且占用空间小。</p>
-<p>最优的解决方案就是：</p>
-<ul>
-<li>只有一个真实存在的文件</li>
-<li>在其他文件夹下存放的数据其实只是这个文件的别名。</li>
-</ul>
-<p>这就是 <strong>硬链接</strong> ，硬链接就是一个文件的不同的文件名。可以为一个inode号创建不同的文件名，而这些文件名可以和现实中存在文件一样被程序读写。私以为它和c++的指针特别像</p>
-<p>当然我们也可以创建和windows中快捷方式一样的东西，这就是 <strong>软链接</strong> 。软链接是现实中存在的文件，它也有着所谓的元数据与用户数据。但是它的数据块有着些许不同，它存放的是另一个文件的地址。</p>
-<h2 id="连接的创建"><a href="#连接的创建" class="headerlink" title="连接的创建"></a>连接的创建</h2><h3 id="硬链接"><a href="#硬链接" class="headerlink" title="硬链接"></a>硬链接</h3><p>硬链接可以用以下指令来创建</p>
-<ol>
-<li><code>link oldfile newfile</code></li>
-<li><code>ln oldfile newfile</code></li>
-</ol>
-<p>此外需要注意，<strong>不要向目录创建硬链接</strong></p>
-<p>但是有以下注意事项</p>
-<blockquote>
-<ul>
-<li>文件有相同的 inode 及 data block；</li>
-<li>只能对已存在的文件进行创建；</li>
-<li>不能交叉文件系统进行硬链接的创建；</li>
-<li>不能对目录进行创建，只可对文件创建；</li>
-<li>删除一个硬链接文件并不影响其他有相同 inode 号的文件。</li>
-</ul>
-</blockquote>
-<h3 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h3><p>硬链接可以用以下指令来创建</p>
-<ol>
-<li><code>link -s oldfile newfile</code></li>
-<li><code>ln -s oldfile newfile</code></li>
-</ol>
-<p>此外</p>
-<blockquote>
-<ul>
-<li>软链接有自己的文件属性及权限等；</li>
-<li>可对不存在的文件或目录创建软链接；</li>
-<li>软链接可交叉文件系统；</li>
-<li>软链接可对文件或目录创建；</li>
-<li>创建软链接时，链接计数 i_nlink 不会增加；</li>
-<li>删除软链接并不影响被指向的文件，但若被指向的原文件被删除，则相关软连接被称为死链接（即 dangling link，若被指向路径文件被重新创建，死链接可恢复为正常的软链接）</li>
-</ul>
-</blockquote>
-<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p><code>rm</code>,没啥好说的。</p>
+<p>vs用户可以参考<a href="https://www.jianshu.com/p/64aa95820165" target="_blank" rel="noopener">这个博文</a>来进行配置。</p>
 <hr>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>文章拖了好久了，以后还是要多加努力。</p>
 
     
 
@@ -634,7 +542,7 @@ close(fd);
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2018/06/14/pwn的小知识的杂记/" id="post_nav-newer" class="prev-content">
+        <a href="/2018/08/11/关于装逼风气的一些小小辩思/" id="post_nav-newer" class="prev-content">
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
                 <i class="material-icons">arrow_back</i>
             </button>
@@ -648,7 +556,7 @@ close(fd);
 
     <!-- Next Nav -->
     
-        <a href="/2018/06/14/unlink/" id="post_nav-older" class="next-content">
+        <a href="/2018/07/28/hexo原生无插件快速引入图片/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
