@@ -74,7 +74,7 @@
 
     
         <meta property="article:published_time" content="7月 21, 2018" />
-        <meta property="article:modified_time" content="7月 22, 2018" />
+        <meta property="article:modified_time" content="8月 13, 2018" />
     
 
     <!-- The Twitter Card protocol -->
@@ -115,7 +115,7 @@
     "headline": "我踩过的c++的坑",
     "url": "http://yoursite.com/2018/07/21/我踩过的c++的坑/index.html",
     "datePublished": "7月 21, 2018",
-    "dateModified": "7月 22, 2018",
+    "dateModified": "8月 13, 2018",
     "description": "c++坑还挺多的，以后每个坑我都记录下来持续更新",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -329,7 +329,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#在类的实例化时不能使用其他的类的构造函数"><span class="post-toc-number">1.</span> <span class="post-toc-text">在类的实例化时不能使用其他的类的构造函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#两个指针作为参数不能重载运算符"><span class="post-toc-number">2.</span> <span class="post-toc-text">两个指针作为参数不能重载运算符</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#在类的实例化时不能使用其他的类的构造函数"><span class="post-toc-number">1.</span> <span class="post-toc-text">在类的实例化时不能使用其他的类的构造函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#两个指针作为参数不能重载运算符"><span class="post-toc-number">2.</span> <span class="post-toc-text">两个指针作为参数不能重载运算符</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#单例模式请务必加锁"><span class="post-toc-number">3.</span> <span class="post-toc-text">单例模式请务必加锁</span></a></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -519,6 +519,7 @@ string path = string(current_directiom) + string(&quot;\\data\\setting.ini&quot;
 </code></pre><p>而这样的却又是可以的，迷</p>
 <h2 id="两个指针作为参数不能重载运算符"><a href="#两个指针作为参数不能重载运算符" class="headerlink" title="两个指针作为参数不能重载运算符"></a>两个指针作为参数不能重载运算符</h2><pre><code>QListWidget * operator&lt;&lt;(QListWidget *output, char  *your_output);
 </code></pre><p>这样的语句是错误的,为避免出现内置类型的重载，必须有一个及以上的参数为类或枚举类型</p>
+<h2 id="单例模式请务必加锁"><a href="#单例模式请务必加锁" class="headerlink" title="单例模式请务必加锁"></a>单例模式请务必加锁</h2><p>今天偷懒，写了一个简化版的单例模式，没加异步锁，被别人看出来了。。。</p>
 
     
 
