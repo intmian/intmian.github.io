@@ -12,7 +12,7 @@
     
     <title>
         
-            关于底层人民支持资本主义的一些思辨 | 
+            耦合与解耦 | 
         
         mian的博客
     </title>
@@ -37,8 +37,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="mian">
-    <meta name="description" itemprop="description" content="本文写于笔者，逛知乎，见小布尔乔亚（说白了大多数连小布尔乔亚都算不上）有感所写。笔者呢，没读过几个书，只能瞎写写，希望大家也别太严苛了。">
-    <meta name="keywords" content=",思辨,马克思主义,社会">
+    <meta name="description" itemprop="description" content="高内聚，低耦合是你们我一直所追求的目标">
+    <meta name="keywords" content=",编程,架构">
 
     <!-- Site Verification -->
     
@@ -67,26 +67,26 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="关于底层人民支持资本主义的一些思辨 | mian的博客">
+    <meta property="og:title" content="耦合与解耦 | mian的博客">
     <meta property="og:image" content="/img/pic.png" />
-    <meta property="og:description" content="本文写于笔者，逛知乎，见小布尔乔亚（说白了大多数连小布尔乔亚都算不上）有感所写。笔者呢，没读过几个书，只能瞎写写，希望大家也别太严苛了。">
-    <meta property="og:article:tag" content="思辨"> <meta property="og:article:tag" content="马克思主义"> <meta property="og:article:tag" content="社会"> 
+    <meta property="og:description" content="高内聚，低耦合是你们我一直所追求的目标">
+    <meta property="og:article:tag" content="编程"> <meta property="og:article:tag" content="架构"> 
 
     
-        <meta property="article:published_time" content="10月 04, 2018" />
-        <meta property="article:modified_time" content="10月 05, 2018" />
+        <meta property="article:published_time" content="10月 23, 2018" />
+        <meta property="article:modified_time" content="11月 05, 2018" />
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="关于底层人民支持资本主义的一些思辨 | mian的博客">
-    <meta name="twitter:description" content="本文写于笔者，逛知乎，见小布尔乔亚（说白了大多数连小布尔乔亚都算不上）有感所写。笔者呢，没读过几个书，只能瞎写写，希望大家也别太严苛了。">
+    <meta name="twitter:title" content="耦合与解耦 | mian的博客">
+    <meta name="twitter:description" content="高内聚，低耦合是你们我一直所追求的目标">
     <meta name="twitter:image" content="/img/pic.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="http://yoursite.com" />
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://yoursite.com/2018/10/04/资社/index.html" />
+        <link rel="canonical" href="http://yoursite.com/2018/10/23/解耦/index.html" />
     
 
     <!-- Structured-data for SEO -->
@@ -112,11 +112,11 @@
         },
         "description": "你好，我是mian，欢迎来到我的博客。有朋自远方来，不亦乐乎。随便走走看看吧"
     },
-    "headline": "关于底层人民支持资本主义的一些思辨",
-    "url": "http://yoursite.com/2018/10/04/资社/index.html",
-    "datePublished": "10月 04, 2018",
-    "dateModified": "10月 05, 2018",
-    "description": "本文写于笔者，逛知乎，见小布尔乔亚（说白了大多数连小布尔乔亚都算不上）有感所写。笔者呢，没读过几个书，只能瞎写写，希望大家也别太严苛了。",
+    "headline": "耦合与解耦",
+    "url": "http://yoursite.com/2018/10/23/解耦/index.html",
+    "datePublished": "10月 23, 2018",
+    "dateModified": "11月 05, 2018",
+    "description": "高内聚，低耦合是你们我一直所追求的目标",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://yoursite.com"
@@ -329,7 +329,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#起因"><span class="post-toc-number">1.</span> <span class="post-toc-text">起因</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原因"><span class="post-toc-number">2.</span> <span class="post-toc-text">原因</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#后记"><span class="post-toc-number">3.</span> <span class="post-toc-text">后记</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#何为耦合"><span class="post-toc-number">2.</span> <span class="post-toc-text">何为耦合</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#耦合的例子"><span class="post-toc-number">3.</span> <span class="post-toc-text">耦合的例子</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#例子1"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">例子1</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#例子2"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">例子2</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#例子3"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">例子3</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#例子4"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">例子4</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#如何避免耦合"><span class="post-toc-number">4.</span> <span class="post-toc-text">如何避免耦合</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#具体实现方法"><span class="post-toc-number">5.</span> <span class="post-toc-text">具体实现方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#part-1"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">part 1</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#part-2"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">part 2</span></a></li></ol></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -367,7 +367,7 @@
         
     
             <p class="article-headline-p">
-                关于底层人民支持资本主义的一些思辨
+                耦合与解耦
             </p>
         </div>
 
@@ -386,7 +386,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>mian</strong>
-        <span>10月 04, 2018</span>
+        <span>10月 23, 2018</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -408,7 +408,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACX0lEQVR42u3aQXLcMAwEwP3/p5MHJFZmAC1X2WqdXLZEsXmAYACvX199vfDw8PDw8PDw8B7Ge8XXn0/9Zeng/p/+ev37Ym94eHh4R3j/CLUj3jUpeftwb3h4eHgHecnmru/P70wObrgCHh4e3oN5PyXE1ynv5r14eHh438rLE/G85IGHh4f3TF7yD39STr0r0H+g1oKHh4cX8/Im0/mfj/b38PDw8AJePdIUBOs2pW5XLoau8PDw8N7Aa9PlpIB7b3ss3w8eHh7eSd4+KM8+GAm43S0eHh7eu3n71tQ1o/0YzA4CDw8P7ySvDeh5m789uGT96FDw8PDw3szbJLttIt4OVyXHgYeHh3eetw/3bYhPnso/KvVkBB4eHt5NvFlQbsdMN+skRV48PDy8M7w8KM+C9ez+WesLDw8P7ySvJdXt/HW7qzhuPDw8vCO82Sdhv/X8kzMsRuDh4eG9jTdrhuVJ+X6AYDVThoeHh3crLy8HzMJ6G+L3Iwt4eHh4n+W1r4xS3rjU2w434OHh4Z3nJZubFSbyUu9m1AAPDw/vJC8pRtSv2RQUyoQbDw8P71O85OFZQE9S5zbtLooReHh4eG/jbQJ6W6LNSw/5oCoeHh7eGV575c3+vFTRNt5umIzAw8PDW/BmTaxZ6XY/OhAdEx4eHt4RXl5uKMqptzbJ8PDw8J7JawN0Wz5o22bJZwMPDw/vf+HNrllRo14ZDw8P75G82TBBm2rnIwh4eHh4n+Ll223bWgkjL3+sJiPw8PDwbuLtSwA5PgHnZV88PDy887zvu/Dw8PDw8PDw8B5w/QaRUaWBrJQ4+gAAAABJRU5ErkJggg==">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACZUlEQVR42u3aQZICIQwFUO9/6ZkDTLX+BEj3WI+VZdnCcwGY/NfPV48XHh4eHh4eHh7ew3ivePx96up1/vnkqfLa8PDw8EZ4H7baYLnvJ76a5f3szbXh4eHhDfKSxSVb/NUiEnZy5Hz4Bjw8PLxH8nqfOT0vHh4e3pN5CSN/Jy9h4OHh4T2Nl/zhr16I1w+Y0VoLHh4eXszLm0zzr0f7e3h4eHgBrxxpugBXAwS9Y6AcusLDw8M7wKuGAKqX4/USbbIePDw8vEne+02/WgioPpWAk2MJDw8P715e3v7Pm1u74gVRKRkPDw/vMC+5zq5fuKszJk81q9R4eHh4W3krS8wPj17gILlM4+Hh4c3wqsvN4wX59+SFhugIwcPDwzvMW2lc5eXXHqmJx8PDwzvMK7eXlptk+aHSmxcPDw/vNK8Xq8qLs7vaXclTeHh4eDO83vTJ1p8Xhavhg3IyAg8PD+8Yr1rYzd9fDxAsZcrw8PDwRnj5Nbca2Ko20vKjCw8PD2+GV5242qBaOTbyMgceHh7ePK/aqu8FDj5s6K2mFx4eHt7TeL2y7IaCwsKPhYeHhzfJ643ej5IUQXprw8PDw5vk9coHyRKrcau8CIKHh4c3z1s5BqqbeC+IsCE6gIeHh7eV94pH70pdDR/kxYvLnwkPDw9vhFctN+Rh1vx4WLl24+Hh4d3Fq27QK22tauurEOrCw8PD+ye8JIaVUBPGDQcDHh4e3jJvV8EiPxLyvwF4eHh4k7xe0yu/ZOeRgrxIgYeHh3cXb0MJYCF61YsUXM6Ih4eHd5j3fQMPDw8PDw8PD+8B4xfc1PcT8wIgvgAAAABJRU5ErkJggg==">
     
 </ul>
     
@@ -421,7 +421,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/思辨/">思辨</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/社会/">社会</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/马克思主义/">马克思主义</a>
+        <a class="post_tag-link" href="/tags/架构/">架构</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/编程/">编程</a>
     </ul>
     
 
@@ -448,7 +448,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=关于底层人民支持资本主义的一些思辨&url=http://yoursite.com/2018/10/04/资社/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=耦合与解耦&url=http://yoursite.com/2018/10/23/解耦/index.html&pic=&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -457,7 +457,7 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=关于底层人民支持资本主义的一些思辨&url=http://yoursite.com/2018/10/04/资社/index.html&via=mian" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=耦合与解耦&url=http://yoursite.com/2018/10/23/解耦/index.html&via=mian" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -466,7 +466,7 @@
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/10/04/资社/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/10/23/解耦/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Facebook
             </li>
@@ -481,7 +481,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的博客&title=关于底层人民支持资本主义的一些思辨&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/10/04/资社/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的博客&title=耦合与解耦&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/10/23/解耦/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -499,27 +499,61 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <p>本文写于笔者，逛知乎，见小布尔乔亚（说白了大多数连小布尔乔亚都算不上）有感所写。笔者呢，没读过几个书，只能瞎写写，希望大家也别太严苛了。</p>
-<a id="more"></a>
-<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>最近不是知乎上有个40余万的晚餐挺火的嘛。</p>
-<p>对于这个现象，笔者的立场十分坚定。</p>
+        <p>高内聚，低耦合是<del>你们</del>我一直所追求的目标<br><a id="more"></a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本人只是个菜鸡，只是写一些自己对于架构的一些小小的理解，可能会出偏差</p>
+<h2 id="何为耦合"><a href="#何为耦合" class="headerlink" title="何为耦合"></a>何为耦合</h2><p><strong>耦合性</strong>（英语：Coupling，dependency。或称耦合力或耦合度）是一种软件工程的度量，是指一程序中，模块及模块之间信息或参数依赖的程度。</p>
+<p>内聚性是一个和耦合性相对的概念，一般而言低耦合性代表高内聚性，反之亦然。耦合性和内聚性都是由提出结构化设计概念的赖瑞·康斯坦丁所提出。低耦合性是结构良好程序的特性，低耦合性程序的可读性及可维护性会比较好。</p>
+<p>看到了上面的那句话，可能会感觉概念还是有所模糊。我们毕竟是写代码的不是写文章的嘛，也就不需要说那么多没什么用的废话了。</p>
+<p>也就是说我们的一个程序中几个<strong>不同</strong>的<strong>基本模块</strong>（可能是函数、类或者更小的基本单位）中存在着互相调用或者互相依赖的行为。</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Coupling_sketches_cropped_1.svg/400px-Coupling_sketches_cropped_1.svg.png" alt="耦合"></p>
+<h2 id="耦合的例子"><a href="#耦合的例子" class="headerlink" title="耦合的例子"></a>耦合的例子</h2><h3 id="例子1"><a href="#例子1" class="headerlink" title="例子1"></a>例子1</h3><pre><code>void change(const vector&lt;int&gt;&amp; source)
+{
+    GetTool(&quot;H_1&quot;)-&gt;add(source[1]);
+    if (source[1] &gt; 10)
+        GetTool(&quot;A_0&quot;)-&gt;change(source[1]);
+    if (source[1] &lt; 10)
+        GetTool(&quot;A_1&quot;)-&gt;change(source[1]);
+}
+</code></pre><p>举这一个并不极端的例子，是因为<del>我编不出来了</del>这是我平时碰到的真实的问题。当我写完代码是又回头看了一眼,发现。</p>
+<p><strong>我*</strong>。</p>
+<p><del>他妈的</del>应该是source[2]…于是我一一把他们从1改为2。也许你们觉得这也没什么大不了的，不就是<strong>一一替换</strong>嘛，有什么大不了的。但是如果我给你个500行的复合模块，然后你把source[2]写成了source[1]，而且在函数的正确的逻辑中本来就有source[1]。那我们就不能简单的替换，而需要从头审逻辑，再改。甚至可能需要重写，这个代价就太大了。</p>
+<p>这就是耦合的一种，<strong>过度</strong>（自己体会）使用了其他的模块的数据</p>
+<h3 id="例子2"><a href="#例子2" class="headerlink" title="例子2"></a>例子2</h3><p>举个比较zz的例子</p>
+<pre><code>xxx_0 = xxx_0 * 11 + 1;
+xxx = ToList(xxx_0);
+GetTool(&quot;IDX&quot;)-&gt;add(xxx);
+</code></pre><p>这样的代码大家一定经常用到。有些人（<del>我</del>），经常性的将这些段落直接复制粘贴来来去去。最后在改动的时候，就需要全篇的瞎瘠薄乱改，最后浪费了巨量的时间。</p>
+<h3 id="例子3"><a href="#例子3" class="headerlink" title="例子3"></a>例子3</h3><p>比方说我们有菜单类和按钮类。而按钮显然是在菜单里的。</p>
+<p>我们现在是把按钮写死在菜单里好呢，还是各自独立好呢。</p>
+<p>显然的，自然是同为独立类，再讲按键映射到菜单里好。因为菜单和按钮显然不是固定的关系，一个菜单拥有不定数量的按钮。如果写在一起的话，其实是很僵化的，换言之，耦合度太高，不利于维护和扩展。我们应该在菜单里以引用表的形式将按钮组合进去</p>
+<h3 id="例子4"><a href="#例子4" class="headerlink" title="例子4"></a>例子4</h3><p>想必大家对于java的set、get这个段子，应该有所耳熟，可是为什么这么写呢。</p>
+<p>主要是为了<strong>解耦</strong>。我呢，架构能力很差，就引用大佬的话来说说吧。</p>
+<blockquote>
+<p>很多人，并不是面向对象学得不好，但总觉得差什么，我也经历过，面向对象，封装，多态，继承，学过的人都知道，都认为自己了解了，其实不然，很多很奇妙的因素，让你误解了，大部分的人认为封装很简单，其实大错特错了，封装是最奇妙的，也是最难用好的。只要你记住以下原则，必然能很好地用好封装，成员尽量使用protected和private，不要去使用public.尽量不要提供给外部对成员属性getter的接口，意思就是不要暴露成员，为什么要这样呢？很简单，暴露成员属性必然会导致自身业务的外泄，业务外泄，会导致，类之间的无谓耦合，如A类有成员a,而程序需要对a数据改变，而你提供一个B类可以访问a成员的getter接口，B类在其自身对a修改，看上去没什么，实际上，就是类耦合，对a的修改是类A的职务，由于习惯的提供getter，导致了，在写类B的时候错误地添加了修改业务，使类A内聚能力降低，程序逐步庞大必然会越发明显，真所谓牵一发动全身，小程序确实是很难看出问题所在。</p>
+</blockquote>
+<h2 id="如何避免耦合"><a href="#如何避免耦合" class="headerlink" title="如何避免耦合"></a>如何避免耦合</h2><blockquote>
+<p>我呢水平一般，只能提出一点点微小的建议</p>
+</blockquote>
 <ul>
-<li>这种豪奢是建立在对于广大人民的剥削上。</li>
-<li>朱门酒肉臭，路有冻死骨。</li>
+<li>大的函数如果有可能只用到小的功能时，一定要把它分割。</li>
+<li>如果重复的一部分反复用到的话，需要注意把它单独拿出来。</li>
+<li>注意封装与设计模式。</li>
 </ul>
-<p>但是，我发现很多人，其中大多数人是无产阶级，有些也许是拥有着<strong>小资产阶级情调</strong>的无产阶级，却已经默许了这种行为的合理性，转而注重于为什么这么贵。</p>
-<p>这不仅让人惋惜。众所周知，我国<del>其实</del>是一个社会主义国家。</p>
-<p>这也很让人疑惑，明明剥削最为损害我们的利益，可是为什么仍然有很多无产阶级的人对于剥削这个词不屑一顾，而且认为这种收入是合理的，甚至对于资本家十分向往呢？</p>
-<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><ol>
-<li><strong>逆反情绪</strong>。即使到了2018年的今天，中国的官方的意识形态也还是社会主义，而且最近意识形态<strong>正在紧缩</strong>。铺天盖地的宣传很容易激发人民的反感，尤其是这种宣传其实参杂了私货的情况下。特别是中二时期的小孩子，更容易这样，很自然的就支持资本主义去了。</li>
-<li><strong>历史遗留</strong>。中国经历了改革开放以后的几十年的经济的狂飙猛进，从当年的光脚的不怕穿鞋的农业国，变成了可以和美国都可以扳手腕的工业国。在这种过程中，蛋糕不断做大，不断有人大发横财。比方说在笔者的家乡，就有同一个班的四个人在同一个行业带出了四家上市公司。扪心自问，如果我当年是他们的同学，我很难不产生一种我也行的感觉。那么就会给现在的我们，带来一种错觉，只要通过努力，人人都可以成为有钱人。但是事实上的情况是这样的吗?17年的新注册公司数为600余万，但是同年的新上市的公司只有436家。也就意味着绝大多数有能力注册公司的人都折戟沉沙了，更不用说更大一穷二白的老百姓了。而且这些个上市的公司中到底是有多少是白手起家的平民的创立的还是个未知数。说白了，下海经商一夜暴富的情况才是非常态。在现在，如果没做好一夜横死异乡的打算，也基本告别了横死。所以说，在阶级固化的今天，可以白手起家只是个错觉。</li>
-<li><strong>以偏概全</strong>。总有人把现在的极少数资本主义国家的富裕生活当成一种资本主义常态，但是这些国家的富裕生活恰恰是建立在对于广大的不发达国家的剥削中。而在那些少数的国家中，大部分的利润到了少部分人手里，而大多数人只是捡些边角料吃吃，甚至很多人还生活在水深火热之中。</li>
-<li><strong>媒体作恶</strong>。由于资本阶级实际上控制了媒体这一喉舌，我们每一天接受的一切消息，其实都是他们所精心挑选出来的。而这些不实消息中总会有着对于大资本家的美化。在这些美化中，资本家被美化为勤劳，善良的存在，而忽略了他们吃人肉、喝人血的现实。但是我们需要切记，资本家之所以是资本家，是因为他们控制有生产资料，而非他们拥有高人一头的道德水平。而这一切都来自于他们对于我们的剥削。由于他们的剥削行径，实际上他们的道德水平，还要低上我们一头。我们无需谄媚，相反的，我们应该鄙视这些寄居在这个社会上的蛆虫。他们精心包装的形象只是一种麻痹。他们装作勤劳是为了让你们也以为勤劳也可以成为他们一样。他们装作贵族是为了让你们感到天生下来的低人一等。</li>
-<li><strong>前车之鉴</strong>。由于一些不可避免的因素，苏联失败了，从一个伟大的共产主义国家，变成了一个帝国主义的民族国家。其他的共产国家也多半失败了。这就让我们产生一种错觉共产主义是一种不切实际的主义，而资本主义才是真正的实用的，让人民富强的主义。但是前者忽视共运对于现存资本国家的巨大改造，后者忽略了绝大多数的资本主义国家。我们只是走了一些弯路，暂时后撤一步。而资本主义的经济体系其实是自相矛盾的，不可持续的，必将周期性崩溃的。没有一个国家，可以在长期的崩溃中存在下去。论证详见《资本论》。</li>
-<li><strong>认识错误</strong>。绝大多数的老百姓，由于中国的极其特殊的思政教育（出语录不出毛选，夹杂私货）加上其实也没认真学，往往对于社会主义，共产主义缺乏真正的理解。他们以为共产主义其实是平分一切，以为共产主义就是毛泽东，斯大林，金正日，邓小平，某些人物的修正主义。其实真正的共产主义他们都不知道是啥。支持资本主义其实在进行反对一种自己都不知道的东西、支持一种自己都不了解的东西的不合逻辑的行为。</li>
-</ol>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>本人才疏学浅，技艺不精，有所纰漏，在所难免，还望同好多多指教。</p>
-
+<h2 id="具体实现方法"><a href="#具体实现方法" class="headerlink" title="具体实现方法"></a>具体实现方法</h2><h3 id="part-1"><a href="#part-1" class="headerlink" title="part 1"></a>part 1</h3><p>先看一段代码</p>
+<pre><code>void Set(MODE mode)
+{
+    switch (mode)
+    {
+        case A:
+            ...
+        case B:
+            ...
+        default:
+            assert(false);
+    }
+}
+</code></pre><p>这是一个实际程序中的设置方法，其中MODE是一个枚举类。根据解耦的思想应该改为。<br>    void SetA(…)<br>        …<br>    void SetB(…)<br>        …<br>    …<br>    void Set(MODE mode)<br>    {<br>        switch (mode)<br>        {<br>            case A:<br>                SetA(…);<br>            case B:<br>                SetB(…);<br>            default:<br>                assert(false);<br>        }<br>    }</p>
+<h3 id="part-2"><a href="#part-2" class="headerlink" title="part 2"></a>part 2</h3>
     
 
     
@@ -654,7 +688,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                <a class="sidebar_archives-link" href="/categories/一些小教程/">一些小教程<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/一些思辨/">一些思辨<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/categories/从零开始的编程之路/">从零开始的编程之路<span class="sidebar_archives-count">2</span></a>
+                <a class="sidebar_archives-link" href="/categories/一些小教程/">一些小教程<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/categories/从零开始的编程之路/">从零开始的编程之路<span class="sidebar_archives-count">3</span></a>
             </ul>
         </li>
         
