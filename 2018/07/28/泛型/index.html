@@ -12,6 +12,8 @@
     
     <title>
         
+            hexo原生无插件快速引入图片 | 
+        
         mian的博客
     </title>
 
@@ -36,7 +38,7 @@
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="mian">
     <meta name="description" itemprop="description" content="这是mian的博客">
-    <meta name="keywords" content="">
+    <meta name="keywords" content=",hexo">
 
     <!-- Site Verification -->
     
@@ -65,15 +67,18 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="mian的博客">
+    <meta property="og:title" content="hexo原生无插件快速引入图片 | mian的博客">
     <meta property="og:image" content="/img/pic.png" />
     <meta property="og:description" content="这是mian的博客">
-    
+    <meta property="og:article:tag" content="hexo"> 
 
+    
+        <meta property="article:published_time" content="7月 28, 2018" />
+        <meta property="article:modified_time" content="7月 29, 2018" />
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="mian的博客">
+    <meta name="twitter:title" content="hexo原生无插件快速引入图片 | mian的博客">
     <meta name="twitter:description" content="这是mian的博客">
     <meta name="twitter:image" content="/img/pic.png">
     <meta name="twitter:card" content="summary_large_image" />
@@ -81,13 +86,43 @@
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://yoursite.com/page/2/index.html" />
+        <link rel="canonical" href="http://yoursite.com/2018/07/28/泛型/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "mian的博客",
+        "logo": "/img/pic.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "mian",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/pic.png"
+        },
+        "description": "你好，我是mian，欢迎来到我的博客。有朋自远方来，不亦乐乎。随便走走看看吧"
+    },
+    "headline": "hexo原生无插件快速引入图片",
+    "url": "http://yoursite.com/2018/07/28/泛型/index.html",
+    "datePublished": "7月 28, 2018",
+    "dateModified": "7月 29, 2018",
+    "description": "这是mian的博客",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://yoursite.com"
+    }
+}
+</script>
 
 
     
@@ -267,337 +302,288 @@
                         </button>
                     
 
-                    <!-- Index Module -->
-<div class="material-index mdl-grid">
-    
-    <div class="locate-thumbnail-symbol"></div>
+                    <!-- Post TOC -->
 
-    <!-- Pin on top -->
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前情提要"><span class="post-toc-number">1.</span> <span class="post-toc-text">前情提要</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#方法"><span class="post-toc-number">2.</span> <span class="post-toc-text">方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#传统方法"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">传统方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#hexo方法"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">hexo方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#文件放在哪"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">文件放在哪</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#开启自动创建文件夹"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">开启自动创建文件夹</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#在hexo使用文件夹里的图片"><span class="post-toc-number">2.2.3.</span> <span class="post-toc-text">在hexo使用文件夹里的图片</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#居中显示"><span class="post-toc-number">3.</span> <span class="post-toc-text">居中显示</span></a></li></ol>
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
     
 
-    <!-- Normal Post -->
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
     
         
             <!-- Random Thumbnail -->
             <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
 
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/06/14/最基本的堆溢出-fastbin/">堆与最基本的堆溢出-fastbin</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            一些关于堆的小知识和基本的利用 fastbin
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/06/14/最基本的堆溢出-fastbin/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
-            </div>
-            <div>
-                <strong>mian</strong>
-                <span>6月 14, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/06/14/格式化字符串漏洞/">格式化字符串漏洞</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            printf家族的格式化漏洞
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/06/14/格式化字符串漏洞/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
-            </div>
-            <div>
-                <strong>mian</strong>
-                <span>6月 14, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/06/14/linux-banding/">linux上的延迟重定位</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            熟练地掌握linux的 链接与 绑定不仅仅是研究return to plt的必要，更是掌握linkmap、got表覆写、dlresolve等技术的基础
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/06/14/linux-banding/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
-            </div>
-            <div>
-                <strong>mian</strong>
-                <span>6月 14, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/06/14/unlink/">unlink</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            一些堆溢出方面的关于unlink的知识
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/06/14/unlink/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
-            </div>
-            <div>
-                <strong>mian</strong>
-                <span>6月 14, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-        
-            
-                <!-- Paradox Thumbnail -->
-                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2018/06/14/栈溢出指南/">栈溢出指南</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            一个关于栈溢出的指南
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2018/06/14/栈溢出指南/" target="_self">阅读全文</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
-            </div>
-            <div>
-                <strong>mian</strong>
-                <span>6月 14, 2018</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/从零开始的ctf之路/">从零开始的ctf之路</a>
-            </span>
-
-            
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-            
-            
-        
-    
-
-    
-    <!-- Index nav -->
-        <nav class="material-nav mdl-cell mdl-cell--12-col">
-            <a class="extend prev" rel="prev" href="/"><button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"><i class="material-icons" role="presentation">arrow_back</i></button></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-        </nav>
-    
-
-    
-        <script type="text/ls-javascript" id="thumbnail-script">
-    var randomNum;
-
-    var locatePost = $('.locate-thumbnail-symbol').next();
-    for(var i = 0; i < 10; i++) {
-        randomNum = Math.floor(Math.random() * 19 + 1);
-
-        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
     $('.post_thumbnail-random').addClass('lazy');
-
-        locatePost = locatePost.next();
-    }
 </script>
 
+        
+    
+            <p class="article-headline-p">
+                hexo原生无插件快速引入图片
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/pic.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>mian</strong>
+        <span>7月 28, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACYElEQVR42u3aQXLDIBAEQP//08k1F6tmWHntuJpTSlEhmgPgYR8/X90eeHh4eHh4eHh4H8Z7xC3q+sn7f588++/183xseHh4eDu8ZNDJ82cfznuYjw0PDw9vk5cMrl30W/b1d6Me8PDw8D6Sd33Uzt+ZfxcPDw/vv/Cuw4Jk0U8mAg8PD+/zeckP/vaoPVno35C14OHh4cW8/JJp/+/V+z08PDy8gFeXNB3Fu5MIeFR0hYeHh/cCXr4Q56UDbVRx/U5bBIaHh4f3al67DUyCg7PDdH21hoeHh/dWXr5A3xXj3hAf4+Hh4a3w8sHly3dbLpCUERzGuHh4eHi38qKf9/HBOt9g2v6TceLh4eHt8PJDcLudJMflycTVpQN4eHh4t/LyIoA2OJiQzvB4eHh4m7w2qG2nJi8pSMKR4kiNh4eH92JeG8VOotv8uqso/MLDw8Nb4eVBw2QzyDeYPNLFw8PD2+cddnF0dJ4UEBwWXeHh4eG9gDe/1J8MN48/ijJZPDw8vBVeu7g/ytYWKJzB8PDw8HZ4k6X5bNs4m9xiavDw8PBWeGfFBNcDHQUKRxEJHh4e3j4vObAmU3N2MZZvV0XRFR4eHt46Lyl4akOKpNzqrB88PDy8HV7b2lKAs2KCZArqCzA8PDy8m3g3LMT5pf64dCCaJjw8PLwVXh46zOOD/AqtLSbAw8PD2+e1C3R+wV9c/MdbFB4eHt638lrq2XM8PDy87+DddSjPiwbw8PDw9nln5VN5FNtuG0lIgYeHh/cuXhsB3BvvTg7feHh4ePu872t4eHh4eHh4eHgf0H4BFDnOSqpcB74AAAAASUVORK5CYII=">
+    
+</ul>
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/hexo/">hexo</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+        
+            <!-- Busuanzi Views -->
+            <a class="post_share-link" href="#">
+                <li class="mdl-menu__item">
+                    <span id="busuanzi_container_page_pv">
+                        <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+                    </span>
+                </li>
+            </a>
+        
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=hexo原生无插件快速引入图片&url=http://yoursite.com/2018/07/28/泛型/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=hexo原生无插件快速引入图片&url=http://yoursite.com/2018/07/28/泛型/index.html&via=mian" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/07/28/泛型/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的博客&title=hexo原生无插件快速引入图片&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/07/28/泛型/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>说出来你可能不信，笔者常年不知道如何在hexo里面上传图片，导致有些图片都是网上找的，不仅不稳定，时不时还会因为盗链被加入黑名单。现在说起来可真是一段血泪史啊。于是笔者看今天天气不错（<del>大雾</del>），决定搞一波图片。</p>
+<blockquote>
+<p>话说现在的vs-code的markdown插件可真是奇怪他竟然把我的源代码给渲染了…</p>
+</blockquote>
+<div align="center"><br><img src="1.png" alt="插件错误"><br></div>
+
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="传统方法"><a href="#传统方法" class="headerlink" title="传统方法"></a>传统方法</h3><p>在<strong>markdown</strong>中常用的链接图片的方式是</p>
+<pre><code>![图片描述](图片地址)
+</code></pre><p>我们要不把图片传到<strong>图床</strong>，<del><strong>要不盗链</strong></del>。</p>
+<h3 id="hexo方法"><a href="#hexo方法" class="headerlink" title="hexo方法"></a>hexo方法</h3><h4 id="文件放在哪"><a href="#文件放在哪" class="headerlink" title="文件放在哪"></a>文件放在哪</h4><p>但是我们今天用的是hexo，可以把本地的一些文件传到hexo博客在你的托管文件夹里面。</p>
+<p>我们有两种方法</p>
+<ul>
+<li>传到source文件夹中然后用相对路径访问它。</li>
+<li>传到与你的markdown同名的文件夹里，然后用相对路径访问它。</li>
+</ul>
+<p>毫无疑问，前一种方法存在命名空间混乱而且路径较长的问题，我们选择无视。</p>
+<h4 id="开启自动创建文件夹"><a href="#开启自动创建文件夹" class="headerlink" title="开启自动创建文件夹"></a>开启自动创建文件夹</h4><p>在hexo中，我们在没有hexo_gui的情况下，我们会使用<code>hexo new xxx</code>来创建md文件。</p>
+<p>如果我们把hexo配置文件中的<code>post_asset_folder</code>选项配置为<strong>true</strong>，就可以在使用<code>new</code>命令时自动生成对应的文件夹。我们把图片放在里面就会一起上传。</p>
+<h4 id="在hexo使用文件夹里的图片"><a href="#在hexo使用文件夹里的图片" class="headerlink" title="在hexo使用文件夹里的图片"></a>在hexo使用文件夹里的图片</h4><p>我们依然使用<code>![]()</code>来创建图片链接。此时我们的编辑器会提示补全,以本文为例，会被补全为</p>
+<pre><code>![](hexo原生无插件快速引入图片/1.png)
+</code></pre><p>我们试着使用本地测试的方式于是我们会发现图片，在编辑器里被加载出来了，在博客中没有被加载出来，于是我们怀有hexo在上传时改变了文件夹的结构。于是我传到了github上去试了一试，果不其然，发现图片与博客被解析到了同级文件夹中。于是正确的使用方法是</p>
+<pre><code>![](1.png)
+</code></pre><p>虽然很遗憾的是编辑器的预览里面看不见这玩意。</p>
+<p>当然使用hexo独有的插入图片的语法也是一样，需要使用相同的技巧。</p>
+<p>当然在我目前的3.0版本这两种语法的效果是一样的…</p>
+<h2 id="居中显示"><a href="#居中显示" class="headerlink" title="居中显示"></a>居中显示</h2><p>如果一个图片比较小的话，在markdown里面直接插入是很难看的。</p>
+<p>但是markdown支持html语法。于是我们可以把<code>![插件错误](1.png)</code>改为</p>
+<pre><code>&lt;div align=center&gt;
+![插件错误](1.png)
+&lt;/div&gt;
+</code></pre><p>效果如下<br><img src="1.png" alt="插件错误"></p>
+<hr>
+<div align="center"><br>    <img src="1.png" alt="插件错误"><br></div>
+
+<p>当然我现在使用的编辑器并不能预览会把命令解析为文字，但在hexo中亲测可用。</p>
+<hr>
+<p>编辑器中，我看见的预览是↓</p>
+<p><img src="2.png" alt="无法加载"></p>
+<p>那也是没办法的事嘛。md普通话和方言之间确实有所差异。</p>
+
+    
+
     
 </div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2018/08/11/关于谷歌c-编程规范的一些理解/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/07/28/hexo原生无插件快速引入图片/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
 
 
                     
