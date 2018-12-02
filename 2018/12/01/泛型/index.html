@@ -329,7 +329,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#模板类中的模板类中的子类"><span class="post-toc-number">2.</span> <span class="post-toc-text">模板类中的模板类中的子类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#没有提示，没有报错"><span class="post-toc-number">3.</span> <span class="post-toc-text">没有提示，没有报错</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#模板类中的模板类中的子类"><span class="post-toc-number">2.</span> <span class="post-toc-text">模板类中的模板类中的子类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#没有提示，没有报错"><span class="post-toc-number">3.</span> <span class="post-toc-text">没有提示，没有报错</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#error-type的原因"><span class="post-toc-number">4.</span> <span class="post-toc-text">error type的原因</span></a></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -542,8 +542,21 @@ public:
 };
 </code></pre><p>像我这样加上<code>typename</code>就可以消除二义性，声明后面的<code>iterator</code>是一个类型，而非一个变量。</p>
 <h2 id="没有提示，没有报错"><a href="#没有提示，没有报错" class="headerlink" title="没有提示，没有报错"></a>没有提示，没有报错</h2><p>像是我们上文的代码，如果你的IDE有自动补全的话，你就会发现<code>ts.</code>这样的代码会触发自动补全而<code>vector&lt;T&gt;</code>这样的代码就不行。</p>
-<p><div align="center"><img src="https://i.loli.net/2018/12/01/5c024a4618fb7.png" alt="没有"></div></p>
-<p><div align="center"><img src="https://i.loli.net/2018/12/01/5c024a663c6b6.png" alt="有"></div></p>
+<center><img src="https://i.loli.net/2018/12/01/5c024a663c6b6.png" alt="有"></center><br><center><img src="https://i.loli.net/2018/12/01/5c024a4618fb7.png" alt="没有"></center>
+
+<p>这可能有比较深的原因，但是挺坑的，就记一下吧</p>
+<p>没有动态报错情况详见代码</p>
+<center><img src="1.png" alt="有"></center>
+
+<p>对于模板函数或者模板类内部的代码，不会进行动态检验，因此使用vs写的时候，我们的体验就回归了vc++（<del>==</del>）。</p>
+<blockquote>
+<p><del>至于原因，我咨询了大佬，大佬也不知道，那就凉凉喽</del></p>
+</blockquote>
+<h2 id="error-type的原因"><a href="#error-type的原因" class="headerlink" title="error type的原因"></a>error type的原因</h2><p>出现这种情况有两种可能</p>
+<ul>
+<li>参数类型写错了，这是绝大多数的情况，因为vs的类型推导十分zz，再加上没有动态检验，就会出现类型推到错误</li>
+<li>类的顺序错了，不说了，太zz了</li>
+</ul>
 
     
 
