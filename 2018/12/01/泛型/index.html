@@ -74,7 +74,7 @@
 
     
         <meta property="article:published_time" content="12月 01, 2018" />
-        <meta property="article:modified_time" content="12月 02, 2018" />
+        <meta property="article:modified_time" content="12月 03, 2018" />
     
 
     <!-- The Twitter Card protocol -->
@@ -115,7 +115,7 @@
     "headline": "在vs2017进行泛型模板编程的一些笔记",
     "url": "http://yoursite.com/2018/12/01/泛型/index.html",
     "datePublished": "12月 01, 2018",
-    "dateModified": "12月 02, 2018",
+    "dateModified": "12月 03, 2018",
     "description": "这是mian的博客",
     "mainEntityOfPage": {
         "@type": "WebPage",
@@ -329,7 +329,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#模板类中的模板类中的子类"><span class="post-toc-number">2.</span> <span class="post-toc-text">模板类中的模板类中的子类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#没有提示，没有报错"><span class="post-toc-number">3.</span> <span class="post-toc-text">没有提示，没有报错</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#error-type的原因"><span class="post-toc-number">4.</span> <span class="post-toc-text">error type的原因</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分离编译"><span class="post-toc-number">5.</span> <span class="post-toc-text">分离编译</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泛型的尖括号不补全"><span class="post-toc-number">6.</span> <span class="post-toc-text">泛型的尖括号不补全</span></a></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#模板类中的模板类中的子类"><span class="post-toc-number">2.</span> <span class="post-toc-text">模板类中的模板类中的子类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#没有提示，没有报错"><span class="post-toc-number">3.</span> <span class="post-toc-text">没有提示，没有报错</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#error-type的原因"><span class="post-toc-number">4.</span> <span class="post-toc-text">error type的原因</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分离编译"><span class="post-toc-number">5.</span> <span class="post-toc-text">分离编译</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泛型的尖括号不补全"><span class="post-toc-number">6.</span> <span class="post-toc-text">泛型的尖括号不补全</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#静态函数成员的一些问题"><span class="post-toc-number">7.</span> <span class="post-toc-text">静态函数成员的一些问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解决方法"><span class="post-toc-number">7.1.</span> <span class="post-toc-text">解决方法</span></a></li></ol></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -577,6 +577,9 @@ public:
 </blockquote>
 <p><strong>和普通函数不同的是，这里不会报函数重定义的错，这是对于模板函数的特殊照顾</strong></p>
 <h2 id="泛型的尖括号不补全"><a href="#泛型的尖括号不补全" class="headerlink" title="泛型的尖括号不补全"></a>泛型的尖括号不补全</h2><p>这问题请找罪魁祸首微软</p>
+<h2 id="静态函数成员的一些问题"><a href="#静态函数成员的一些问题" class="headerlink" title="静态函数成员的一些问题"></a>静态函数成员的一些问题</h2><p>当我们定义一些类的静态方法时，我们会很震惊的发现，vs把静态方法的声明和下面的定义视为两个符号，而定义的函数体内，会失去绝大多数高亮补全，或者报错。而且内部的符号在vs中全部是未定义状态。而编译器最后解析的时候都是一视同仁的。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>可以考虑将定义和声明放在一起<del>，但是并没有解决实际问题23333</del></p>
+<p>至于真正的解决方法，只有等vs更新了。</p>
 
     
 
