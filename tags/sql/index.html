@@ -12,7 +12,7 @@
     
     <title>
         
-            linux上的链接 | 
+            标签: sql | 
         
         mian的博客
     </title>
@@ -37,8 +37,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="mian">
-    <meta name="description" itemprop="description" content="linux上的软链接与硬连接">
-    <meta name="keywords" content=",linux">
+    <meta name="description" itemprop="description" content="这是mian的博客">
+    <meta name="keywords" content="">
 
     <!-- Site Verification -->
     
@@ -67,62 +67,29 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="linux上的链接 | mian的博客">
+    <meta property="og:title" content="标签: sql | mian的博客">
     <meta property="og:image" content="/img/pic.png" />
-    <meta property="og:description" content="linux上的软链接与硬连接">
-    <meta property="og:article:tag" content="linux"> 
-
+    <meta property="og:description" content="这是mian的博客">
     
-        <meta property="article:published_time" content="6月 14, 2018" />
-        <meta property="article:modified_time" content="1月 03, 2019" />
+
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="linux上的链接 | mian的博客">
-    <meta name="twitter:description" content="linux上的软链接与硬连接">
+    <meta name="twitter:title" content="标签: sql | mian的博客">
+    <meta name="twitter:description" content="这是mian的博客">
     <meta name="twitter:image" content="/img/pic.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="http://yoursite.com" />
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://yoursite.com/2018/06/14/linux上的延迟重定位/index.html" />
+        <link rel="canonical" href="http://yoursite.com/tags/sql/index.html" />
     
 
     <!-- Structured-data for SEO -->
     
         
 
-
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "publisher": {
-        "@type": "Organization",
-        "name": "mian的博客",
-        "logo": "/img/pic.png"
-    },
-    "author": {
-        "@type": "Person",
-        "name": "mian",
-        "image": {
-            "@type": "ImageObject",
-            "url": "/img/pic.png"
-        },
-        "description": "你好，我是mian，欢迎来到我的博客。有朋自远方来，不亦乐乎。随便走走看看吧"
-    },
-    "headline": "linux上的链接",
-    "url": "http://yoursite.com/2018/06/14/linux上的延迟重定位/index.html",
-    "datePublished": "6月 14, 2018",
-    "dateModified": "1月 03, 2019",
-    "description": "linux上的软链接与硬连接",
-    "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "http://yoursite.com"
-    }
-}
-</script>
 
 
     
@@ -302,366 +269,96 @@
                         </button>
                     
 
-                    <!-- Post TOC -->
-
+                    <!-- Index Module -->
+<div class="material-index mdl-grid">
     
-    <!-- Back Button -->
-    <!--
-    <div class="material-back" id="backhome-div" tabindex="0">
-        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
-           href="#" onclick="window.history.back();return false;"
-           target="_self"
-           role="button"
-           data-upgraded=",MaterialButton,MaterialRipple">
-            <i class="material-icons" role="presentation">arrow_back</i>
-            <span class="mdl-button__ripple-container">
-                <span class="mdl-ripple"></span>
-            </span>
-        </a>
-    </div>
-    -->
+    <div class="locate-thumbnail-symbol"></div>
 
-    <!-- Left aligned menu below button -->
-    <button id="post-toc-trigger-btn"
-        class="mdl-button mdl-js-button mdl-button--icon">
-        <i class="material-icons">format_list_numbered</i>
-    </button>
-
-    
-    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#linux内部文件管理"><span class="post-toc-number">2.</span> <span class="post-toc-text">linux内部文件管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#硬链接与软链接"><span class="post-toc-number">3.</span> <span class="post-toc-text">硬链接与软链接</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#连接的创建"><span class="post-toc-number">4.</span> <span class="post-toc-text">连接的创建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#硬链接"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">硬链接</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#软链接"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">软链接</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#删除"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">删除</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#后记"><span class="post-toc-number">5.</span> <span class="post-toc-text">后记</span></a></li></ol>
-        <!--
-        <li class="mdl-menu__item">
-            Some Action
-        </li>
-        -->
-    </ul>
+    <!-- Pin on top -->
     
 
-
-
-
-
-<!-- Layouts -->
-
-    <!-- Post Module -->
-    <div class="material-post_container">
-
-        <div class="material-post mdl-grid">
-            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
-
-                <!-- Post Header(Thumbnail & Title) -->
-                
-    <!-- Paradox Post Header -->
+    <!-- Normal Post -->
+    
+        
+            
+                <!-- Paradox Thumbnail -->
+                <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
+    <!-- Post Thumbnail -->
     
         
             <!-- Random Thumbnail -->
             <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-            <script type="text/ls-javascript" id="post-thumbnail-script">
-    var randomNum = Math.floor(Math.random() * 19 + 1);
+        
+    
 
-    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+        <!-- Post Title -->
+        <p class="article-headline-p"><a href="/2018/01/23/sql 连接/">sql中的连接</a></p>
+    </div>
+
+    <!-- Post Excerpt -->
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
+        
+            一些关于sql语句的连接的小知识
+        
+        &nbsp;&nbsp;&nbsp;
+        <span>
+            <a href="/2018/01/23/sql 连接/" target="_self">阅读全文</a>
+        </span>
+    </div>
+    <!-- Post_entry Info-->
+    <div id="post_entry-info">
+        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
+            <!-- Author Avatar -->
+            <div id="author-avatar">
+                <img src="/img/pic.png" width="44px" height="44px" alt="mian's avatar">
+            </div>
+            <div>
+                <strong>mian</strong>
+                <span>1月 23, 2018</span>
+            </div>
+        </div>
+        <div id="post_entry-right-info">
+            <!-- Category -->
+            <span class="post_entry-category">
+                <a class="post_category-link" href="/categories/从零开始的编程之路/">从零开始的编程之路</a>
+            </span>
+
+            
+
+            
+
+            <!-- Post Views -->
+            <span class="post_entry-views">
+            </span>
+        </div>
+    </div>
+</div>
+
+            
+            
+        
+    
+
+    
+
+    
+        <script type="text/ls-javascript" id="thumbnail-script">
+    var randomNum;
+
+    var locatePost = $('.locate-thumbnail-symbol').next();
+    for(var i = 0; i < 10; i++) {
+        randomNum = Math.floor(Math.random() * 19 + 1);
+
+        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
+        locatePost.children('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
     $('.post_thumbnail-random').addClass('lazy');
+
+        locatePost = locatePost.next();
+    }
 </script>
 
-        
-    
-            <p class="article-headline-p">
-                linux上的链接
-            </p>
-        </div>
-
-
-
-
-
-                
-                    <!-- Paradox Post Info -->
-                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
-
-    <!-- Author Avatar -->
-    <div id="author-avatar">
-        <img src="/img/pic.png" width="44px" height="44px" alt="Author Avatar"/>
-    </div>
-    <!-- Author Name & Date -->
-    <div>
-        <strong>mian</strong>
-        <span>6月 14, 2018</span>
-    </div>
-
-    <div class="section-spacer"></div>
-
-    <!-- Favorite -->
-    <!--
-        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
-            <i class="material-icons" role="presentation">favorite</i>
-            <span class="visuallyhidden">favorites</span>
-        </button>
-    -->
-
-    <!-- Qrcode -->
-    
-        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-    <i class="material-icons" role="presentation">devices other</i>
-    <span class="visuallyhidden">devices other</span>
-</button>
-<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
-    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
-    
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAAC5ElEQVR42u3aQY4iMRAEQP7/6d3rSiMgs2ztgB19Gg007fClurL8+HPl9cDGxsbGxsbGxsb+SPYjvv79/rNf+Pmdn58+XVbwlNmasbGxsW9gtwtql5Vs2ZtFv/yd12vGxsbGvofdLvf1I599p7132xZjY2NjY28teK/B+cZhY2NjY+8tYEkglTc2m9sebGxs7AvYRUATDAPa+L5tV/5rloaNjY398ezZoPd3//61+TY2Njb2h7Hbqx3B5kOC9aL1ZuXY2NjYh7Lz0KcdGMyiqLzhaQcS2NjY2Key25jmdZTflrp2hDx7LjY2NvYN7Nc/1xaePLSabUo+3MXGxsa+k503GCstREtKmqUNWRo2Njb2F7KTsGalCOUh1KztWZpvY2NjYx/Ebg+4tzHQ7CnJXUWkhY2NjX0oO28A2hHvbOOSFiVpn7CxsbHvYeev8m2Isx5a5cWsHvRiY2NjH8RuB6tJiWrL3sqmD0MlbGxs7GvYxYGY8uBO/un6MBgbGxv7bHbyit+Wrjb0yQ9WJuUKGxsb+zb2bLw6K4FJeJQXyPqJ2NjY2Iey2yakLUKzspS3QxtOKmFjY2N/OXs9+mn/s7dAFgeJsLGxsQ9lz0KlPOjZO2CYbRA2Njb2DeyVozMrLUQbIbUtEDY2NvZt7CS4aeP+HJAX1GErhY2NjX0ouw192uM4b4KecmAwG1FjY2Nj38lOXu7zQGdlO5I1DKci2NjY2EewV1qIlSM7UckZxVtPXdjY2NiHsltwHtYPo5+glA7bFWxsbOwL2HmzMSwhC9uXtzd1AcPGxsb+cvbKAcq8jcmXuOsAaBQqYWNjYx/EzotWPgBOxgxt67I0csDGxsa+gN02Fe2QoB0e56ESNjY2NvYuTN0exHe1rVEx38bGxsa+kr0+KsijpXazokEvNjY29qHsdrg7Y+wNkoZHdrCxsbGPY68PemeNx+zTfOXY2NjYN7DvubCxsbGxsbGxsbE/5voLT2OHKf2k5HkAAAAASUVORK5CYII=">
-    
-</ul>
-    
-
-    <!-- Tags (bookmark) -->
-    
-    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-        <i class="material-icons" role="presentation">bookmark</i>
-        <span class="visuallyhidden">bookmark</span>
-    </button>
-    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
-        <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/linux/">linux</a>
-    </ul>
-    
-
-    <!-- Share -->
-    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-    <i class="material-icons" role="presentation">share</i>
-    <span class="visuallyhidden">share</span>
-</button>
-<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
-    
-
-    
-        
-            <!-- Busuanzi Views -->
-            <a class="post_share-link" href="#">
-                <li class="mdl-menu__item">
-                    <span id="busuanzi_container_page_pv">
-                        <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
-                    </span>
-                </li>
-            </a>
-        
-    
-
-    <!-- Share Weibo -->
-    
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=linux上的链接&url=http://yoursite.com/2018/06/14/linux上的延迟重定位/index.html&pic=&searchPic=false&style=simple" target="_blank">
-            <li class="mdl-menu__item">
-                分享到微博
-            </li>
-        </a>
-    
-
-    <!-- Share Twitter -->
-    
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=linux上的链接&url=http://yoursite.com/2018/06/14/linux上的延迟重定位/index.html&via=mian" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Twitter
-            </li>
-        </a>
-    
-
-    <!-- Share Facebook -->
-    
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/06/14/linux上的延迟重定位/index.html" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 Facebook
-            </li>
-        </a>
-    
-
-    <!-- Share Google+ -->
-    
-
-    <!-- Share LinkedIn -->
-    
-
-    <!-- Share QQ -->
-    
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的博客&title=linux上的链接&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/06/14/linux上的延迟重定位/index.html" target="_blank">
-            <li class="mdl-menu__item">
-                分享到 QQ
-            </li>
-        </a>
-    
-
-    <!-- Share Telegram -->
-    
-</ul>
-
-</div>
-
-                
-
-                <!-- Post Content -->
-                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
-    
-        <p>linux上的软链接与硬连接</p>
-<a id="more"></a>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>按照计划我应当更新绕过NX的一些攻击方式，但是我觉得既然讲了绑定，那就顺便来讲讲有关于链接的话题吧。</p>
-<h2 id="linux内部文件管理"><a href="#linux内部文件管理" class="headerlink" title="linux内部文件管理"></a>linux内部文件管理</h2><p>在现代操作系统中，文件的意义是使信息独立于进程长期存在。而为了方便文件被多个进程相互独立的调用，linux系统设置了一组通用的api来对文件或其他被看作文件的东西进行操作。也就是说linux把所有除了进程以外的东西全部当成文件。</p>
-<p>文件的操作是通过所谓的字节流来进行。而上文提到的通用的api就是来管理与操作这些字节流的，最常见自然是对文件或者屏幕（终端的用户输入）进行管理的api。并且，为了方便进行管理这些文件，linux使用了文件夹这一系统。</p>
-<blockquote>
-<p>在linus写linux的最初版本时文件夹还不是一项必须要实现的功能，例如大名鼎鼎的unix系统就不能实现这个功能。</p>
-</blockquote>
-<p>如果有细心的朋友在根目录下<code>ls -a</code>,就会发现有很多文件夹</p>
-<pre><code>/              根目录
-├── bin     存放用户二进制文件
-├── boot    存放内核引导配置文件
-├── dev     存放设备文件
-├── etc     存放系统配置文件
-├── home    用户主目录
-├── lib     动态共享库
-├── lost+found  文件系统恢复时的恢复文件
-├── media   可卸载存储介质挂载点
-├── mnt     文件系统临时挂载点
-├── opt     附加的应用程序包
-├── proc    系统内存的映射目录，提供内核与进程信息
-├── root    root 用户主目录
-├── sbin    存放系统二进制文件
-├── srv     存放服务相关数据
-├── sys     sys 虚拟文件系统挂载点
-├── tmp     存放临时文件
-├── usr     存放用户应用程序
-└── var     存放邮件、系统日志等变化文件
-</code></pre><p>其中的home文件夹就是我们平常所使用的最多的文件夹。</p>
-<blockquote>
-<p>笔者认为Linux在系统文件的隐藏，这一方面做的比windows高得多。虽然windows的文件夹目录更为直观，但是同时也产生了用户很容误删这些关键的系统文件的问题。</p>
-<blockquote>
-<p><del>当然windows其它方面的易用性与生态会把linux秒成渣。</del></p>
-<blockquote>
-<p><del>但这又有什么用呢，服务器是linux的，你还不是老老实实得需要用linux做pwn题</del></p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>需要注意的是因为万物皆为文件的设计，所以linux中的文件夹并非与windows一样，是一个高于普通文件的顶层设计的产物，而是一种特殊的文件。</p>
-<p>使用命令 <code>mkdir</code> 创建目录时，若期望创建的目录的名称与现有的文件名（或目录名）重复，则会创建失败。</p>
-<p>Linux 将设备当做文件进行处理下面这段终端记录展示了如何打开设备文件 /dev/input/event5 并读取文件内容。文件 event5 表示一种输入设备，其可能是鼠标或键盘等。查看文件 /proc/bus/input/devices 可知 event5 对应设备的类型。设备文件 /dev/input/event5 使用 read() 以字符流的方式被读取。结构体 input_event 被定义在内核头文件 linux/input.h 中。</p>
-<pre class=" language-c"><code class="language-c"><span class="token keyword">int</span> fd<span class="token punctuation">;</span>
-<span class="token keyword">struct</span> input_event ie<span class="token punctuation">;</span>
-fd <span class="token operator">=</span> <span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"/dev/input/event5"</span><span class="token punctuation">,</span> O_RDONLY<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">read</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> <span class="token operator">&amp;</span>ie<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> input_event<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"type = %d  code = %d  value = %d\n"</span><span class="token punctuation">,</span>
-            ie<span class="token punctuation">.</span>type<span class="token punctuation">,</span> ie<span class="token punctuation">.</span>code<span class="token punctuation">,</span> ie<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">close</span><span class="token punctuation">(</span>fd<span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
-<p>从这里可以看出设备可以作为文件来进行读写。</p>
-<h2 id="硬链接与软链接"><a href="#硬链接与软链接" class="headerlink" title="硬链接与软链接"></a>硬链接与软链接</h2><p>虽然文件这一数据结构的作用是存放数据，但是显然，它也存放了一些与这些数据相关的另一些数据，例如创建时间，文件名等信息。</p>
-<blockquote>
-<p>插一些题文无关的内容，文件并不以文件名来作为系统中的唯一标识，而将文件的 <strong>inode</strong> 号作为文件的唯一标识。就和windwos系统中不以进程名而已句柄来分辨进程其实是一个道理。</p>
-</blockquote>
-<p>一般来说将我们将这两种数据称作</p>
-<blockquote>
-<ol>
-<li>用户数据</li>
-<li>元数据</li>
-</ol>
-</blockquote>
-<p>需要注意的是，进程对于文件其实是非独占的。换言之，多个进程可以使用同一个文件。文件的共享是一个难题。可以想象，如果说没有限制的使用同一个文件会导致读取方面产生多大的问题。</p>
-<p>为解决文件的共享使用，Linux 系统引入了两种链接：<strong>硬链接</strong> (hard link) 与 <strong>软链接</strong>（又称符号链接，即 soft link 或 symbolic link）。</p>
-<p>链接的作用有</p>
-<blockquote>
-<ol>
-<li>解决了文件的共享使用</li>
-<li>隐藏文件路径</li>
-<li>增加权限安全</li>
-<li>节省存储空间</li>
-<li>…</li>
-</ol>
-</blockquote>
-<p>上文也提到了linux系统下有文件夹这一个架构，那么如果我们需要在不同的文件下同时保留一个文件，我们当然可以简单的直接拷贝一份，但是这样浪费了大量的空间，而且在程序真正需要去改变文件的数据时会导致多个文件的数据不同步，丢失了我们复制一份的初衷。</p>
-<p>我们需要一种结构，在改变它的数据时同时会改变原始的数据，而且占用空间小。</p>
-<p>最优的解决方案就是：</p>
-<ul>
-<li>只有一个真实存在的文件</li>
-<li>在其他文件夹下存放的数据其实只是这个文件的别名。</li>
-</ul>
-<p>这就是 <strong>硬链接</strong> ，硬链接就是一个文件的不同的文件名。可以为一个inode号创建不同的文件名，而这些文件名可以和现实中存在文件一样被程序读写。私以为它和c++的指针特别像</p>
-<p>当然我们也可以创建和windows中快捷方式一样的东西，这就是 <strong>软链接</strong> 。软链接是现实中存在的文件，它也有着所谓的元数据与用户数据。但是它的数据块有着些许不同，它存放的是另一个文件的地址。</p>
-<h2 id="连接的创建"><a href="#连接的创建" class="headerlink" title="连接的创建"></a>连接的创建</h2><h3 id="硬链接"><a href="#硬链接" class="headerlink" title="硬链接"></a>硬链接</h3><p>硬链接可以用以下指令来创建</p>
-<ol>
-<li><code>link oldfile newfile</code></li>
-<li><code>ln oldfile newfile</code></li>
-</ol>
-<p>此外需要注意，<strong>不要向目录创建硬链接</strong></p>
-<p>但是有以下注意事项</p>
-<blockquote>
-<ul>
-<li>文件有相同的 inode 及 data block；</li>
-<li>只能对已存在的文件进行创建；</li>
-<li>不能交叉文件系统进行硬链接的创建；</li>
-<li>不能对目录进行创建，只可对文件创建；</li>
-<li>删除一个硬链接文件并不影响其他有相同 inode 号的文件。</li>
-</ul>
-</blockquote>
-<h3 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h3><p>硬链接可以用以下指令来创建</p>
-<ol>
-<li><code>link -s oldfile newfile</code></li>
-<li><code>ln -s oldfile newfile</code></li>
-</ol>
-<p>此外</p>
-<blockquote>
-<ul>
-<li>软链接有自己的文件属性及权限等；</li>
-<li>可对不存在的文件或目录创建软链接；</li>
-<li>软链接可交叉文件系统；</li>
-<li>软链接可对文件或目录创建；</li>
-<li>创建软链接时，链接计数 i_nlink 不会增加；</li>
-<li>删除软链接并不影响被指向的文件，但若被指向的原文件被删除，则相关软连接被称为死链接（即 dangling link，若被指向路径文件被重新创建，死链接可恢复为正常的软链接）</li>
-</ul>
-</blockquote>
-<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p><code>rm</code>,没啥好说的。</p>
-<hr>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>文章拖了好久了，以后还是要多加努力。</p>
-
-    
-
     
 </div>
-
-
-                
-
-                <!-- Post Comments -->
-                
-                    
-                
-            </div>
-
-            <!-- Post Prev & Next Nav -->
-            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
-    <!-- Prev Nav -->
-    
-        <a href="/2018/06/14/格式化字符串漏洞/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
-
-    <!-- Section Spacer -->
-    <div class="section-spacer"></div>
-
-    <!-- Next Nav -->
-    
-        <a href="/2018/06/14/linux-banding/" id="post_nav-older" class="next-content">
-            旧篇
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_forward</i>
-            </button>
-        </a>
-    
-</nav>
-
-        </div>
-    </div>
-
 
 
                     
@@ -877,14 +574,6 @@ It will not impact the appearance and can give developers a lot of support :)
 </aside>
 
                     
-
-                    
-                        <!-- Footer Top Button -->
-                        <div id="back-to-top" class="toTop-wrap">
-    <a href="#top" class="toTop">
-        <i class="material-icons footer_top-i">expand_less</i>
-    </a>
-</div>
 
                     
 
