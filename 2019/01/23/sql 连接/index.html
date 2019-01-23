@@ -12,7 +12,7 @@
     
     <title>
         
-            linux上的延迟重定位 | 
+            sql中的连接 | 
         
         mian的博客
     </title>
@@ -37,8 +37,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="mian">
-    <meta name="description" itemprop="description" content="熟练地掌握linux的 链接与 绑定不仅仅是研究return to plt的必要，更是掌握linkmap、got表覆写、dlresolve等技术的基础">
-    <meta name="keywords" content=",linux,plt&got">
+    <meta name="description" itemprop="description" content="一些关于sql语句的连接的小知识">
+    <meta name="keywords" content=",编程,sql">
 
     <!-- Site Verification -->
     
@@ -67,26 +67,26 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://yoursite.com">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="linux上的延迟重定位 | mian的博客">
+    <meta property="og:title" content="sql中的连接 | mian的博客">
     <meta property="og:image" content="/img/pic.png" />
-    <meta property="og:description" content="熟练地掌握linux的 链接与 绑定不仅仅是研究return to plt的必要，更是掌握linkmap、got表覆写、dlresolve等技术的基础">
-    <meta property="og:article:tag" content="linux"> <meta property="og:article:tag" content="plt&amp;got"> 
+    <meta property="og:description" content="一些关于sql语句的连接的小知识">
+    <meta property="og:article:tag" content="编程"> <meta property="og:article:tag" content="sql"> 
 
     
-        <meta property="article:published_time" content="6月 14, 2018" />
-        <meta property="article:modified_time" content="7月 01, 2018" />
+        <meta property="article:published_time" content="1月 23, 2019" />
+        <meta property="article:modified_time" content="1月 23, 2019" />
     
 
     <!-- The Twitter Card protocol -->
-    <meta name="twitter:title" content="linux上的延迟重定位 | mian的博客">
-    <meta name="twitter:description" content="熟练地掌握linux的 链接与 绑定不仅仅是研究return to plt的必要，更是掌握linkmap、got表覆写、dlresolve等技术的基础">
+    <meta name="twitter:title" content="sql中的连接 | mian的博客">
+    <meta name="twitter:description" content="一些关于sql语句的连接的小知识">
     <meta name="twitter:image" content="/img/pic.png">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="http://yoursite.com" />
 
     <!-- Add canonical link for SEO -->
     
-        <link rel="canonical" href="http://yoursite.com/2018/06/14/linux-banding/index.html" />
+        <link rel="canonical" href="http://yoursite.com/2019/01/23/sql 连接/index.html" />
     
 
     <!-- Structured-data for SEO -->
@@ -112,11 +112,11 @@
         },
         "description": "你好，我是mian，欢迎来到我的博客。有朋自远方来，不亦乐乎。随便走走看看吧"
     },
-    "headline": "linux上的延迟重定位",
-    "url": "http://yoursite.com/2018/06/14/linux-banding/index.html",
-    "datePublished": "6月 14, 2018",
-    "dateModified": "7月 01, 2018",
-    "description": "熟练地掌握linux的 链接与 绑定不仅仅是研究return to plt的必要，更是掌握linkmap、got表覆写、dlresolve等技术的基础",
+    "headline": "sql中的连接",
+    "url": "http://yoursite.com/2019/01/23/sql 连接/index.html",
+    "datePublished": "1月 23, 2019",
+    "dateModified": "1月 23, 2019",
+    "description": "一些关于sql语句的连接的小知识",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://yoursite.com"
@@ -329,7 +329,7 @@
 
     
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#主题"><span class="post-toc-number">1.</span> <span class="post-toc-text">主题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#文件外函数的调用原理"><span class="post-toc-number">2.</span> <span class="post-toc-text">文件外函数的调用原理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#函数调用的汇编实现"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">函数调用的汇编实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#生成汇编"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">生成汇编</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#重定向"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">重定向</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#函数的调用"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">函数的调用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#延迟重定位"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">延迟重定位</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#公共plt的具体实现"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">公共plt的具体实现</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#dl-runtime-resolve"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">_dl_runtime_resolve</span></a></li></ol></li></ol>
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#为什么要用连接"><span class="post-toc-number">1.</span> <span class="post-toc-text">为什么要用连接</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#查询例子"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">查询例子</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#连接"><span class="post-toc-number">2.</span> <span class="post-toc-text">连接</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数学"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">数学</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#用法"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">用法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#内连接"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">内连接</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#定义"><span class="post-toc-number">2.2.1.1.</span> <span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#用法-1"><span class="post-toc-number">2.2.1.2.</span> <span class="post-toc-text">用法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#结果"><span class="post-toc-number">2.2.1.3.</span> <span class="post-toc-text">结果</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#左连接"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">左连接</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#定义-1"><span class="post-toc-number">2.2.2.1.</span> <span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#用法-2"><span class="post-toc-number">2.2.2.2.</span> <span class="post-toc-text">用法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#结果-1"><span class="post-toc-number">2.2.2.3.</span> <span class="post-toc-text">结果</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#右连接"><span class="post-toc-number">2.2.3.</span> <span class="post-toc-text">右连接</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#定义-2"><span class="post-toc-number">2.2.3.1.</span> <span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#用法-3"><span class="post-toc-number">2.2.3.2.</span> <span class="post-toc-text">用法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#结果-2"><span class="post-toc-number">2.2.3.3.</span> <span class="post-toc-text">结果</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#全连接"><span class="post-toc-number">2.2.4.</span> <span class="post-toc-text">全连接</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#定义-3"><span class="post-toc-number">2.2.4.1.</span> <span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#用法-4"><span class="post-toc-number">2.2.4.2.</span> <span class="post-toc-text">用法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#结果-3"><span class="post-toc-number">2.2.4.3.</span> <span class="post-toc-text">结果</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#后话"><span class="post-toc-number">3.</span> <span class="post-toc-text">后话</span></a></li></ol>
         <!--
         <li class="mdl-menu__item">
             Some Action
@@ -367,7 +367,7 @@
         
     
             <p class="article-headline-p">
-                linux上的延迟重定位
+                sql中的连接
             </p>
         </div>
 
@@ -386,7 +386,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>mian</strong>
-        <span>6月 14, 2018</span>
+        <span>1月 23, 2019</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -408,7 +408,7 @@
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
     <li class="mdl-menu__item">在其它设备中阅读本文章</li>
     
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACaklEQVR42u3aW3ICMQwEQO5/6eQCWTJjec2j2l8pIODeD1klz+Pnq9cDDw8PDw8PDw/vzXiPeP3xReXrV+9e/cra3vDw8PDO8P4ptcF2803vekyXDwsPDw/vIO+q4F59ZlLok29r94aHh4f3KbykZF9R134XDw8P73N5a59J3sXDw8P7FF5e4tsmu22+XzZrwcPDw4t5+SXT+b+P3u/h4eHhBbw60hS0uZORxM944eHh4d3NywvxGnJ+2OQhMDw8PLwzvPxa63npnxwP+TVbPcbFw8PDu42XtNH5ADcH5210Hl/Aw8PDO8N73jRPRhJtk9225nh4eHiv4uVN8K6owVo0IXp8eHh4eDfz2gKdlPv2SMgPp2hggYeHh3eEN9/05EjIL8CisTIeHh7ezbx2aDsp9HvDBEV0AA8PD28rb16420OijRdsGEbg4eHh3cbLL8DaT7ahq2Ski4eHh/cqXt5eTzYxPwZuyZTh4eHhjfOceUSgLe5tRGCtKcfDw8M7ycsPhqTEJ5HTPBDw/KjY3FLj4eHhlamktUFtXsrXglx1i4+Hh4d3kJcU5XboMGnEk7BCHR3Aw8PD28qLhqSD19vSv3bM4OHh4Z3k5YOAPDoQbahc/zxQPDw8vJt57co3lwPaA2lb6AoPDw9videW473NdF76F0NXeHh4eLfx8sMgB7ejhPZgWJy14OHh4W3lTQr02iVWGzgYha7w8PDw3oDX/le+3YiBh4eH9xW8PCC1Np6Irtzw8PDwDvLWLr2SYUQSKWgDDXh4eHiv5U1GAAkyfxztwYOHh4d3nvd9Cw8PDw8PDw8P7w3WL9WvxHAywogIAAAAAElFTkSuQmCC">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACZ0lEQVR42u3aS3bCMBAEQO5/6eQAJNA9ssTnlVd54NgqLzSmZ24/X33c8PDw8PDw8PDw3ox3i48/LnT37X/n35/z393X14aHh4d3hvdkq314TrLc/AGtrw0PDw/vJC9Z3HoJecxuSwgeHh7eZ/Eeb9bJmSuPFQ8PD+/TeeufJN/i4eHhvRsvjxtmke7joDa/18asBQ8PDy/m5RHD+b+P9vfw8PDwAl490lQuK3lFzstAPXSFh4eHt4GXb8SzEDYvNu0V8PDw8F7Fa0tC3tbaV1qKGBcPDw9vA69t7Sef5xHtrJ325L54eHh4m3ntjWdbfBsc56/7eHh4eOd5ecs/H3uaFZgVEh4eHt5reSstq6i1vxwWP3lYeHh4eJt5+Y//9mV6/cU9aYzVvxjw8PDwLuXNotXZKFW79OIh4uHh4R3h5ZfO/6sdO2jHCOrJCDw8PLyLeG000Lb58229LTx11oKHh4e3gdcGuG1Qm983HyMYNsDw8PDwtvFWhrHyB5QEGXkBw8PDw9vNyzf62WDBLNrIX9aHKTUeHh7eAm82hJpv31c12PJhBTw8PLwzvJXFzc6cBbjDMAIPDw9vG2892F0ZOJi9oOPh4eG9ljdrSs2KRD6+UEckeHh4eJt57ZEHFrOwuI2MowYYHh4e3qW82aacR7rr4e8FYQQeHh7eBl5bDPLtOy8PGwsDHh4e3jbebINOItr2+kmJwsPDw/ssXvvie9Xn0UPEw8PDe0veSvibh7xt6wsPDw/vPK9d3I7Rqzb+wMPDw3sVbxYBzAa2WkxSrvDw8PBO8r7vwMPDw8PDw8PDe4PjF312pYEadfH1AAAAAElFTkSuQmCC">
     
 </ul>
     
@@ -421,7 +421,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/linux/">linux</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/plt-got/">plt&got</a>
+        <a class="post_tag-link" href="/tags/sql/">sql</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/编程/">编程</a>
     </ul>
     
 
@@ -448,7 +448,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=linux上的延迟重定位&url=http://yoursite.com/2018/06/14/linux-banding/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=sql中的连接&url=http://yoursite.com/2019/01/23/sql 连接/index.html&pic=&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -457,7 +457,7 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=linux上的延迟重定位&url=http://yoursite.com/2018/06/14/linux-banding/index.html&via=mian" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=sql中的连接&url=http://yoursite.com/2019/01/23/sql 连接/index.html&via=mian" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -466,7 +466,7 @@
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/06/14/linux-banding/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/01/23/sql 连接/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Facebook
             </li>
@@ -481,7 +481,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的博客&title=linux上的延迟重定位&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2018/06/14/linux-banding/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=mian的博客&title=sql中的连接&summary=这是mian的博客&pics=http://yoursite.com/img/pic.png&url=http://yoursite.com/2019/01/23/sql 连接/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -499,147 +499,233 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <p>熟练地掌握linux的 <strong>链接</strong>与 <strong>绑定</strong>不仅仅是研究return to plt的必要，更是掌握linkmap、got表覆写、dlresolve等技术的基础</p>
+        <p>一些关于sql语句的连接的小知识</p>
 <a id="more"></a>
-<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><ul>
-<li>plt、got表</li>
-<li>延迟绑定</li>
-<li>软硬链接</li>
-</ul>
-<h2 id="文件外函数的调用原理"><a href="#文件外函数的调用原理" class="headerlink" title="文件外函数的调用原理"></a>文件外函数的调用原理</h2><h3 id="函数调用的汇编实现"><a href="#函数调用的汇编实现" class="headerlink" title="函数调用的汇编实现"></a>函数调用的汇编实现</h3><p>假如有这样一个代码<code>system(&quot;cat flag&quot;)</code></p>
-<p>在程序流流向这里的时候会发生什么样的事情呢？</p>
-<p>我事先写好了一个这样的程序。让我们拖到ida里面好好看一看。</p>
-<pre><code>    push    offset command ; &quot;cat flag&quot;
-    call    _system
-    add     esp, 10h
-</code></pre><p>可以看见他调用了_system，这个_system和libc里面的system不是一个东西。</p>
-<p>我们点开_system可以看见</p>
-<pre><code>    .plt:08048410 ; =============== S U B R O U T I N E =========================
-    .plt:08048410
-    .plt:08048410 ; Attributes: thunk
-    .plt:08048410
-    .plt:08048410 ; int system(const char *command)
-    .plt:08048410 _system         proc near               ; CODE XREF: main+163↓p
-    .plt:08048410
-    .plt:08048410 command         = dword ptr  4
-    .plt:08048410
-    .plt:08048410                 jmp     ds:off_804A014
-    .plt:08048410 _system         endp
-    .plt:08048410
-    .plt:08048416 ; --------------------------------------------------------------
-</code></pre><p>我们发现了这里面有着plt三个字，这就是所谓的plt表中的一部分。</p>
-<p>再点开</p>
-<pre><code>    ds:off_804A014
-</code></pre><p>我们就会发现</p>
-<pre><code>    .got.plt:0804A014 off_804A014     dd offset system        ; DATA XREF: _system↑r
-</code></pre><p>我们发现了这里面有着got三个字，这就是所谓的got表中的一部分。</p>
-<h3 id="生成汇编"><a href="#生成汇编" class="headerlink" title="生成汇编"></a>生成汇编</h3><p>为什么需要有plt与got这些东西，而不在程序中直接<code>call system</code>这样的方法来访问system，的原因在于system是在glibc库中，而glibc属于动态库。</p>
-<blockquote>
-<p>如果读者了解过windows的动态链接库的话，事实上这两者有所区别，但是大致原理基本相似</p>
-</blockquote>
-<p>之所以无法直接直接<code>call system</code>，这正是用为程序中调用system的代码是在编译和链接中（事实上主要在编译中）确立的，而在此过程中，system的地址，编辑器无从而知。而在现代操作系统中，代码段也无法更改，所以试图在加载过程<code>call aaaaa</code>改为<code>call xxxxx(&amp;system)</code>也是无用功。</p>
-<p>同时因为编辑器同时无法确定system函数是在libc这样的动态库中还是在其他的中间文件（.o）中所以编辑会生成一样格式的代码，这使得无论你的某函数是在动态链接库中还是在其它文件中给出定义，这样的汇编代码都能实现调用system。</p>
-<h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><p>但是函数的调用总归是需要函数的具体地址的。那么就可以把情况分为两种。</p>
-<blockquote>
-<ol>
-<li>静态链接库</li>
-<li>动态链接库（如glibc）</li>
-</ol>
-</blockquote>
-<p>在这两种情况中：</p>
-<p>前一种函数的位置在编译过程中是已知的，所以在编译过程中可以计算出在编译过程中填进去占位的地址距离程序在被载入后此函数位置的偏移量，并将其填入某个位置。这就是 <strong>链接时重定位</strong>。</p>
-<p>后一种函数的位置在运行时是已知的，算出偏移量中也填入此表中。这就是 <strong>运行时重定位</strong>。</p>
-<h3 id="函数的调用"><a href="#函数的调用" class="headerlink" title="函数的调用"></a>函数的调用</h3><p>在完成了重定向之后，函数的调用还面临着一个问题。那就是，在无法改变代码段的情况下，应当如何利用数据段中的偏移量呢。</p>
-<p>答案是程序在链接中就生成一小段专门利用偏移量的代码。</p>
-<p>链接器生成额外的伪代码如下：</p>
-<pre><code>    .text
-    ...
-
-    // 调用system的call指令
-    call system_stub
-    ...
-
-    system_stub:
-    mov rax, [system函数的储存地址] ; 获取system重定位之后的地址
-    jmp rax ; 跳过去执行system函数
-
-    .data
-    ...
-    system函数的储存地址 ;这里储存system函数重定位后的地址
-</code></pre><p>在链接的过程中，如果发现函数实际上是动态链接库的代码，就会添加以上代码，并将system改为system_sub。</p>
-<p>所以实际上在函数的调用中我们需要两样东西</p>
-<blockquote>
+<h1 id="为什么要用连接"><a href="#为什么要用连接" class="headerlink" title="为什么要用连接"></a>为什么要用连接</h1><h2 id="查询例子"><a href="#查询例子" class="headerlink" title="查询例子"></a>查询例子</h2><p>下面我举个例子</p>
+<p>有这样两张表</p>
+<p><strong>student</strong></p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>class_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>mian</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>mki</td>
+</tr>
+</tbody>
+</table>
+<p><strong>class</strong></p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>cs</td>
+</tr>
+<tr>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>如果<strong>我们需要查询每个学生选的课</strong>，按照传统的方法我们可以</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> student<span class="token punctuation">.</span>name<span class="token punctuation">,</span>class<span class="token punctuation">.</span>name
+<span class="token keyword">from</span> student<span class="token punctuation">,</span>class
+<span class="token keyword">where</span> student<span class="token punctuation">.</span>class_id <span class="token operator">=</span> class<span class="token punctuation">.</span>id
+</code></pre>
+<p>但是如果熟悉sql原理的同学就会知道这样的 <code>from student,class</code> 这样的语句本质上是求<br>$$<br>student \times class<br>$$<br>（笛卡尔积）</p>
+<p>生成了这样一张表</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>class_id</th>
+<th>id</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>mian</td>
+<td>1</td>
+<td>1</td>
+<td>cs</td>
+</tr>
+<tr>
+<td>1</td>
+<td>mian</td>
+<td>1</td>
+<td>2</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>mki</td>
+<td></td>
+<td>1</td>
+<td>cs</td>
+</tr>
+<tr>
+<td>2</td>
+<td>mki</td>
+<td></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>再从中选择<br>$$<br>\sigma _{student.class_id=class.id}<br>$$<br>这样子显然当student和class非常大时，查询效率太低。</p>
+<h1 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h1><h2 id="数学"><a href="#数学" class="headerlink" title="数学"></a>数学</h2><p>既然<strong>笛卡尔迪</strong>行不通，我们就想到了我们的老朋友连接（<em>join</em>）<br>$$<br>student\Join class<br>$$<br>这样子就可以衍生出一张不比代查询的两张表大的表的。</p>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p>此处我们就应该用 <strong>join</strong> 这种sql语法</p>
+<p>join跟据匹配生成元组的方式分为四种</p>
 <ul>
-<li>需要存放外部函数的数据段</li>
-<li>获取数据段存放函数地址，并且正确的访问他们的一小段额外代码</li>
+<li>内连接 <em>inner join</em></li>
+<li>左连接 <em>left join</em></li>
+<li>右连接 <em>right join</em></li>
+<li>全连接 <em>full join</em></li>
 </ul>
-</blockquote>
-<p>又因为动态库的函数往往不止一个所以许多这样的数据段与许多这样的代码形成了两张表。存储函数相对地址的表叫做 <strong>全局偏移表</strong>，即 <strong>got表</strong>,而存储那段额外的代码的表被叫做 <strong>程序链接表</strong>，即 <strong>plt表</strong>。</p>
-<h3 id="延迟重定位"><a href="#延迟重定位" class="headerlink" title="延迟重定位"></a>延迟重定位</h3><p>前文提到了函数的地址放在got表中，所以把got中的数据段填充满必须优先于调用之前，</p>
-<p><strong>延迟重定位</strong>，故名思意，一大特点是 <strong>延迟</strong>。</p>
-<blockquote>
-<p>延迟即尽可能的延迟，直到不得不执行为止。之所以linux会有这样的特性，是因为如果动态库函数非常之多，那么放在前面一起执行会大大地减弱程序的启动时间。所以linux使用延迟重定位机制来使载入动态库地时间被均匀分散到了执行时间中。</p>
-</blockquote>
-<p>这就产生了一个问题：程序如何知道GOT表中某一数据项是否已经被载入（因为程序中的函数可能会被执行多次，这样子就不必每一次都去重定位了）。</p>
-<p>在程序中地具体实现大致为</p>
-<pre><code>    void system@plt()
-    {
-    address_good:
-    jmp *system@got            // 链接器将system@got填成下一语句lookup_system的地址
-    return；
-    lookup_system:
-            调用重定位函数查找system地址，并写到system@got
-
-            goto address_good;
-    }
-</code></pre><p>当第一次运行system函数时，程序流会跳到system@plt，然后会顺势执行jmp *system@got，但是很显然，got表中的数据项并没有填充正确的值。其实程序流并没有前往所谓的system@got，实际上它前往了lookup_system中去，这个函数的功能是调用重定位的函数来寻找system的函数地址，并将其写入system@got中去，然后再跳到addr_good，执行system然后返回到调用者。这样子下面的lookup_system就相当于被废除了。</p>
-<p>然后在第二次调用system时，就直接走向system的真正的地址中。</p>
-<p>事实上重定位中的最后实现并没有每一个plt中都含有符号解析与重定位的那一部分。所以程序中实现具体实现为。</p>
-<pre><code>    jmp     *system@got
-    push    id(当前函数在plt中的偏移量/2)
-    jmp     common@plt
-</code></pre><h3 id="公共plt的具体实现"><a href="#公共plt的具体实现" class="headerlink" title="公共plt的具体实现"></a>公共plt的具体实现</h3><p>在上文中我们基本缕清了函数重定向的前世今生与大致实现方式。接下来我要重点讲一下这个公共的函数的实现方式。</p>
-<p>我们先在ida里看看这个函数的具体实现，在这里ida的F5已经无能为力了，我们硬刚下源码试试</p>
-<pre><code>    .plt:08048300 common          proc near               ; CODE XREF: .plt:0804831B↓j
-    .plt:08048300                                         ; .plt:0804832B↓j ...
-    .plt:08048300 ; __unwind {
-    .plt:08048300                 push    ds:dword_804A004
-    .plt:08048306                 jmp     ds:dword_804A008
-    .plt:08048306 common          endp
-</code></pre><p>很显然这个所谓的804A008就是所谓的重定向函数，而上面的804A004，就是参数。</p>
-<p>而在这些地方放的就是</p>
-<pre><code>    .got.plt:0804A004 dword_804A004   dd 0                    ; DATA XREF: common↑r
-    .got.plt:0804A008 ; int (*dword_804A008)(void)
-    .got.plt:0804A008 dword_804A008   dd 0                    ; DATA XREF: common+6↑r
-</code></pre><p>在下面我们发现了</p>
-<pre><code>    .got.plt:0804A00C off_804A00C     dd offset read          ; DATA XREF: _read↑r
-    .got.plt:0804A010 off_804A010     dd offset __gmon_start__
-    .got.plt:0804A010                                         ; DATA XREF: ___gmon_start__↑r
-    .got.plt:0804A014 off_804A014     dd offset __libc_start_main
-    .got.plt:0804A014                                         ; DATA XREF: ___libc_start_main↑r
-    .got.plt:0804A018 off_804A018     dd offset write         ; DATA XREF: _write↑r
-    .got.plt:0804A018 _got_plt        ends
-    .got.plt:0804A018
-</code></pre><p>发现接着跑下去就已经看不懂了</p>
-<p>随手点一个进去</p>
-<pre><code>    extern:0804A034                 extrn write:near        ; CODE XREF: _write↑j
-    extern:0804A034                                         ; DATA XREF: .got.plt:off_804A018↑o
-</code></pre><p>好像是一个声明一样的东西。</p>
-<p>经过了观看大神写的微博以后，我发现如果使用gdb进行动态调试的话，这个common，在没有进行运行时，其的值为0x0，在运行后会变成它的值会变成另一个值，而这个值最终指向的是 <strong>_dl_runtime_resolve</strong>,而这一个处于动态链接器中的函数。</p>
-<h3 id="dl-runtime-resolve"><a href="#dl-runtime-resolve" class="headerlink" title="_dl_runtime_resolve"></a>_dl_runtime_resolve</h3><p>因为每一个plt表里的函数都需要调用这个公共的dlresolve项，所以dlresolve得知道需要查找的是哪一个函数，并将GOT表的值写在哪个函数的plt段。因为在plt表里push了一个参数，我上面也写了你如果去算算的话，它与函数在plt表中的偏移量相同</p>
-<p>在程序内部，维持有一个重定位信息表。利用<code>readelf -r test</code>,可以看见.rel.plt段中的消息</p>
-<pre><code>    Offset     Info     Type             Sym.Value  Sym. Name
-    080496f8   00000107 R_386_JUMP_SLOT  00000000   puts
-    080496fc   00000207 R_386_JUMP_SLOT  00000000   __gmon_start__
-    08049700   00000407 R_386_JUMP_SLOT 000000000   __libc_start_main
-</code></pre><p>程序可以通过这个公共的offset表，找到应当被填写GOT表函数的地址的位置。</p>
-<blockquote>
-<p>其实想要彻底搞清楚这个过程还需要对于elf文件在linux系统的装载有着更深的理解才行，所以我这边的讲解只是浅尝辄止不深究了。</p>
-</blockquote>
-<blockquote>
-<p>日后讲解这个dlresolve的时候还会像详细讲解这个过程与可能的利用。</p>
-</blockquote>
-<hr>
+<h3 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>生成的行数为左表右表全部匹配的行</p>
+<h4 id="用法-1"><a href="#用法-1" class="headerlink" title="用法"></a>用法</h4><pre class=" language-sql"><code class="language-sql"><span class="token keyword">from</span> sdudent
+<span class="token keyword">inner</span> <span class="token keyword">join</span> class
+<span class="token keyword">on</span> student<span class="token punctuation">.</span>class_id <span class="token operator">=</span> class<span class="token punctuation">.</span>id
+</code></pre>
+<h4 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h4><table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>class_id</th>
+<th>id</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>mian</td>
+<td>1</td>
+<td>1</td>
+<td>cs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="左连接"><a href="#左连接" class="headerlink" title="左连接"></a>左连接</h3><h4 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h4><p>左表的所有元组加上匹配的右表元组</p>
+<h4 id="用法-2"><a href="#用法-2" class="headerlink" title="用法"></a>用法</h4><pre class=" language-sql"><code class="language-sql"><span class="token keyword">from</span> sdudent
+<span class="token keyword">left</span> <span class="token keyword">join</span> class
+<span class="token keyword">on</span> student<span class="token punctuation">.</span>class_id <span class="token operator">=</span> class<span class="token punctuation">.</span>id
+</code></pre>
+<h4 id="结果-1"><a href="#结果-1" class="headerlink" title="结果"></a>结果</h4><table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>class_id</th>
+<th>id</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>mian</td>
+<td>1</td>
+<td>1</td>
+<td>cs</td>
+</tr>
+<tr>
+<td>2</td>
+<td>mki</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="右连接"><a href="#右连接" class="headerlink" title="右连接"></a>右连接</h3><h4 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h4><p>右表的所有元组加上匹配的左表元组</p>
+<h4 id="用法-3"><a href="#用法-3" class="headerlink" title="用法"></a>用法</h4><pre class=" language-sql"><code class="language-sql"><span class="token keyword">from</span> sdudent
+<span class="token keyword">right</span> <span class="token keyword">join</span> class
+<span class="token keyword">on</span> student<span class="token punctuation">.</span>class_id <span class="token operator">=</span> class<span class="token punctuation">.</span>id
+</code></pre>
+<h4 id="结果-2"><a href="#结果-2" class="headerlink" title="结果"></a>结果</h4><table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>class_id</th>
+<th>id</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>mian</td>
+<td>1</td>
+<td>1</td>
+<td>cs</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="全连接"><a href="#全连接" class="headerlink" title="全连接"></a>全连接</h3><h4 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h4><p>所有左右表的元组相互匹配</p>
+<h4 id="用法-4"><a href="#用法-4" class="headerlink" title="用法"></a>用法</h4><pre class=" language-sql"><code class="language-sql"><span class="token keyword">from</span> sdudent
+<span class="token keyword">full</span> <span class="token keyword">join</span> class
+<span class="token keyword">on</span> student<span class="token punctuation">.</span>class_id <span class="token operator">=</span> class<span class="token punctuation">.</span>id
+</code></pre>
+<h4 id="结果-3"><a href="#结果-3" class="headerlink" title="结果"></a>结果</h4><table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>class_id</th>
+<th>id</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>mian</td>
+<td>1</td>
+<td>1</td>
+<td>cs</td>
+</tr>
+<tr>
+<td>2</td>
+<td>mki</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h1 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h1><p><del>Typora 真香</del></p>
+<p><del>Latex 真香</del></p>
 
     
 
@@ -659,21 +745,13 @@
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2018/06/14/linux上的延迟重定位/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
     
-        <a href="/2018/06/14/栈溢出指南/" id="post_nav-older" class="next-content">
+        <a href="/2018/12/01/泛型/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
