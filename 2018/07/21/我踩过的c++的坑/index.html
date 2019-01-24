@@ -197,12 +197,11 @@ Installer in(wstring(curren));
 <p>理论上没毛病。</p>
 <p>但是在笔者的环境中in被视为一个函数而非一个类。</p>
 <p>必须要写成</p>
-<pre class=" language-c++"><code class="language-c++">TCHAR current_directiom[100];
+<pre><code>TCHAR current_directiom[100];
 GetCurrentDirectoryW(200, current_directiom);
 wstring path(current_directiom);
 Installer in(path);
-</code></pre>
-<p>才行</p>
+</code></pre><p>才行</p>
 <pre class=" language-c++"><code class="language-c++">char current_directiom[100];
 GetCurrentDirectoryA(200, current_directiom);
 string path = string(current_directiom) + string("\\data\\setting.ini");
@@ -431,7 +430,7 @@ SetConsoleScreenBufferSize(con, buf);
         
           <section class='meta' id="footer-meta">
             
-              <time class="metatag time" itemprop="dateUpdated" datetime="2019-01-24T18:40:28+08:00" content="2019-01-24"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
+              <time class="metatag time" itemprop="dateUpdated" datetime="2019-01-24T20:18:45+08:00" content="2019-01-24"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
                 &nbsp;2019-01-24
               </time>
             
@@ -628,7 +627,7 @@ SetConsoleScreenBufferSize(con, buf);
 </header>
 
   <div class='content pure'>
-    <p>认识我的朋友请在各大社交平台上联系我，不认识的麻烦发邮件。\n邮箱<a href="mailto:hztlfjy@gmail.com">hztlfjy@gmail.com</a></p>
+    <p>认识我的朋友请在各大社交平台上联系我，不认识的麻烦发邮件。邮箱<a href="mailto:hztlfjy@gmail.com">hztlfjy@gmail.com</a></p>
 
   </div>
 </section>

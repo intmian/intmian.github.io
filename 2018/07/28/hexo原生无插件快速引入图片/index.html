@@ -188,10 +188,11 @@
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
         <h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>说出来你可能不信，笔者常年不知道如何在hexo里面上传图片，导致有些图片都是网上找的，不仅不稳定，时不时还会因为盗链被加入黑名单。现在说起来可真是一段血泪史啊。于是笔者看今天天气不错（<del>大雾</del>），决定搞一波图片。</p>
+<a id="more"></a>
 <blockquote>
 <p>话说现在的vs-code的markdown插件可真是奇怪他竟然把我的源代码给渲染了…</p>
 </blockquote>
-<div align="center"><br><img src="1.png" alt="插件错误"><br></div><br><a id="more"></a><br><br>## 方法<br><br>### 传统方法<br><br>在<strong>markdown</strong>中常用的链接图片的方式是<br><br>    <img src="图片地址" alt="图片描述"><br><br>我们要不把图片传到<strong>图床</strong>，<del><strong>要不盗链</strong></del>。<br><br>### hexo方法<br><br>#### 文件放在哪<br><br>但是我们今天用的是hexo，可以把本地的一些文件传到hexo博客在你的托管文件夹里面。<br><br>我们有两种方法<br><br><em> 传到source文件夹中然后用相对路径访问它。
+<div align="center"><br><img src="1.png" alt="插件错误"><br></div><br>## 方法<br><br>### 传统方法<br><br>在<strong>markdown</strong>中常用的链接图片的方式是<br><br><br>    <img src="图片地址" alt="图片描述"><br><br>我们要不把图片传到<strong>图床</strong>，<del><strong>要不盗链</strong></del>。<br><br>### hexo方法<br><br>#### 文件放在哪<br><br>但是我们今天用的是hexo，可以把本地的一些文件传到hexo博客在你的托管文件夹里面。<br><br>我们有两种方法<br><br><em> 传到source文件夹中然后用相对路径访问它。
 </em> 传到与你的markdown同名的文件夹里，然后用相对路径访问它。<br><br>毫无疑问，前一种方法存在命名空间混乱而且路径较长的问题，我们选择无视。<br><br>#### 开启自动创建文件夹<br><br>在hexo中，我们在没有hexo_gui的情况下，我们会使用<code>hexo new xxx</code>来创建md文件。<br><br>如果我们把hexo配置文件中的<code>post_asset_folder</code>选项配置为<strong>true</strong>，就可以在使用<code>new</code>命令时自动生成对应的文件夹。我们把图片放在里面就会一起上传。<br><br>#### 在hexo使用文件夹里的图片<br><br>我们依然使用<code>![]()</code>来创建图片链接。此时我们的编辑器会提示补全,以本文为例，会被补全为<br><br>    <img src="hexo原生无插件快速引入图片/1.png" alt=""><br><br>我们试着使用本地测试的方式于是我们会发现图片，在编辑器里被加载出来了，在博客中没有被加载出来，于是我们怀有hexo在上传时改变了文件夹的结构。于是我传到了github上去试了一试，果不其然，发现图片与博客被解析到了同级文件夹中。于是正确的使用方法是<br><br>    <img src="1.png" alt=""><br><br>虽然很遗憾的是编辑器的预览里面看不见这玩意。<br><br>当然使用hexo独有的插入图片的语法也是一样，需要使用相同的技巧。<br><br>当然在我目前的3.0版本这两种语法的效果是一样的…<br><br>## 居中显示<br><br>如果一个图片比较小的话，在markdown里面直接插入是很难看的。<br><br>但是markdown支持html语法。于是我们可以把<code>![插件错误](1.png)</code>改为<br><br>    <div align="center"><br>    <img src="1.png" alt="插件错误"><br>    </div>
 
 <p>效果如下<br><img src="1.png" alt="插件错误"></p>
@@ -208,7 +209,7 @@
         
           <section class='meta' id="footer-meta">
             
-              <time class="metatag time" itemprop="dateUpdated" datetime="2019-01-24T12:54:22+08:00" content="2019-01-24"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
+              <time class="metatag time" itemprop="dateUpdated" datetime="2019-01-24T20:18:19+08:00" content="2019-01-24"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
                 &nbsp;2019-01-24
               </time>
             
@@ -405,7 +406,7 @@
 </header>
 
   <div class='content pure'>
-    <p>认识我的朋友请在各大社交平台上联系我，不认识的麻烦发邮件。\n邮箱<a href="mailto:hztlfjy@gmail.com">hztlfjy@gmail.com</a></p>
+    <p>认识我的朋友请在各大社交平台上联系我，不认识的麻烦发邮件。邮箱<a href="mailto:hztlfjy@gmail.com">hztlfjy@gmail.com</a></p>
 
   </div>
 </section>
