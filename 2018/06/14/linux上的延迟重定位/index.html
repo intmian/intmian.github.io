@@ -273,14 +273,7 @@
 <p>需要注意的是因为万物皆为文件的设计，所以linux中的文件夹并非与windows一样，是一个高于普通文件的顶层设计的产物，而是一种特殊的文件。</p>
 <p>使用命令 <code>mkdir</code> 创建目录时，若期望创建的目录的名称与现有的文件名（或目录名）重复，则会创建失败。</p>
 <p>Linux 将设备当做文件进行处理下面这段终端记录展示了如何打开设备文件 /dev/input/event5 并读取文件内容。文件 event5 表示一种输入设备，其可能是鼠标或键盘等。查看文件 /proc/bus/input/devices 可知 event5 对应设备的类型。设备文件 /dev/input/event5 使用 read() 以字符流的方式被读取。结构体 input_event 被定义在内核头文件 linux/input.h 中。</p>
-<pre class=" language-c"><code class="language-c"><span class="token keyword">int</span> fd<span class="token punctuation">;</span>
-<span class="token keyword">struct</span> input_event ie<span class="token punctuation">;</span>
-fd <span class="token operator">=</span> <span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"/dev/input/event5"</span><span class="token punctuation">,</span> O_RDONLY<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">read</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> <span class="token operator">&amp;</span>ie<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> input_event<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"type = %d  code = %d  value = %d\n"</span><span class="token punctuation">,</span>
-            ie<span class="token punctuation">.</span>type<span class="token punctuation">,</span> ie<span class="token punctuation">.</span>code<span class="token punctuation">,</span> ie<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">close</span><span class="token punctuation">(</span>fd<span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> fd;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">input_event</span> <span class="title">ie</span>;</span></span><br><span class="line">fd = open(<span class="string">"/dev/input/event5"</span>, O_RDONLY);</span><br><span class="line">read(fd, &amp;ie, <span class="keyword">sizeof</span>(struct input_event));</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"type = %d  code = %d  value = %d\n"</span>,</span><br><span class="line">            ie.type, ie.code, ie.value);</span><br><span class="line">close(fd);</span><br></pre></td></tr></table></figure>
 <p>从这里可以看出设备可以作为文件来进行读写。</p>
 <h2 id="硬链接与软链接"><a href="#硬链接与软链接" class="headerlink" title="硬链接与软链接"></a>硬链接与软链接</h2><p>虽然文件这一数据结构的作用是存放数据，但是显然，它也存放了一些与这些数据相关的另一些数据，例如创建时间，文件名等信息。</p>
 <blockquote>
@@ -373,9 +366,9 @@ fd <span class="token operator">=</span> <span class="token function">open</span
                         <span class="art-item-left">
                             <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
                             <h4>
-                                <a href="/2018/06/14/unlink/" rel="prev" title="unlink">
+                                <a href="/2018/06/14/最基本的堆溢出-fastbin/" rel="prev" title="堆与最基本的堆溢出-fastbin">
                                   
-                                      unlink
+                                      堆与最基本的堆溢出-fastbin
                                   
                                 </a>
                             </h4>
@@ -393,16 +386,16 @@ fd <span class="token operator">=</span> <span class="token function">open</span
                         <span class="art-item-right" aria-hidden="true">
                             <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/2018/06/14/最基本的堆溢出-fastbin/" rel="prev" title="堆与最基本的堆溢出-fastbin">
+                                <a href="/2018/06/14/格式化字符串漏洞/" rel="prev" title="格式化字符串漏洞">
                                     
-                                        堆与最基本的堆溢出-fastbin
+                                        格式化字符串漏洞
                                     
                                 </a>
                             </h4>
                             
                                 
                                 <h6 class="tags">
-                                    <a class="tag" href="/tags/pwn/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>pwn</a> <a class="tag" href="/tags/堆/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>堆</a>
+                                    <a class="tag" href="/tags/pwn/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>pwn</a>
                                 </h6>
                             
                         </span>
@@ -434,11 +427,11 @@ fd <span class="token operator">=</span> <span class="token function">open</span
         <h4><i class="fas fa-bookmark fa-fw" aria-hidden="true"></i>&nbsp;相关文章</h4>
         <ul>
             
-                <li><a href="http://yoursite.com/2018/06/14/pwn的小知识的杂记/">pwn的杂记</a></li>
-            
-                <li><a href="http://yoursite.com/2018/06/14/unlink/">unlink</a></li>
+                <li><a href="http://yoursite.com/2018/06/14/实用小工具/">bin实用小工具</a></li>
             
                 <li><a href="http://yoursite.com/2018/06/14/最基本的堆溢出-fastbin/">堆与最基本的堆溢出-fastbin</a></li>
+            
+                <li><a href="http://yoursite.com/2018/06/14/格式化字符串漏洞/">格式化字符串漏洞</a></li>
             
                 <li><a href="http://yoursite.com/2018/06/14/linux-banding/">linux上的延迟重定位</a></li>
             

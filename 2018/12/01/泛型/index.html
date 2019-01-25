@@ -237,19 +237,7 @@
 <p>而很遗憾的的是，当中出现了非常多的一些问题，一些是由于我对于c++的学习还不是很熟练，另一些则是因为编译器对于modern c++支持得不好，或者vs对它支持的不好。</p>
 <a id="more"></a>
 <h2 id="模板类中的模板类中的子类"><a href="#模板类中的模板类中的子类" class="headerlink" title="模板类中的模板类中的子类"></a>模板类中的模板类中的子类</h2><p>读上去好像有点绕口，我们举个<strong>栗子</strong></p>
-<pre class=" language-c++"><code class="language-c++">template<class T>
-class O
-{
-private:
-    vector<T> ts;
-public:
-    O(vector<T> sourse)
-        :ts(sourse)
-    {
-        vector<T>::itereator it = ts.begin();
-    }
-};
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">O</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;T&gt; ts;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    O(<span class="built_in">vector</span>&lt;T&gt; sourse)</span><br><span class="line">        :ts(sourse)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;T&gt;::itereator it = ts.begin();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>看上去没啥问题，可是一旦我们编译，就会</p>
 <p><img src="https://i.loli.net/2018/12/01/5c0241bb7d2f8.png" alt="错误"></p>
 <p>只是<strong>为什么</strong>呢？</p>
@@ -262,20 +250,7 @@ public:
 <p>至于为什么IDE不报错，又是另一个故事了</p>
 </blockquote>
 <p>为了消除二义性</p>
-<pre class=" language-c++"><code class="language-c++">template<class T>
-class O
-{
-private:
-    vector<T> ts;
-public:
-    O(vector<T> sourse)
-        :ts(sourse)
-    {
-        typename vector<T>::iterator;
-    }
-
-};
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">O</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;T&gt; ts;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    O(<span class="built_in">vector</span>&lt;T&gt; sourse)</span><br><span class="line">        :ts(sourse)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">typename</span> <span class="built_in">vector</span>&lt;T&gt;::iterator;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>像我这样加上<code>typename</code>就可以消除二义性，声明后面的<code>iterator</code>是一个类型，而非一个变量。</p>
 <h2 id="没有提示，没有报错"><a href="#没有提示，没有报错" class="headerlink" title="没有提示，没有报错"></a>没有提示，没有报错</h2><p>像是我们上文的代码，如果你的IDE有自动补全的话，你就会发现<code>ts.</code>这样的代码会触发自动补全而<code>vector&lt;T&gt;</code>这样的代码就不行。</p>
 <center><img src="https://i.loli.net/2018/12/01/5c024a663c6b6.png" alt="有"></center><br><center><img src="https://i.loli.net/2018/12/01/5c024a4618fb7.png" alt="没有"></center>
@@ -317,40 +292,12 @@ public:
 <h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>可以考虑将定义和声明放在一起<del>，但是并没有解决实际问题23333</del></p>
 <p>至于真正的解决方法，只有等vs更新了。</p>
 <h2 id="模板类内双重模板与auto的推导错误"><a href="#模板类内双重模板与auto的推导错误" class="headerlink" title="模板类内双重模板与auto的推导错误"></a>模板类内双重模板与auto的推导错误</h2><p>假定有</p>
-<pre class=" language-c++"><code class="language-c++">template <typename T>
-void ShowProcess(vector<vector<T>> elements, string tip)
-{
-    cout << tip << endl;
-    for (auto line : elements)
-    {
-        for (auto element : line)
-        {
-            cout << setw(4) << element;
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ShowProcess</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;T&gt;&gt; elements, <span class="built_in">string</span> tip)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; tip &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> line : elements)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> element : line)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; setw(<span class="number">4</span>) &lt;&lt; element;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>按照正常情况，这段代码一点问题都没有。</p>
 <p>实际上这里会出现推导错误</p>
 <p>line会被推导为T类型，然后雪崩</p>
 <p>应该改为</p>
-<pre class=" language-c++"><code class="language-c++">template <typename T>
-void ShowProcess(vector<vector<T>> elements, string tip)
-{
-    cout << tip << endl;
-    for (vector<T> line : elements)
-    {
-        for (auto element : line)
-        {
-            cout << setw(4) << element;
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
-</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ShowProcess</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;T&gt;&gt; elements, <span class="built_in">string</span> tip)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; tip &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">vector</span>&lt;T&gt; line : elements)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> element : line)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; setw(<span class="number">4</span>) &lt;&lt; element;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       </div>
         

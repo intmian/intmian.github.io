@@ -239,23 +239,14 @@
 <p>看到了上面的那句话，可能会感觉概念还是有所模糊。我们毕竟是写代码的不是写文章的嘛，也就不需要说那么多没什么用的废话了。</p>
 <p>也就是说我们的一个程序中几个<strong>不同</strong>的<strong>基本模块</strong>（可能是函数、类或者更小的基本单位）中存在着互相调用或者互相依赖的行为。</p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Coupling_sketches_cropped_1.svg/400px-Coupling_sketches_cropped_1.svg.png" alt="耦合"></p>
-<h2 id="耦合的例子"><a href="#耦合的例子" class="headerlink" title="耦合的例子"></a>耦合的例子</h2><h3 id="例子1"><a href="#例子1" class="headerlink" title="例子1"></a>例子1</h3><pre><code>void change(const vector&lt;int&gt;&amp; source)
-{
-    GetTool(&quot;H_1&quot;)-&gt;add(source[1]);
-    if (source[1] &gt; 10)
-        GetTool(&quot;A_0&quot;)-&gt;change(source[1]);
-    if (source[1] &lt; 10)
-        GetTool(&quot;A_1&quot;)-&gt;change(source[1]);
-}
-</code></pre><p>举这一个并不极端的例子，是因为<del>我编不出来了</del>这是我平时碰到的真实的问题。当我写完代码是又回头看了一眼,发现。</p>
+<h2 id="耦合的例子"><a href="#耦合的例子" class="headerlink" title="耦合的例子"></a>耦合的例子</h2><h3 id="例子1"><a href="#例子1" class="headerlink" title="例子1"></a>例子1</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">change</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; source)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    GetTool(<span class="string">"H_1"</span>)-&gt;add(source[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">if</span> (source[<span class="number">1</span>] &gt; <span class="number">10</span>)</span><br><span class="line">        GetTool(<span class="string">"A_0"</span>)-&gt;change(source[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">if</span> (source[<span class="number">1</span>] &lt; <span class="number">10</span>)</span><br><span class="line">        GetTool(<span class="string">"A_1"</span>)-&gt;change(source[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>举这一个并不极端的例子，是因为<del>我编不出来了</del>这是我平时碰到的真实的问题。当我写完代码是又回头看了一眼,发现。</p>
 <p><strong>我*</strong>。</p>
 <p><del>他妈的</del>应该是source[2]…于是我一一把他们从1改为2。也许你们觉得这也没什么大不了的，不就是<strong>一一替换</strong>嘛，有什么大不了的。但是如果我给你个500行的复合模块，然后你把source[2]写成了source[1]，而且在函数的正确的逻辑中本来就有source[1]。那我们就不能简单的替换，而需要从头审逻辑，再改。甚至可能需要重写，这个代价就太大了。</p>
 <p>这就是耦合的一种，<strong>过度</strong>（自己体会）使用了其他的模块的数据</p>
 <h3 id="例子2"><a href="#例子2" class="headerlink" title="例子2"></a>例子2</h3><p>举个比较zz的例子</p>
-<pre><code>xxx_0 = xxx_0 * 11 + 1;
-xxx = ToList(xxx_0);
-GetTool(&quot;IDX&quot;)-&gt;add(xxx);
-</code></pre><p>这样的代码大家一定经常用到。有些人（<del>我</del>），经常性的将这些段落直接复制粘贴来来去去。最后在改动的时候，就需要全篇的瞎瘠薄乱改，最后浪费了巨量的时间。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xxx_0 = xxx_0 * <span class="number">11</span> + <span class="number">1</span>;</span><br><span class="line">xxx = ToList(xxx_0);</span><br><span class="line">GetTool(<span class="string">"IDX"</span>)-&gt;add(xxx);</span><br></pre></td></tr></table></figure>
+<p>这样的代码大家一定经常用到。有些人（<del>我</del>），经常性的将这些段落直接复制粘贴来来去去。最后在改动的时候，就需要全篇的瞎瘠薄乱改，最后浪费了巨量的时间。</p>
 <h3 id="例子3"><a href="#例子3" class="headerlink" title="例子3"></a>例子3</h3><p>比方说我们有菜单类和按钮类。而按钮显然是在菜单里的。</p>
 <p>我们现在是把按钮写死在菜单里好呢，还是各自独立好呢。</p>
 <p>显然的，自然是同为独立类，再讲按键映射到菜单里好。因为菜单和按钮显然不是固定的关系，一个菜单拥有不定数量的按钮。如果写在一起的话，其实是很僵化的，换言之，耦合度太高，不利于维护和扩展。我们应该在菜单里以引用表的形式将按钮组合进去</p>
@@ -273,26 +264,10 @@ GetTool(&quot;IDX&quot;)-&gt;add(xxx);
 <li>注意封装与设计模式。</li>
 </ul>
 <h2 id="具体实现方法"><a href="#具体实现方法" class="headerlink" title="具体实现方法"></a>具体实现方法</h2><h3 id="part-1"><a href="#part-1" class="headerlink" title="part 1"></a>part 1</h3><p>先看一段代码</p>
-<pre><code>void Set(MODE mode)
-{
-    switch (mode)
-    {
-        case A:
-            ...
-        case B:
-            ...
-        default:
-            assert(false);
-    }
-}
-</code></pre><p>这是一个实际程序中的设置方法，其中MODE是一个枚举类。根据解耦的思想应该改为。<br>    void SetA(…)<br>        …<br>    void SetB(…)<br>        …<br>    …<br>    void Set(MODE mode)<br>    {<br>        switch (mode)<br>        {<br>            case A:<br>                SetA(…);<br>            case B:<br>                SetB(…);<br>            default:<br>                assert(false);<br>        }<br>    }</p>
-<h3 id="part-2"><a href="#part-2" class="headerlink" title="part 2"></a>part 2</h3><pre><code>config_add = None
-def SetConfigAdd():
-    global config_add
-    config_add = xxx
-def PushSetToFile():
-    # use config_add to do sth
-</code></pre><p>像是这样的代码就不大好，全局的设置变量是一种相当不安全、不专业的行为(<del>但是我很喜欢啊</del>)。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Set</span><span class="params">(MODE mode)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (mode)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">case</span> A:</span><br><span class="line">            ...</span><br><span class="line">        <span class="keyword">case</span> B:</span><br><span class="line">            ...</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            assert(<span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一个实际程序中的设置方法，其中MODE是一个枚举类。根据解耦的思想应该改为。<br>    void SetA(…)<br>        …<br>    void SetB(…)<br>        …<br>    …<br>    void Set(MODE mode)<br>    {<br>        switch (mode)<br>        {<br>            case A:<br>                SetA(…);<br>            case B:<br>                SetB(…);<br>            default:<br>                assert(false);<br>        }<br>    }</p>
+<h3 id="part-2"><a href="#part-2" class="headerlink" title="part 2"></a>part 2</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config_add = None</span><br><span class="line">def SetConfigAdd():</span><br><span class="line">    global config_add</span><br><span class="line">    config_add = xxx</span><br><span class="line">def PushSetToFile():</span><br><span class="line">    # use config_add to <span class="keyword">do</span> sth</span><br></pre></td></tr></table></figure>
+<p>像是这样的代码就不大好，全局的设置变量是一种相当不安全、不专业的行为(<del>但是我很喜欢啊</del>)。</p>
 <p>应该在需要出现<code>config_add</code>的最大作用域(不超过主函数)，声明config_add，把它作为<strong>引用</strong>或者<strong>常引用</strong>映射进去。(特指某些语言)</p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>架构设计对于程序员要求非常高。我只学了一些皮毛，甚至有些方法都只是我自己想的。所以只做参考吧。</p>
 <p><strong>学习！学习！</strong></p>
@@ -301,8 +276,8 @@ def PushSetToFile():
         
           <section class='meta' id="footer-meta">
             
-              <time class="metatag time" itemprop="dateUpdated" datetime="2018-11-08T20:18:49+08:00" content="2018-11-08"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
-                &nbsp;2018-11-08
+              <time class="metatag time" itemprop="dateUpdated" datetime="2019-01-25T15:20:28+08:00" content="2019-01-25"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
+                &nbsp;2019-01-25
               </time>
             
             

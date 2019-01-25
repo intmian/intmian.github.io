@@ -276,10 +276,7 @@
 </tbody>
 </table>
 <p>如果<strong>我们需要查询每个学生选的课</strong>，按照传统的方法我们可以</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> student<span class="token punctuation">.</span>name<span class="token punctuation">,</span>class<span class="token punctuation">.</span>name
-<span class="token keyword">from</span> student<span class="token punctuation">,</span>class
-<span class="token keyword">where</span> student<span class="token punctuation">.</span>class_id <span class="token operator">=</span> class<span class="token punctuation">.</span>id
-</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> student.name,class.name</span><br><span class="line"><span class="keyword">from</span> student,<span class="keyword">class</span></span><br><span class="line"><span class="keyword">where</span> student.class_id = class.id</span><br></pre></td></tr></table></figure>
 <p>但是如果熟悉sql原理的同学就会知道这样的 <code>from student,class</code> 这样的语句本质上是求<br>$$<br>student \times class<br>$$<br>（笛卡尔积）</p>
 <p>生成了这样一张表</p>
 <table>
@@ -333,10 +330,7 @@
 <li>全连接 <em>full join</em></li>
 </ul>
 <h3 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>生成的行数为左表右表全部匹配的行</p>
-<h4 id="用法-1"><a href="#用法-1" class="headerlink" title="用法"></a>用法</h4><pre class=" language-sql"><code class="language-sql"><span class="token keyword">from</span> sdudent
-<span class="token keyword">inner</span> <span class="token keyword">join</span> class
-<span class="token keyword">on</span> student<span class="token punctuation">.</span>class_id <span class="token operator">=</span> class<span class="token punctuation">.</span>id
-</code></pre>
+<h4 id="用法-1"><a href="#用法-1" class="headerlink" title="用法"></a>用法</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from sdudent</span><br><span class="line">inner join class</span><br><span class="line">on student.class_id = class.id</span><br></pre></td></tr></table></figure>
 <h4 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h4><table>
 <thead>
 <tr>
@@ -358,10 +352,7 @@
 </tbody>
 </table>
 <h3 id="左连接"><a href="#左连接" class="headerlink" title="左连接"></a>左连接</h3><h4 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h4><p>左表的所有元组加上匹配的右表元组</p>
-<h4 id="用法-2"><a href="#用法-2" class="headerlink" title="用法"></a>用法</h4><pre class=" language-sql"><code class="language-sql"><span class="token keyword">from</span> sdudent
-<span class="token keyword">left</span> <span class="token keyword">join</span> class
-<span class="token keyword">on</span> student<span class="token punctuation">.</span>class_id <span class="token operator">=</span> class<span class="token punctuation">.</span>id
-</code></pre>
+<h4 id="用法-2"><a href="#用法-2" class="headerlink" title="用法"></a>用法</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from sdudent</span><br><span class="line">left join class</span><br><span class="line">on student.class_id = class.id</span><br></pre></td></tr></table></figure>
 <h4 id="结果-1"><a href="#结果-1" class="headerlink" title="结果"></a>结果</h4><table>
 <thead>
 <tr>
@@ -389,10 +380,7 @@
 </tbody>
 </table>
 <h3 id="右连接"><a href="#右连接" class="headerlink" title="右连接"></a>右连接</h3><h4 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h4><p>右表的所有元组加上匹配的左表元组</p>
-<h4 id="用法-3"><a href="#用法-3" class="headerlink" title="用法"></a>用法</h4><pre class=" language-sql"><code class="language-sql"><span class="token keyword">from</span> sdudent
-<span class="token keyword">right</span> <span class="token keyword">join</span> class
-<span class="token keyword">on</span> student<span class="token punctuation">.</span>class_id <span class="token operator">=</span> class<span class="token punctuation">.</span>id
-</code></pre>
+<h4 id="用法-3"><a href="#用法-3" class="headerlink" title="用法"></a>用法</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from sdudent</span><br><span class="line">right join class</span><br><span class="line">on student.class_id = class.id</span><br></pre></td></tr></table></figure>
 <h4 id="结果-2"><a href="#结果-2" class="headerlink" title="结果"></a>结果</h4><table>
 <thead>
 <tr>
@@ -420,10 +408,7 @@
 </tbody>
 </table>
 <h3 id="全连接"><a href="#全连接" class="headerlink" title="全连接"></a>全连接</h3><h4 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h4><p>所有左右表的元组相互匹配</p>
-<h4 id="用法-4"><a href="#用法-4" class="headerlink" title="用法"></a>用法</h4><pre class=" language-sql"><code class="language-sql"><span class="token keyword">from</span> sdudent
-<span class="token keyword">full</span> <span class="token keyword">join</span> class
-<span class="token keyword">on</span> student<span class="token punctuation">.</span>class_id <span class="token operator">=</span> class<span class="token punctuation">.</span>id
-</code></pre>
+<h4 id="用法-4"><a href="#用法-4" class="headerlink" title="用法"></a>用法</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from sdudent</span><br><span class="line">full join class</span><br><span class="line">on student.class_id = class.id</span><br></pre></td></tr></table></figure>
 <h4 id="结果-3"><a href="#结果-3" class="headerlink" title="结果"></a>结果</h4><table>
 <thead>
 <tr>
