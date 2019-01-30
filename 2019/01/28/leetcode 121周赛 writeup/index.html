@@ -310,7 +310,9 @@
 <h2 id="最低票价"><a href="#最低票价" class="headerlink" title="最低票价"></a>最低票价</h2><h3 id="题目-2"><a href="#题目-2" class="headerlink" title="题目"></a>题目</h3><p><img src="https://i.loli.net/2019/01/30/5c518ea699197.png" alt="题目"></p>
 <p><a href="https://leetcode-cn.com/contest/weekly-contest-121/problems/minimum-cost-for-tickets/" target="_blank" rel="noopener">最低票价</a></p>
 <h3 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h3><p>因为求得是最优化问题，而且可以分成若干个阶段，因此我们很容易想到dp。因为最低票价显然是个一元谓词，我们就设dp(n)是第n天的最低票价。</p>
-<p>先列出<strong>状态转移</strong>方程<br>$$<br>\begin{cases}<br>dp_i = \min(dp_{i+1}+costs_0,dp_{i+7}+costs_1,dp_{i+2}+costs_{30}) &amp; i\in days \<br>dp_i = dp_{i+1}&amp;i \notin days \and i &lt; \max(days) \<br>dp_i = 0 &amp; i &gt; \max(days)<br>\end{cases}<br>$$<br>然后注意下<strong>记忆优化</strong>，避免重复的迭代展开。搞个哈希表就行(<code>unordered_map</code>)。</p>
+<p>先列出<strong>状态转移</strong>方程</p>
+<p>$$<br>\begin{cases}dp_i = \min(dp_{i+1}+costs_0,dp_{i+7}+costs_1,dp_{i+2}+costs_{30}) &amp; i\in days \<br>dp_i = dp_{i+1}&amp;i \notin days \and i &lt; \max(days) \<br>dp_i = 0 &amp; i &gt; \max(days)<br>\end{cases}<br>$$</p>
+<p>然后注意下<strong>记忆优化</strong>，避免重复的迭代展开。搞个哈希表就行(<code>unordered_map</code>)。</p>
 <blockquote>
 <p>不优化的话复杂度就变成O(3 ^ n)</p>
 </blockquote>
@@ -322,18 +324,19 @@
 <p>更好的方法就看官方的吧。</p>
 <h3 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">countTriplets</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; A)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.size(); i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; A.size(); j++)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; A.size(); k++)</span><br><span class="line">					<span class="keyword">if</span> ((A[i] &amp; A[j] &amp; A[k]) == <span class="number">0</span>)</span><br><span class="line">					&#123;</span><br><span class="line">						sum++;</span><br><span class="line">					&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> sum;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>这次因为第一题<strong>看错题</strong>了，第三题<strong>摸鱼</strong>，导致没特别做好，就当长知识了吧-_-</p>
+<p>垃圾hexo，加载latex公式时出错了。。。。。</p>
 
       </div>
         
           <section class='meta' id="footer-meta">
             
-              <time class="metatag time" itemprop="dateUpdated" datetime="2019-01-30T20:17:53+08:00" content="2019-01-30"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
+              <time class="metatag time" itemprop="dateUpdated" datetime="2019-01-30T20:29:51+08:00" content="2019-01-30"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
                 &nbsp;2019-01-30
               </time>
             
             
                 
-                <div class="metatag tags"><a class="tag" href="/tags/编程/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>&nbsp;编程</a></div> <div class="metatag tags"><a class="tag" href="/tags/算法/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>&nbsp;算法</a></div>
+                <div class="metatag tags"><a class="tag" href="/tags/算法/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>&nbsp;算法</a></div> <div class="metatag tags"><a class="tag" href="/tags/编程/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>&nbsp;编程</a></div>
             
             
           </section>
