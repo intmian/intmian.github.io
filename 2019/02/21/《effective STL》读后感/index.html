@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>我的朋友们 | mian&#39;s blog</title>
+  <title>Effective STL 读后感 | mian&#39;s blog</title>
   
   
   <meta name="description" content="这是mian的博客">
@@ -190,39 +190,30 @@
     <div class="l_body">
     <div class='container clearfix'>
         <div class='l_main'>
-            <article id="links" class="post white-box article-type-links" itemscope itemprop="blogPost">
+            <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
   
 <section class='meta'>
-  
-    
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.css">
-  <div class="aplayer"
-    data-theme=""
-    data-mini=true 
-    
-    data-mode="circulation"
-    data-server="netease"
-    data-type="song"
-    data-id="187134"
-    data-volume="0.7">
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/meting@1.1.0/dist/Meting.min.js"></script>
-
-
   
   <div class="meta" id="header-meta">
     
       
-          <h1 class="title">我的朋友们</h1>
+          <h1 class="title">Effective STL 读后感</h1>
       
     
 
     
       <time class="metatag time">
-        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-01-24
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-02-21
       </time>
     
+
+    
+      
+    
+    <div class='metatag cats'>
+        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/从零开始的编程之路/">从零开始的编程之路</a>
+    </div>
+
 
     
 
@@ -239,170 +230,92 @@
   </div>
 </section>
 
-    <section class="article typo l_friends">
-      
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <p><em>Effective STL</em> 这本书我是在年前从图书馆借的，最近回学校有时间就拜读了一遍。虽然有些地方（函数子，分配子，函数配连，分析机制等等 <del>这么一看，感觉好多啊</del> ）还没有完全吃透，但是基本上也看的7788了。</p>
+<a id="more"></a>
+<h2 id="评测"><a href="#评测" class="headerlink" title="评测"></a>评测</h2><p><strong>本人的c++水平实在有限，只能从我的一点点经验里稍微说一点。</strong></p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li><p>成书时间过早，后面作者也没有很大的修改，导致了作者所说的<strong>STL</strong>和我们现在使用的<strong>STL</strong>有所区别，诸如<code>unordered_map</code>、<code>unordered_set</code>，这样好用的东西，作者没有着重笔墨，只是作为非标准库提了一嘴。</p>
+</li>
+<li><p>同样的因为成书相对较早，对于<strong>革命性的c++11标准</strong>里的新东西，笔者是基本上没有提到的，<code>智能指针</code>什么的也只是作为<code>boost</code>库里的版本提了一口。像<code>not1</code>、<code>bind2nd</code>，这样的东西在生产实践中事实上用的越来越少了，而<code>lambada</code>作为替代品则用的越来越多。虽然在STL，因为为了需求以及bind等历史因素，可能确定严格弱序，或者有序的一般都是三元以下的谓词，对于书中所采用的函数适配器<code>bind2nd</code>、<code>not1</code>，都是适用的。但是</p>
+<ol>
+<li><code>lambda</code>不需要考虑<strong>可配连</strong>的问题，也就是在在用函数时不用使用<code>fun_ptr</code>，将函数指针特化为可配连的，用函数子对象时，不用考虑继承那些<strong>奇奇怪怪的函数子类</strong>，省了很多力气。（当然虚函数的<strong>剥离</strong>，<strong>拷贝构造</strong>的代价，还是需要考虑的，如果你解决这些问题的方法是<code>bridge pattern</code>的话，<strong>内存管理</strong>也是要注意的，当然喽，<code>智能指针</code>解千愁）</li>
+<li>功能比起<strong>自带</strong>的适配器强多了。</li>
+<li>手写<strong>自定义函数适配器</strong>是高级技巧，而手写<code>lambda</code>不是。</li>
+</ol>
+</li>
+<li><p>有些人可能觉得作者废话太多。</p>
+</li>
+<li><p>翻译有些生硬。例如。</p>
+<ul>
+<li><blockquote>
+<p>你会受伤，如果不那么做的话。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>作为<strong>c++ 6E</strong>(<em>《Effective C++》《More Effective C++》《Effective Modern C++》《Effective STL》《Exceptional C++》《More Exceptional C++》</em>)系列的一员，Effective 系列的三儿子，成书质量非常的高，对于提高c++水平很有帮助。<strong>作者的c++水平很高</strong>，因此对于c++问题的理解非常透彻，看了本书可以大大提升作为c++程序员的STL水平。</li>
+<li>本书作者对于很难理解的内容，不会堆砌大量的术语，<strong>不让人生厌</strong>。</li>
+<li>此书对于效率的笔墨花了很多，观看本书对于<strong>程序速度</strong>的提升很有帮助。</li>
+<li>有些章节教会了我们如何写出让别人看得懂得代码，对于读者的团队协作和软件工程都有所帮助。</li>
+<li>此书对于<code>STL</code>的原理与构造都有所提及，不仅仅让人明白这样怎么做，还让人明白背后的机制。</li>
+<li>此书作为一本<strong>技术书</strong>，却写的<strong>十分幽默</strong>，不让人感觉无聊。</li>
+</ol>
+<p><strong>总体来说这本书极其值得看值得买</strong></p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>以前听别人说c++太过于复杂，需要彻底的革新。当初我还是嗤之以鼻，认为c++的复杂都是需要的。但是在我的c++水平也有所上升之后，我才渐渐明白了他们。c++的高级技巧里充满了为了和过去不好的设计或者过于复杂的设计，交互而搞出的过于复杂的设计。不仅仅是我们为了使用c++而搞出来的高级技巧，甚至连标准也是这样，标准越出约厚。甚至这种历史的约束都影响了STL的命名空间，标准里先出现的东西占据了后出现的东西的位置，后出现的本该和它平行的东西却只能屈居人后，使得命名空间中的命名很不系统化、体系化（<code>mem_fun</code>、<code>mem_fun_pre</code>）。产生了很多为了复杂而复杂，和不明所以的东西。有人说c++标准需要的不是小修小补，而是壮士断腕。我是赞同的。历史上的很多过时的设计，没必要再去兼容它们了。</p>
+<p>这么说未免过于悲观，最起码c++11以来的c++发展还是给这门老语言灌注了不少新的活力。</p>
+
+      </div>
         
-          
-            <div class='friends-group'>
-              
-                <h2 class='friend-header'>
-                  
-                    <i class="fas fa-user-tie fa-fw" aria-hidden="true"></i>
-                  
-                  vidar-team
-                </h2>
-              
-              <div class='friend-content'>
+          <section class='meta' id="footer-meta">
+            
+              <time class="metatag time" itemprop="dateUpdated" datetime="2019-02-21T15:59:51+08:00" content="2019-02-21"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
+                &nbsp;2019-02-21
+              </time>
+            
+            
                 
-                  <a class='friend-card' style='background:; color:'
-                    target="_blank" rel="external nofollow noopener noreferrer" href='http://veritas501.space'>
-                    <div class='friend-left'>
-                      <img class='avatar' src='https://i.loli.net/2019/01/24/5c49953846a36.gif' data-echo='https://veritas501.space/images/215.png'/>
-                    </div>
-                    <div class='friend-right'>
-                      <p class="friend-name">veritas501</p>
-                      
-                    </div>
-                  </a>
+                <div class="metatag tags"><a class="tag" href="/tags/编程/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>&nbsp;编程</a></div> <div class="metatag tags"><a class="tag" href="/tags/c/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>&nbsp;c++</a></div>
+            
+            
+          </section>
+        
+
+        
+            <div class="prev-next">
                 
-                  <a class='friend-card' style='background:; color:'
-                    target="_blank" rel="external nofollow noopener noreferrer" href='http://li4n0.github.io'>
-                    <div class='friend-left'>
-                      <img class='avatar' src='https://i.loli.net/2019/01/24/5c49953846a36.gif' data-echo='https://avatars1.githubusercontent.com/u/34324462?s=460&v=4'/>
-                    </div>
-                    <div class='friend-right'>
-                      <p class="friend-name">li4n0</p>
-                      
-                    </div>
-                  </a>
                 
-                  <a class='friend-card' style='background:; color:'
-                    target="_blank" rel="external nofollow noopener noreferrer" href='https://ch1p.top/'>
-                    <div class='friend-left'>
-                      <img class='avatar' src='https://i.loli.net/2019/01/24/5c49953846a36.gif' data-echo='https://avatars1.githubusercontent.com/u/32428352?s=460&v=4'/>
-                    </div>
-                    <div class='friend-right'>
-                      <p class="friend-name">ch1p</p>
-                      
-                    </div>
-                  </a>
+                    <section class="next">
+                        <span class="art-item-right" aria-hidden="true">
+                            <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h4>
+                                <a href="/2019/01/28/leetcode 121周赛 writeup/" rel="prev" title="leetcode contest 121 writeup">
+                                    
+                                        leetcode contest 121 writeup
+                                    
+                                </a>
+                            </h4>
+                            
+                                
+                                <h6 class="tags">
+                                    <a class="tag" href="/tags/算法/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>算法</a> <a class="tag" href="/tags/编程/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>编程</a>
+                                </h6>
+                            
+                        </span>
+                    </section>
                 
-                  <a class='friend-card' style='background:; color:'
-                    target="_blank" rel="external nofollow noopener noreferrer" href='http://blog.ckj123.com/'>
-                    <div class='friend-left'>
-                      <img class='avatar' src='https://i.loli.net/2019/01/24/5c49953846a36.gif' data-echo='https://upload.jianshu.io/users/upload_avatars/9653874/02dda116-6e65-47a3-9c4c-9aeed4c6ac3d.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240'/>
-                    </div>
-                    <div class='friend-right'>
-                      <p class="friend-name">ckj123</p>
-                      
-                    </div>
-                  </a>
-                
-                  <a class='friend-card' style='background:; color:'
-                    target="_blank" rel="external nofollow noopener noreferrer" href='https://mki603.top/'>
-                    <div class='friend-left'>
-                      <img class='avatar' src='https://i.loli.net/2019/01/24/5c49953846a36.gif' data-echo='https://mki603.top/images/avatar.jpg'/>
-                    </div>
-                    <div class='friend-right'>
-                      <p class="friend-name">Mki603</p>
-                      
-                    </div>
-                  </a>
-                
-                  <a class='friend-card' style='background:; color:'
-                    target="_blank" rel="external nofollow noopener noreferrer" href='https://arisxu.github.io/'>
-                    <div class='friend-left'>
-                      <img class='avatar' src='https://i.loli.net/2019/01/24/5c49953846a36.gif' data-echo='https://avatars0.githubusercontent.com/u/33016384?s=400&v=4'/>
-                    </div>
-                    <div class='friend-right'>
-                      <p class="friend-name">aris</p>
-                      
-                    </div>
-                  </a>
-                
-                  <a class='friend-card' style='background:; color:'
-                    target="_blank" rel="external nofollow noopener noreferrer" href='https://oyiadin.github.io/'>
-                    <div class='friend-left'>
-                      <img class='avatar' src='https://i.loli.net/2019/01/24/5c49953846a36.gif' data-echo='https://avatars2.githubusercontent.com/u/4920922?s=460&v=4'/>
-                    </div>
-                    <div class='friend-right'>
-                      <p class="friend-name">oyiadin</p>
-                      
-                    </div>
-                  </a>
-                
-                  <a class='friend-card' style='background:; color:'
-                    target="_blank" rel="external nofollow noopener noreferrer" href='https://brownfly.github.io/'>
-                    <div class='friend-left'>
-                      <img class='avatar' src='https://i.loli.net/2019/01/24/5c49953846a36.gif' data-echo='https://avatars1.githubusercontent.com/u/34878457?s=400&v=4'/>
-                    </div>
-                    <div class='friend-right'>
-                      <p class="friend-name">browfly</p>
-                      
-                    </div>
-                  </a>
-                
-                  <a class='friend-card' style='background:; color:'
-                    target="_blank" rel="external nofollow noopener noreferrer" href='http://blog.0e1.cc/'>
-                    <div class='friend-left'>
-                      <img class='avatar' src='https://i.loli.net/2019/01/24/5c49953846a36.gif' data-echo='https://avatars1.githubusercontent.com/u/26854302?s=400&v=4'/>
-                    </div>
-                    <div class='friend-right'>
-                      <p class="friend-name">hammer</p>
-                      
-                    </div>
-                  </a>
-                
-                  <a class='friend-card' style='background:; color:'
-                    target="_blank" rel="external nofollow noopener noreferrer" href='https://ngc7292.github.io/'>
-                    <div class='friend-left'>
-                      <img class='avatar' src='https://i.loli.net/2019/01/24/5c49953846a36.gif' data-echo='https://ngc7292.github.io/images/avatar@2x.png'/>
-                    </div>
-                    <div class='friend-right'>
-                      <p class="friend-name">ngc</p>
-                      
-                    </div>
-                  </a>
-                
-              </div>
             </div>
-          
         
-          
-            <div class='friends-group'>
-              
-                <h2 class='friend-header'>
-                  
-                    <i class="fas fa-user-friends fa-fw" aria-hidden="true"></i>
-                  
-                  友人
-                </h2>
-              
-              <div class='friend-content'>
-                
-                  <a class='friend-card' style='background:; color:'
-                    target="_blank" rel="external nofollow noopener noreferrer" href='https://moeplus.cn/'>
-                    <div class='friend-left'>
-                      <img class='avatar' src='https://i.loli.net/2019/01/24/5c49953846a36.gif' data-echo='https://moeplus.cn/wp-content/uploads/2018/08/18577e805ad897d2.jpg'/>
-                    </div>
-                    <div class='friend-right'>
-                      <p class="friend-name">moeplus</p>
-                      
-                    </div>
-                  </a>
-                
-              </div>
-            </div>
-          
-        
-          
-        
-      
-      <br><hr>
-      <p><strong>欢迎大佬们互加友链，邮箱联系-_-</strong></p>
 
     </section>
+
 </article>
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
 
 <br>
 
@@ -410,6 +323,42 @@
 
 
 
+  <article class="post white-box comments">
+    <section class="article typo">
+
+      
+        
+
+    <div class="recommended_posts">
+        <h4><i class="fas fa-bookmark fa-fw" aria-hidden="true"></i>&nbsp;相关文章</h4>
+        <ul>
+            
+                <li><a href="http://yoursite.com/2019/01/28/leetcode 121周赛 writeup/">leetcode contest 121 writeup</a></li>
+            
+                <li><a href="http://yoursite.com/2019/01/27/重装系统/">如何重装系统</a></li>
+            
+                <li><a href="http://yoursite.com/2019/01/23/sql 连接/">sql中的连接</a></li>
+            
+                <li><a href="http://yoursite.com/2018/12/01/泛型/">在vs2017进行泛型模板编程的一些笔记</a></li>
+            
+        </ul>
+    </div>
+
+
+      
+
+      
+    </section>
+  </article>
+
+
+
+<script>
+    window.subData = {
+        title: 'Effective STL 读后感',
+        tools: true
+    }
+</script>
 
 
         </div>
@@ -421,6 +370,20 @@
       
       
         
+  <section class='toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章目录</div>
+  
+    <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div>
+  
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#评测"><span class="toc-text">评测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点"><span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优点"><span class="toc-text">优点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后记"><span class="toc-text">后记</span></a></li></ol>
+    </div>
+  </section>
+
 
       
     
@@ -637,19 +600,6 @@
 
 
 
-
-  <script src="https://cdn.jsdelivr.net/gh/toddmotto/echo@1.7.3/src/echo.js"></script>
-  <script>
-    echo.init({
-      offset: 100,
-      throttle: 250,
-      unload: false,
-      callback: function (element, op) {
-        console.log(element, 'has been', op + 'ed')
-      }
-    });
-    // echo.render(); is also available for non-scroll callbacks
-  </script>
 
 
     <script>setLoadingBarProgress(100);</script>
