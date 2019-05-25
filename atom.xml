@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-02-21T07:59:51.191Z</updated>
+  <updated>2019-05-25T13:47:38.409Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++ 中的多返回值的实现</title>
+    <link href="http://yoursite.com/2019/05/25/c++%E5%A4%9A%E8%BF%94%E5%9B%9E%E5%80%BC/"/>
+    <id>http://yoursite.com/2019/05/25/c++多返回值/</id>
+    <published>2019-05-25T08:28:15.000Z</published>
+    <updated>2019-05-25T13:47:38.409Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文将循序渐进的从最古老的C风格开始，一直讲到C++17中多返回值的实现方法</p><a id="more"></a><h2 id="C风格"><a href="#C风格" class="headerlink" title="C风格"></a>C风格</h2><h3 id="传入指针"><a href="#传入指针" class="headerlink" title="传入指针"></a>传入指针</h3><p>以指针形式传入待返回的值得地址，作为实参，并在类内对其赋值。</p><p>经典实现如下</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> *c, <span class="keyword">int</span> *d)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// ... do sth with a,b</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 对*c,*d赋值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>可以看出我们需要以<code>func(a, b, &amp;c, &amp;d)</code>这样的方式调用func，不仅不方便不直观，而且需要提前定义c, d，代码比较不简洁。</p><h3 id="返回结构体"><a href="#返回结构体" class="headerlink" title="返回结构体"></a>返回结构体</h3><p>经典实现如下</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> c;</span><br><span class="line">    <span class="keyword">int</span> d;</span><br><span class="line">&#125; return_v;</span><br><span class="line"><span class="function">retuen_v <span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// do sth</span></span><br><span class="line">    <span class="keyword">return</span> return_v&#123;c, d&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>麻烦就不说了，还污染了命名空间。而且再调用时，还要准备一个变量接受返回值，再从这个仅用一次的变量中取出需要的变量，太麻烦了。</p><h2 id="modern-c-风格"><a href="#modern-c-风格" class="headerlink" title="modern c++ 风格"></a>modern c++ 风格</h2><p>现代c++的多返回值得实现基本上用tuple实现，优雅而简洁。当然和python、go这种语言级的语法糖来说显得还是稍微麻烦一点的。不过有的人相较于语法糖形式的，说不定更喜欢这种学院派的泛型风格也说不定2333。</p><h3 id="为什么不用pair"><a href="#为什么不用pair" class="headerlink" title="为什么不用pair"></a>为什么不用pair</h3><ol><li><p>pair可以完全被tuple取代。</p></li><li><p>tuple泛用性更好。</p></li><li><blockquote><p>tuple在之后的c++标准中，有着更为重要的地位。也就是说会有越来越多的语法支持。</p></blockquote></li></ol><h3 id="c-11-风格"><a href="#c-11-风格" class="headerlink" title="c++11 风格"></a>c++11 风格</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tuple&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span>::tuple&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; divide(<span class="keyword">int</span> dividend, <span class="keyword">int</span> divisor) &#123;</span><br><span class="line">    <span class="keyword">return</span>  <span class="built_in">std</span>::make_tuple(dividend / divisor, dividend % divisor);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> quotient, remainder;</span><br><span class="line"></span><br><span class="line">    tie(quotient, remainder) = divide(<span class="number">14</span>, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; quotient &lt;&lt; <span class="string">','</span> &lt;&lt; remainder &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>用<code>tie</code>来绑定返回值从<code>tuple</code>。虽然比较方便，但是<code>make_tuple</code>这种形式还是稍显扭曲。</p><blockquote><p>自从粗读了c++ stl的代码后，我越发觉得stl的作者太厉害了。就像是上文的这种多返回值语法，实现是非常精妙的。在不添加新的语法糖的情况下，在已有的语法框架下，实现了这么复杂的功能。这非常符合我少即是多的想法，而且统一性好多了2333。</p></blockquote><h3 id="c-17风格"><a href="#c-17风格" class="headerlink" title="c++17风格"></a>c++17风格</h3><blockquote><p><strong>warning</strong> 您的编译器未必支持这么新的语法</p></blockquote><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tuple&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span>::tuple&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; divide(<span class="keyword">int</span> dividend, <span class="keyword">int</span> divisor) &#123;</span><br><span class="line">    <span class="keyword">return</span>  &#123;dividend / divisor, dividend % divisor&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> [quotient, remainder] = divide(<span class="number">14</span>, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; quotient &lt;&lt; <span class="string">','</span> &lt;&lt; remainder &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>用了新的c++特性，绑定结构体，精妙而美丽。</p><h3 id="c-11-c-17混用"><a href="#c-11-c-17混用" class="headerlink" title="c++11/c++17混用"></a>c++11/c++17混用</h3><p>当然我们也没必要全部使用c++11的特性，或者全用c++17的特性。</p><p>他们不互相矛盾，可以这样混用</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tuple&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span>::tuple&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; divide(<span class="keyword">int</span> dividend, <span class="keyword">int</span> divisor) &#123;</span><br><span class="line">    <span class="keyword">return</span>  &#123;dividend / divisor, dividend % divisor&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line">    tie(quotient, remainder) = divide(<span class="number">14</span>, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; quotient &lt;&lt; <span class="string">','</span> &lt;&lt; remainder &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文将循序渐进的从最古老的C风格开始，一直讲到C++17中多返回值的实现方法&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="从零开始的编程之路" scheme="http://yoursite.com/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%B7%AF/"/>
+    
+    
+      <category term="编程" scheme="http://yoursite.com/tags/%E7%BC%96%E7%A8%8B/"/>
+    
+      <category term="c++" scheme="http://yoursite.com/tags/c/"/>
+    
+  </entry>
   
   <entry>
     <title>Effective STL 读后感</title>
@@ -317,54 +341,6 @@
   </entry>
   
   <entry>
-    <title>bin实用小工具</title>
-    <link href="http://yoursite.com/2018/06/14/%E5%AE%9E%E7%94%A8%E5%B0%8F%E5%B7%A5%E5%85%B7/"/>
-    <id>http://yoursite.com/2018/06/14/实用小工具/</id>
-    <published>2018-06-14T11:04:15.000Z</published>
-    <updated>2018-07-01T07:59:13.708Z</updated>
-    
-    <content type="html"><![CDATA[<p>一些bin学习过程中常用的工具</p><a id="more"></a><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>glibc版本&lt;= 2.23</p><h2 id="bin必要工具："><a href="#bin必要工具：" class="headerlink" title="bin必要工具："></a>bin必要工具：</h2><p>Ubuntu:<br><a href="https://mirrors.aliyun.com/ubuntu-releases/16.04/" target="_blank" rel="noopener">https://mirrors.aliyun.com/ubuntu-releases/16.04/</a><br>你大可换其他的，例如kali</p><p>windows：<br>不解释</p><p>IDA7.0:<br>链接：<a href="https://pan.baidu.com/s/1s9K1TurV_bvlnWAAGJ4z-g" target="_blank" rel="noopener">https://pan.baidu.com/s/1s9K1TurV_bvlnWAAGJ4z-g</a> 密码：1e9i</p><p>没有IDA不知道怎么做bin题。。。</p><h2 id="pwn必要工具："><a href="#pwn必要工具：" class="headerlink" title="pwn必要工具："></a>pwn必要工具：</h2><p>pwntools:<br>apt-get update<br>apt-get install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential<br>pip install –upgrade pip<br>pip install –upgrade pwntools</p><p>pwn题必备，使用方法可以百度下，很容易找到的</p><p>Pwngdb:<br>链接：<a href="https://pan.baidu.com/s/1XtbuCfh_09ahlNAdly-KcA" target="_blank" rel="noopener">https://pan.baidu.com/s/1XtbuCfh_09ahlNAdly-KcA</a> 密码：mfz0</p><p>gdb的插件，简直是太好用了</p><p>msfvenom:<br><a href="https://github.com/rapid7/metasploit-framework/wiki/Nightly-Installers" target="_blank" rel="noopener">https://github.com/rapid7/metasploit-framework/wiki/Nightly-Installers</a></p><p>shellcode生成工具，可以生成各种要求的shellcode，蛮好用的</p><p>roputils:<br><a href="https://github.com/inaz2/roputils" target="_blank" rel="noopener">https://github.com/inaz2/roputils</a></p><p>和pwntools一起导入可能有点问题，一开始可能用不到，我用这个做过dl-resolve的题</p><p>ROPgadget:<br><a href="https://github.com/JonathanSalwan/ROPgadget" target="_blank" rel="noopener">https://github.com/JonathanSalwan/ROPgadget</a></p><p>ROP基本也是做pwn必备的东西，用法看自行看readme</p><h2 id="Re必要工具："><a href="#Re必要工具：" class="headerlink" title="Re必要工具："></a>Re必要工具：</h2><p>听逆向大神说好像一个IDA可以走天下了……<br>此外还需要用到OD。偶发性地，还需要一些小工具。</p><blockquote><p>建议安装吾爱破解工具包，再把里面的IDA等更新到最新版本。</p></blockquote><h2 id="小建议："><a href="#小建议：" class="headerlink" title="小建议："></a>小建议：</h2><blockquote><p>有余力的朋友建议购买正版。</p></blockquote><blockquote><p>要下载github上的东西，可以在虚拟机里输入 git clone +项目地址</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;一些bin学习过程中常用的工具&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="从零开始的ctf之路" scheme="http://yoursite.com/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84ctf%E4%B9%8B%E8%B7%AF/"/>
-    
-    
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
-      <category term="re" scheme="http://yoursite.com/tags/re/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>unlink</title>
-    <link href="http://yoursite.com/2018/06/14/unlink/"/>
-    <id>http://yoursite.com/2018/06/14/unlink/</id>
-    <published>2018-06-14T11:04:15.000Z</published>
-    <updated>2018-07-01T07:59:13.708Z</updated>
-    
-    <content type="html"><![CDATA[<p>一些堆溢出方面的关于unlink的知识</p><a id="more"></a><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>glibc中间维护的bins其实是用来存放malloc时从heap中割下来的堆,为了避免在heap中割下了太多的连续的free chunk，系统会将free chunk自动合并到top chunk中去（top chunk指系统heap中最高位未分配的那个chunk）或者合并成为更大的一个chunk。</p><h2 id="条件："><a href="#条件：" class="headerlink" title="条件："></a>条件：</h2><p>相邻的两块chunk 一块为top chunk 一块为free chunk 或者两块两块 free chunk。所以我们要做的是先连续割两块chunk，保证他们是连续的，以保证他们会unlink。</p><blockquote><p>在溢出时之所以要覆写p位，就是为了能够触发unlink</p></blockquote><h2 id="流程："><a href="#流程：" class="headerlink" title="流程："></a>流程：</h2><p>如果上一块是free chunk<br>&emsp;&emsp;合并上一块chunk并对上一块做unlink<br>如果下一块是<br>&emsp;&emsp;top：合并到top<br>&emsp;&emsp;一般chunk：<br>&emsp;&emsp;&emsp;&emsp;是free chunk：合并下一块chunk，并对下一块做unlin。最终加入unsortedbin<br>&emsp;&emsp;&emsp;&emsp;正在使用中：加入unsortedbin</p><h2 id="最终结果"><a href="#最终结果" class="headerlink" title="最终结果"></a>最终结果</h2><p>所有的同样大小的free chunk递归合并</p><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>假定有三块连续的smallchunk<br>第一块第二块freed，第三块issued。<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80<br>fd = &amp;smallbin<br>bk = &amp;smallbin<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x81(p位+1代表上一块已经使用已经使用)<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></p><p>free(p)(第二块),就会导致一二两块合并，从而触发unlink<br>系统检验p+size 与p-prevsize得到了上下两个块的头</p><blockquote><p>p+0x10为FD，p+0x18为BK</p></blockquote><pre><code>unlink(P,FD,BK){    P = p    FD = P -&gt; BK    BK = P -&gt; FD    FD -&gt; BK = BK    BK -&gt; FD = FD}</code></pre><p>相当于将这个块从bin中脱链。然后系统会将上一个块更改size之类的，然后链到unsortedbin上。</p><h2 id="预期利用方式"><a href="#预期利用方式" class="headerlink" title="预期利用方式"></a>预期利用方式</h2><p>将程序劫持到shellcode中</p><blockquote><p>shellcode是一段用于利用软件漏洞而执行的代码，以其经常让攻击者获得shell而得名。 shellcode常常使用机器语言编写。</p></blockquote><p>利用unlink导致返回了weichunk中指向的地址。最后触发任意写，将必须触发的函数在got表中值改到shellcode，或者更改函数指针变量的值导致触发system()。</p><h2 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路:"></a>利用思路:</h2><p>首先很直观地想到通过堆溢出q堆盖掉后面的FD和BK，将fd改为gou entry -12，将bk 改为 shellcode 的地址，将size低位改为1。在free(q)时会发生如下过程：</p><pre><code>free(q)FD = P-&gt;fd = got entry -12BK = P-&gt;bk =sc(shellcode) addrFD-&gt;bk=BK(got hijacking)got entry -12 +12 = sc addrBK-&gt;fd=FDsc addr+8=got entry -12</code></pre><p>在此过程后，会会进行一次任意写将FD+0x10的地方写入shellcode<br>然而在现实情况中，现代的glibc会有着针对chunk的检查以及其他保护机制，使得该方法无法使用。<br>因此我们的利用方式是<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80</p><p>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x91<br>&lt; r指向此处&gt;<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80(p位+1代表上一块已经使用已经使用)<br>&lt; q指向此处&gt;<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>通过对于第二个chunk进行堆溢出将第二个块整体盖掉然后在其中伪造一个chunk并且改写第三个堆块的prev_size<br>最后变为<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80</p><p>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x91<br>fake prev_size = 0x90&lt; r指向此处&gt;<br>fake size = 0x80<br>fake fd = &amp;r-0x18<br>fake bk = &amp;r-0x10<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0x80<br>size = 0x80(p位+1代表上一块已经使用已经使用)<br>&lt; q指向此处&gt;<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>这样子在可以绕过两个检查，成功将r并入了chunk中从而进行任意写。<br>具体流程：<br>free(q)<br>找到q与r都是freed<br>找到了最下面的q，通过q-0x10找到的prev_size。q-0x10-prev_size找到r。对于r执行unlink<br>跳过了check：<br>r-&gt;fd-&gt;bk == r = <em>(&amp;r-0x18+0x18) ==r<br>f-&gt;bk-&gt;fd == r = </em>(&amp;r-0x18+0x18) ==r</p><p>FD-&gt;bk = BK =》<em>（&amp;r-0x18+0x18）=&amp;r-0x10<br>BK-&gt;fd = FD =》</em>（&amp;r-0x10+0x10）=&amp;r-0x18</p><p>大功告成</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;一些堆溢出方面的关于unlink的知识&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="从零开始的ctf之路" scheme="http://yoursite.com/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84ctf%E4%B9%8B%E8%B7%AF/"/>
-    
-    
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
-      <category term="堆" scheme="http://yoursite.com/tags/%E5%A0%86/"/>
-    
-  </entry>
-  
-  <entry>
     <title>堆与最基本的堆溢出-fastbin</title>
     <link href="http://yoursite.com/2018/06/14/%E6%9C%80%E5%9F%BA%E6%9C%AC%E7%9A%84%E5%A0%86%E6%BA%A2%E5%87%BA-fastbin/"/>
     <id>http://yoursite.com/2018/06/14/最基本的堆溢出-fastbin/</id>
@@ -411,28 +387,6 @@
   </entry>
   
   <entry>
-    <title>pwn的杂记</title>
-    <link href="http://yoursite.com/2018/06/14/pwn%E7%9A%84%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%9A%84%E6%9D%82%E8%AE%B0/"/>
-    <id>http://yoursite.com/2018/06/14/pwn的小知识的杂记/</id>
-    <published>2018-06-14T11:04:15.000Z</published>
-    <updated>2018-07-28T01:02:02.380Z</updated>
-    
-    <content type="html"><![CDATA[<p>这是我的一些pwn的随笔</p><a id="more"></a><h2 id="先讲一些关于pwn的术语吧"><a href="#先讲一些关于pwn的术语吧" class="headerlink" title="先讲一些关于pwn的术语吧"></a>先讲一些关于pwn的术语吧</h2><blockquote><ul><li><strong>payload</strong>（有效攻击负载）是包含在你用于一次漏洞利用（exploit）中的ShellCode中的主要功能代码</li><li><strong>shellcode</strong>（可提权代码） 对于一个漏洞来说，ShellCode就是一个用于某个漏洞的二进制代码框架，有了这个框架你可以在这个ShellCode中包含你需要的Payload来做一些事情</li><li><strong>exp</strong> (Exploit )漏洞利用，一般是个demo程序</li><li><strong>poc</strong>.(Proof of Concept)漏洞证明，一般就是个样本 用来证明和复现</li><li><strong>vul</strong>：(Vulnerability)  :漏洞”Pwn”：是一个黑客语法的俚语词  ，是指攻破设备或者系统</li></ul></blockquote><h2 id="gdb-peda-使用中的常用技巧"><a href="#gdb-peda-使用中的常用技巧" class="headerlink" title="gdb-peda 使用中的常用技巧"></a>gdb-peda 使用中的常用技巧</h2><p>可以使用pattern_create()创建一个形如</p><blockquote><p>pattern_create(200)<br>‘AAA%AAsAABAA$AAnAACAA-AA(AADAA;AA)AAEAAaAA0AAFAAbAA1AAGAAcAA2AAHAAdAA3AAIAAeAA4AAJAAfAA5AAKAAgAA6AALAAhAA7AAMAAiAA8AANAAjAA9AAOAAkAAPAAlAAQAAmAARAAnAASAAoAATAApAAUAAqAAVAArAAWAAsAAXAAtAAYAAuAAZAAvAAwA’</p></blockquote><p>的字符串，把他输入进程序就可以得到eip被误占所引发的错误。<br>再用pattern_offset 输入出错信息里的地址，就可以算出距离首地址的偏移<br>在简单的栈溢出中应当在覆盖完所有的临时变量后再顺便把bp（x86 4个 x64 8个）盖了<br>在叫完system以后会自动把其后的作为参数但是中间会需要加入参数中作为返回地址的数据（相当于传入四个字节换掉堆栈中的eip）（参数中字符串请用指针）。（当然64位中是不可以用的，因为64位中用寄存器传前七个参数）</p><p>64位自动对应p64 32位使用p32</p><blockquote><p>sh.recvuntil(‘:‘)<br>address = sh.recvuntil(‘?‘, drop=True)<br>address = int(address, 16)</p></blockquote><p>这样的方法可以获得写得起始点的地址，以确认shellcode的地址，免于重复运行计算<br>‘sadsaddas’+’asdsadsda’ == ‘saddsdsdsdsa’  ‘asdasdasda<br>checksec 可以获得保护开启情况;</p><p>break <em>0x400100 (b main):在 0x400100 处下断点<br>tb一次性断点<br>info b：查看断点信息<br>delete [number]：删除断点<br>watch </em>(int *)0x08044530：在内存0x0804453处的数据改变时stop<br>x /4xg \$ebp：查看ebp开始的4个8字节内容（b：单字节，h：双字节，w：四字节，g：八字节；x：十六进制，s：字符串输出，i：反汇编，c：单字符）<br>p $eax：输出eax的内容<br>set \$eax=4：修改变量值start<br>ls -f 可以展示隐藏文件</p><h2 id="gdb-peda常用指令（机翻）"><a href="#gdb-peda常用指令（机翻）" class="headerlink" title="gdb-peda常用指令（机翻）"></a>gdb-peda常用指令（机翻）</h2><p>c：继续运行<br>r：重新开始运行<br>ni：单步步过<br>si：单步步入<br>fini：运行至函数刚结束处<br>return expression：将函数返回值指定为expression<br>bt：查看当前栈帧<br>info f：查看当前栈帧<br>context：查看运行上下文<br>stack：查看当前堆栈<br>call func：强制函数调用<br>ropgagdet：找common rop<br>vmmap：查看虚拟地址分布<br>shellcode：搜索，生成shellcode<br>ptype struct link_map：查看link_map定义<br>p &amp;((struct link_map*)0)-&gt;l_info：查看l_info成员偏移<br>libc ：打印libc的基址<br>ld ：打印ld的基地址<br>codebase ：打印代码段的基础<br>heap ：打印堆的基础<br>got ：打印全局偏移表信息<br>dyn ：打印动态部分信息<br>findcall ：找到一些函数调用<br>bcall ：在某个函数调用中设置断点<br>tls ：打印线程本地存储地址<br>at ：按进程名称附加<br>findsyscall ：找到系统调用<br>fmtarg ：计算格式字符串的索引<br>你需要停止有漏洞的printf。<br>force ：计算力所在之处的nb。<br>heapinfo ：打印堆的一些信息<br>heapinfo（竞技场地址）<br>默认是当前线程的舞台<br>如果启用了tcache，它会显示tcache条目的信息<br>heapinfoall ：打印堆的一些信息（所有线程）<br>arenainfo ：打印所有竞技场的一些信息<br>chunkinfo：打印块的信息<br>chunkinfo（受害者的地址）<br>chunkptr ：打印块的信息<br>chunkptr（用户ptr的地址）<br>mergeinfo ：打印合并信息<br>mergeinfo（受f害者地址）<br>printfastbin ：打印fastbin的一些信息<br>tracemalloc on ：跟踪malloc并释放并检测到一些错误。<br>你需要首先运行这个进程tracemalloc on，它会记录所有的malloc和free。<br>你可以设置DEBUGpwngdb.py，比打印所有的malloc和免费的信息如screeshot。<br>parseheap ：解析堆布局<br>magic ：在glibc中打印有用的变量和函数<br>fp ：显示FILE结构<br>fp（文件的地址）<br>fpchain：显示FILE的链接列表<br>orange：中的测试house of orange条件_IO_flush_lockp<br>z() : 调出此时的调试界面<br>橙色（FILE的地址）<br>ctrl + c停止调试</p><hr><p>栈是从高向低发展<br>栈溢出是从低向高溢出<br>而单个数据内部则是从高向低按字节存放的<br>而大多数的看内存的软件则是从低向高看的</p><hr><p>ROPgadget <strong>常用</strong>指令</p><ul><li><code>binary</code></li><li><code>ropchain</code></li></ul><blockquote><p>格式： <code>ROPgadget --binary the_binary_elf ropchain</code></p></blockquote><hr><p>程序中已经用到的会被link进程序固定的<strong>plt表</strong>中</p><p>而没有被用到的也会被放在libc中，只需要无限leak即可找到system地址。</p><blockquote><p>无限leak通常出现在栈溢出可以使程序重现进入该函数。</p></blockquote><hr>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这是我的一些pwn的随笔&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="从零开始的ctf之路" scheme="http://yoursite.com/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84ctf%E4%B9%8B%E8%B7%AF/"/>
-    
-    
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
-  </entry>
-  
-  <entry>
     <title>linux上的链接</title>
     <link href="http://yoursite.com/2018/06/14/linux%E4%B8%8A%E7%9A%84%E5%BB%B6%E8%BF%9F%E9%87%8D%E5%AE%9A%E4%BD%8D/"/>
     <id>http://yoursite.com/2018/06/14/linux上的延迟重定位/</id>
@@ -451,6 +405,30 @@
     
     
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>unlink</title>
+    <link href="http://yoursite.com/2018/06/14/unlink/"/>
+    <id>http://yoursite.com/2018/06/14/unlink/</id>
+    <published>2018-06-14T11:04:15.000Z</published>
+    <updated>2018-07-01T07:59:13.708Z</updated>
+    
+    <content type="html"><![CDATA[<p>一些堆溢出方面的关于unlink的知识</p><a id="more"></a><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>glibc中间维护的bins其实是用来存放malloc时从heap中割下来的堆,为了避免在heap中割下了太多的连续的free chunk，系统会将free chunk自动合并到top chunk中去（top chunk指系统heap中最高位未分配的那个chunk）或者合并成为更大的一个chunk。</p><h2 id="条件："><a href="#条件：" class="headerlink" title="条件："></a>条件：</h2><p>相邻的两块chunk 一块为top chunk 一块为free chunk 或者两块两块 free chunk。所以我们要做的是先连续割两块chunk，保证他们是连续的，以保证他们会unlink。</p><blockquote><p>在溢出时之所以要覆写p位，就是为了能够触发unlink</p></blockquote><h2 id="流程："><a href="#流程：" class="headerlink" title="流程："></a>流程：</h2><p>如果上一块是free chunk<br>&emsp;&emsp;合并上一块chunk并对上一块做unlink<br>如果下一块是<br>&emsp;&emsp;top：合并到top<br>&emsp;&emsp;一般chunk：<br>&emsp;&emsp;&emsp;&emsp;是free chunk：合并下一块chunk，并对下一块做unlin。最终加入unsortedbin<br>&emsp;&emsp;&emsp;&emsp;正在使用中：加入unsortedbin</p><h2 id="最终结果"><a href="#最终结果" class="headerlink" title="最终结果"></a>最终结果</h2><p>所有的同样大小的free chunk递归合并</p><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>假定有三块连续的smallchunk<br>第一块第二块freed，第三块issued。<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80<br>fd = &amp;smallbin<br>bk = &amp;smallbin<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x81(p位+1代表上一块已经使用已经使用)<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></p><p>free(p)(第二块),就会导致一二两块合并，从而触发unlink<br>系统检验p+size 与p-prevsize得到了上下两个块的头</p><blockquote><p>p+0x10为FD，p+0x18为BK</p></blockquote><pre><code>unlink(P,FD,BK){    P = p    FD = P -&gt; BK    BK = P -&gt; FD    FD -&gt; BK = BK    BK -&gt; FD = FD}</code></pre><p>相当于将这个块从bin中脱链。然后系统会将上一个块更改size之类的，然后链到unsortedbin上。</p><h2 id="预期利用方式"><a href="#预期利用方式" class="headerlink" title="预期利用方式"></a>预期利用方式</h2><p>将程序劫持到shellcode中</p><blockquote><p>shellcode是一段用于利用软件漏洞而执行的代码，以其经常让攻击者获得shell而得名。 shellcode常常使用机器语言编写。</p></blockquote><p>利用unlink导致返回了weichunk中指向的地址。最后触发任意写，将必须触发的函数在got表中值改到shellcode，或者更改函数指针变量的值导致触发system()。</p><h2 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路:"></a>利用思路:</h2><p>首先很直观地想到通过堆溢出q堆盖掉后面的FD和BK，将fd改为gou entry -12，将bk 改为 shellcode 的地址，将size低位改为1。在free(q)时会发生如下过程：</p><pre><code>free(q)FD = P-&gt;fd = got entry -12BK = P-&gt;bk =sc(shellcode) addrFD-&gt;bk=BK(got hijacking)got entry -12 +12 = sc addrBK-&gt;fd=FDsc addr+8=got entry -12</code></pre><p>在此过程后，会会进行一次任意写将FD+0x10的地方写入shellcode<br>然而在现实情况中，现代的glibc会有着针对chunk的检查以及其他保护机制，使得该方法无法使用。<br>因此我们的利用方式是<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80</p><p>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x91<br>&lt; r指向此处&gt;<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80(p位+1代表上一块已经使用已经使用)<br>&lt; q指向此处&gt;<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>通过对于第二个chunk进行堆溢出将第二个块整体盖掉然后在其中伪造一个chunk并且改写第三个堆块的prev_size<br>最后变为<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80</p><p>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x91<br>fake prev_size = 0x90&lt; r指向此处&gt;<br>fake size = 0x80<br>fake fd = &amp;r-0x18<br>fake bk = &amp;r-0x10<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0x80<br>size = 0x80(p位+1代表上一块已经使用已经使用)<br>&lt; q指向此处&gt;<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>这样子在可以绕过两个检查，成功将r并入了chunk中从而进行任意写。<br>具体流程：<br>free(q)<br>找到q与r都是freed<br>找到了最下面的q，通过q-0x10找到的prev_size。q-0x10-prev_size找到r。对于r执行unlink<br>跳过了check：<br>r-&gt;fd-&gt;bk == r = <em>(&amp;r-0x18+0x18) ==r<br>f-&gt;bk-&gt;fd == r = </em>(&amp;r-0x18+0x18) ==r</p><p>FD-&gt;bk = BK =》<em>（&amp;r-0x18+0x18）=&amp;r-0x10<br>BK-&gt;fd = FD =》</em>（&amp;r-0x10+0x10）=&amp;r-0x18</p><p>大功告成</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;一些堆溢出方面的关于unlink的知识&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="从零开始的ctf之路" scheme="http://yoursite.com/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84ctf%E4%B9%8B%E8%B7%AF/"/>
+    
+    
+      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
+      <category term="堆" scheme="http://yoursite.com/tags/%E5%A0%86/"/>
     
   </entry>
   
@@ -475,6 +453,52 @@
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
       <category term="plt&amp;got" scheme="http://yoursite.com/tags/plt-got/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>pwn的杂记</title>
+    <link href="http://yoursite.com/2018/06/14/pwn%E7%9A%84%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%9A%84%E6%9D%82%E8%AE%B0/"/>
+    <id>http://yoursite.com/2018/06/14/pwn的小知识的杂记/</id>
+    <published>2018-06-14T11:04:15.000Z</published>
+    <updated>2018-07-28T01:02:02.380Z</updated>
+    
+    <content type="html"><![CDATA[<p>这是我的一些pwn的随笔</p><a id="more"></a><h2 id="先讲一些关于pwn的术语吧"><a href="#先讲一些关于pwn的术语吧" class="headerlink" title="先讲一些关于pwn的术语吧"></a>先讲一些关于pwn的术语吧</h2><blockquote><ul><li><strong>payload</strong>（有效攻击负载）是包含在你用于一次漏洞利用（exploit）中的ShellCode中的主要功能代码</li><li><strong>shellcode</strong>（可提权代码） 对于一个漏洞来说，ShellCode就是一个用于某个漏洞的二进制代码框架，有了这个框架你可以在这个ShellCode中包含你需要的Payload来做一些事情</li><li><strong>exp</strong> (Exploit )漏洞利用，一般是个demo程序</li><li><strong>poc</strong>.(Proof of Concept)漏洞证明，一般就是个样本 用来证明和复现</li><li><strong>vul</strong>：(Vulnerability)  :漏洞”Pwn”：是一个黑客语法的俚语词  ，是指攻破设备或者系统</li></ul></blockquote><h2 id="gdb-peda-使用中的常用技巧"><a href="#gdb-peda-使用中的常用技巧" class="headerlink" title="gdb-peda 使用中的常用技巧"></a>gdb-peda 使用中的常用技巧</h2><p>可以使用pattern_create()创建一个形如</p><blockquote><p>pattern_create(200)<br>‘AAA%AAsAABAA$AAnAACAA-AA(AADAA;AA)AAEAAaAA0AAFAAbAA1AAGAAcAA2AAHAAdAA3AAIAAeAA4AAJAAfAA5AAKAAgAA6AALAAhAA7AAMAAiAA8AANAAjAA9AAOAAkAAPAAlAAQAAmAARAAnAASAAoAATAApAAUAAqAAVAArAAWAAsAAXAAtAAYAAuAAZAAvAAwA’</p></blockquote><p>的字符串，把他输入进程序就可以得到eip被误占所引发的错误。<br>再用pattern_offset 输入出错信息里的地址，就可以算出距离首地址的偏移<br>在简单的栈溢出中应当在覆盖完所有的临时变量后再顺便把bp（x86 4个 x64 8个）盖了<br>在叫完system以后会自动把其后的作为参数但是中间会需要加入参数中作为返回地址的数据（相当于传入四个字节换掉堆栈中的eip）（参数中字符串请用指针）。（当然64位中是不可以用的，因为64位中用寄存器传前七个参数）</p><p>64位自动对应p64 32位使用p32</p><blockquote><p>sh.recvuntil(‘:‘)<br>address = sh.recvuntil(‘?‘, drop=True)<br>address = int(address, 16)</p></blockquote><p>这样的方法可以获得写得起始点的地址，以确认shellcode的地址，免于重复运行计算<br>‘sadsaddas’+’asdsadsda’ == ‘saddsdsdsdsa’  ‘asdasdasda<br>checksec 可以获得保护开启情况;</p><p>break <em>0x400100 (b main):在 0x400100 处下断点<br>tb一次性断点<br>info b：查看断点信息<br>delete [number]：删除断点<br>watch </em>(int *)0x08044530：在内存0x0804453处的数据改变时stop<br>x /4xg \$ebp：查看ebp开始的4个8字节内容（b：单字节，h：双字节，w：四字节，g：八字节；x：十六进制，s：字符串输出，i：反汇编，c：单字符）<br>p $eax：输出eax的内容<br>set \$eax=4：修改变量值start<br>ls -f 可以展示隐藏文件</p><h2 id="gdb-peda常用指令（机翻）"><a href="#gdb-peda常用指令（机翻）" class="headerlink" title="gdb-peda常用指令（机翻）"></a>gdb-peda常用指令（机翻）</h2><p>c：继续运行<br>r：重新开始运行<br>ni：单步步过<br>si：单步步入<br>fini：运行至函数刚结束处<br>return expression：将函数返回值指定为expression<br>bt：查看当前栈帧<br>info f：查看当前栈帧<br>context：查看运行上下文<br>stack：查看当前堆栈<br>call func：强制函数调用<br>ropgagdet：找common rop<br>vmmap：查看虚拟地址分布<br>shellcode：搜索，生成shellcode<br>ptype struct link_map：查看link_map定义<br>p &amp;((struct link_map*)0)-&gt;l_info：查看l_info成员偏移<br>libc ：打印libc的基址<br>ld ：打印ld的基地址<br>codebase ：打印代码段的基础<br>heap ：打印堆的基础<br>got ：打印全局偏移表信息<br>dyn ：打印动态部分信息<br>findcall ：找到一些函数调用<br>bcall ：在某个函数调用中设置断点<br>tls ：打印线程本地存储地址<br>at ：按进程名称附加<br>findsyscall ：找到系统调用<br>fmtarg ：计算格式字符串的索引<br>你需要停止有漏洞的printf。<br>force ：计算力所在之处的nb。<br>heapinfo ：打印堆的一些信息<br>heapinfo（竞技场地址）<br>默认是当前线程的舞台<br>如果启用了tcache，它会显示tcache条目的信息<br>heapinfoall ：打印堆的一些信息（所有线程）<br>arenainfo ：打印所有竞技场的一些信息<br>chunkinfo：打印块的信息<br>chunkinfo（受害者的地址）<br>chunkptr ：打印块的信息<br>chunkptr（用户ptr的地址）<br>mergeinfo ：打印合并信息<br>mergeinfo（受f害者地址）<br>printfastbin ：打印fastbin的一些信息<br>tracemalloc on ：跟踪malloc并释放并检测到一些错误。<br>你需要首先运行这个进程tracemalloc on，它会记录所有的malloc和free。<br>你可以设置DEBUGpwngdb.py，比打印所有的malloc和免费的信息如screeshot。<br>parseheap ：解析堆布局<br>magic ：在glibc中打印有用的变量和函数<br>fp ：显示FILE结构<br>fp（文件的地址）<br>fpchain：显示FILE的链接列表<br>orange：中的测试house of orange条件_IO_flush_lockp<br>z() : 调出此时的调试界面<br>橙色（FILE的地址）<br>ctrl + c停止调试</p><hr><p>栈是从高向低发展<br>栈溢出是从低向高溢出<br>而单个数据内部则是从高向低按字节存放的<br>而大多数的看内存的软件则是从低向高看的</p><hr><p>ROPgadget <strong>常用</strong>指令</p><ul><li><code>binary</code></li><li><code>ropchain</code></li></ul><blockquote><p>格式： <code>ROPgadget --binary the_binary_elf ropchain</code></p></blockquote><hr><p>程序中已经用到的会被link进程序固定的<strong>plt表</strong>中</p><p>而没有被用到的也会被放在libc中，只需要无限leak即可找到system地址。</p><blockquote><p>无限leak通常出现在栈溢出可以使程序重现进入该函数。</p></blockquote><hr>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这是我的一些pwn的随笔&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="从零开始的ctf之路" scheme="http://yoursite.com/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84ctf%E4%B9%8B%E8%B7%AF/"/>
+    
+    
+      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>bin实用小工具</title>
+    <link href="http://yoursite.com/2018/06/14/%E5%AE%9E%E7%94%A8%E5%B0%8F%E5%B7%A5%E5%85%B7/"/>
+    <id>http://yoursite.com/2018/06/14/实用小工具/</id>
+    <published>2018-06-14T11:04:15.000Z</published>
+    <updated>2018-07-01T07:59:13.708Z</updated>
+    
+    <content type="html"><![CDATA[<p>一些bin学习过程中常用的工具</p><a id="more"></a><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>glibc版本&lt;= 2.23</p><h2 id="bin必要工具："><a href="#bin必要工具：" class="headerlink" title="bin必要工具："></a>bin必要工具：</h2><p>Ubuntu:<br><a href="https://mirrors.aliyun.com/ubuntu-releases/16.04/" target="_blank" rel="noopener">https://mirrors.aliyun.com/ubuntu-releases/16.04/</a><br>你大可换其他的，例如kali</p><p>windows：<br>不解释</p><p>IDA7.0:<br>链接：<a href="https://pan.baidu.com/s/1s9K1TurV_bvlnWAAGJ4z-g" target="_blank" rel="noopener">https://pan.baidu.com/s/1s9K1TurV_bvlnWAAGJ4z-g</a> 密码：1e9i</p><p>没有IDA不知道怎么做bin题。。。</p><h2 id="pwn必要工具："><a href="#pwn必要工具：" class="headerlink" title="pwn必要工具："></a>pwn必要工具：</h2><p>pwntools:<br>apt-get update<br>apt-get install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential<br>pip install –upgrade pip<br>pip install –upgrade pwntools</p><p>pwn题必备，使用方法可以百度下，很容易找到的</p><p>Pwngdb:<br>链接：<a href="https://pan.baidu.com/s/1XtbuCfh_09ahlNAdly-KcA" target="_blank" rel="noopener">https://pan.baidu.com/s/1XtbuCfh_09ahlNAdly-KcA</a> 密码：mfz0</p><p>gdb的插件，简直是太好用了</p><p>msfvenom:<br><a href="https://github.com/rapid7/metasploit-framework/wiki/Nightly-Installers" target="_blank" rel="noopener">https://github.com/rapid7/metasploit-framework/wiki/Nightly-Installers</a></p><p>shellcode生成工具，可以生成各种要求的shellcode，蛮好用的</p><p>roputils:<br><a href="https://github.com/inaz2/roputils" target="_blank" rel="noopener">https://github.com/inaz2/roputils</a></p><p>和pwntools一起导入可能有点问题，一开始可能用不到，我用这个做过dl-resolve的题</p><p>ROPgadget:<br><a href="https://github.com/JonathanSalwan/ROPgadget" target="_blank" rel="noopener">https://github.com/JonathanSalwan/ROPgadget</a></p><p>ROP基本也是做pwn必备的东西，用法看自行看readme</p><h2 id="Re必要工具："><a href="#Re必要工具：" class="headerlink" title="Re必要工具："></a>Re必要工具：</h2><p>听逆向大神说好像一个IDA可以走天下了……<br>此外还需要用到OD。偶发性地，还需要一些小工具。</p><blockquote><p>建议安装吾爱破解工具包，再把里面的IDA等更新到最新版本。</p></blockquote><h2 id="小建议："><a href="#小建议：" class="headerlink" title="小建议："></a>小建议：</h2><blockquote><p>有余力的朋友建议购买正版。</p></blockquote><blockquote><p>要下载github上的东西，可以在虚拟机里输入 git clone +项目地址</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;一些bin学习过程中常用的工具&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="从零开始的ctf之路" scheme="http://yoursite.com/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84ctf%E4%B9%8B%E8%B7%AF/"/>
+    
+    
+      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
+      <category term="re" scheme="http://yoursite.com/tags/re/"/>
     
   </entry>
   
