@@ -232,11 +232,11 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <p>之前我写过一篇长期更新的《我踩过的c++的坑》，因为时间很长，文章太长了，所以以后遇到的坑都记在这篇续里</p>
+        <p>之前我写过一篇长期更新的《我踩过的c++的坑》，因为时间很长，文章太长了，查看起来太麻烦了，所以以后遇到的坑都记在这篇续里</p>
 <p><a href="https://www.intmian.com/2018/07/21/%E6%88%91%E8%B8%A9%E8%BF%87%E7%9A%84c++%E7%9A%84%E5%9D%91/">旧文链接</a></p>
 <p><strong>持续更新</strong></p>
 <a id="more"></a>
-<h3 id="关于返回右值引用或使用移动语义可能会导致的问题"><a href="#关于返回右值引用或使用移动语义可能会导致的问题" class="headerlink" title="关于返回右值引用或使用移动语义可能会导致的问题"></a>关于返回右值引用或使用移动语义可能会导致的问题</h3><p>今天写了一个这样的函数</p>
+<h2 id="关于返回右值引用或使用移动语义可能会导致的问题"><a href="#关于返回右值引用或使用移动语义可能会导致的问题" class="headerlink" title="关于返回右值引用或使用移动语义可能会导致的问题"></a>关于返回右值引用或使用移动语义可能会导致的问题</h2><p>今天写了一个这样的函数</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">T&amp;&amp; <span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    T t;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="keyword">return</span> move(t);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样的代码显然是错误的，因为右值引用实际上也是一种引用，而返回一个临时变量的引用是会出问题的。可以通过编译但是退出f时会报错（在vs2019上，理论上也有可能返回不正确的临时堆栈内容）。</p>
 <p>以下的代码才是正确的演示，只要不反回临时变量的都行。</p>
@@ -254,17 +254,17 @@
 <blockquote>
 <p>学艺不精，哎。一直没有研究过右值作为返回值，今天出问题了。以后学东西还是要实践同行。</p>
 </blockquote>
-<h3 id="函数形参中的左值引用不能置入匿名变量（不会自动折叠）"><a href="#函数形参中的左值引用不能置入匿名变量（不会自动折叠）" class="headerlink" title="函数形参中的左值引用不能置入匿名变量（不会自动折叠）"></a>函数形参中的左值引用不能置入匿名变量（不会自动折叠）</h3><p>例</p>
+<h2 id="函数形参中的左值引用不能置入匿名变量（不会自动折叠）"><a href="#函数形参中的左值引用不能置入匿名变量（不会自动折叠）" class="headerlink" title="函数形参中的左值引用不能置入匿名变量（不会自动折叠）"></a>函数形参中的左值引用不能置入匿名变量（不会自动折叠）</h2><p>例</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fun</span><span class="params">(T&amp; t)</span></span>;</span><br><span class="line">func(T());</span><br></pre></td></tr></table></figure>
 <p>T()不会自动折叠T&amp;</p>
 <p>只能这样写</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> t = T()</span><br><span class="line"><span class="keyword">void</span> fun(T&amp; t);</span><br><span class="line">func(t);</span><br></pre></td></tr></table></figure>
-<h3 id="头文件中不能出现定义"><a href="#头文件中不能出现定义" class="headerlink" title="头文件中不能出现定义"></a>头文件中不能出现定义</h3><p>只能出现声明哦，不然一定会出现链接问题。</p>
+<h2 id="头文件中不能出现定义"><a href="#头文件中不能出现定义" class="headerlink" title="头文件中不能出现定义"></a>头文件中不能出现定义</h2><p>只能出现声明哦，不然一定会出现链接问题。</p>
 <p>像是全局变量应该在头文件中</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> T t;</span><br></pre></td></tr></table></figure>
 <p>.cpp中</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T t = t0;</span><br></pre></td></tr></table></figure>
-<h3 id="匿名对象就是右值，不能传入左值引用中"><a href="#匿名对象就是右值，不能传入左值引用中" class="headerlink" title="匿名对象就是右值，不能传入左值引用中"></a>匿名对象就是右值，不能传入左值引用中</h3><p>像是<code>T(arg...)</code>这样的匿名对象本质上和<code>1</code> <code>1.0</code>这样的数值常量差不多。如果你的函数参数是 <code>const T&amp;</code> 或 <code>T&amp;</code>，的话是不能正常调用的。事实上不能通过编译。因为在调用函数后匿名对象就析构了，然后函数里传进去的引用就没有意义了。</p>
+<h2 id="匿名对象就是右值，不能传入左值引用中"><a href="#匿名对象就是右值，不能传入左值引用中" class="headerlink" title="匿名对象就是右值，不能传入左值引用中"></a>匿名对象就是右值，不能传入左值引用中</h2><p>像是<code>T(arg...)</code>这样的匿名对象本质上和<code>1</code> <code>1.0</code>这样的数值常量差不多。如果你的函数参数是 <code>const T&amp;</code> 或 <code>T&amp;</code>，的话是不能正常调用的。事实上不能通过编译。因为在调用函数后匿名对象就析构了，然后函数里传进去的引用就没有意义了。</p>
 <p>正确的函数格式</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(T t)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(T&amp;&amp; t)</span></span>;</span><br></pre></td></tr></table></figure>
 
@@ -272,7 +272,7 @@
         
           <section class='meta' id="footer-meta">
             
-              <time class="metatag time" itemprop="dateUpdated" datetime="2019-06-08T11:06:46+08:00" content="2019-06-08"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
+              <time class="metatag time" itemprop="dateUpdated" datetime="2019-06-08T11:09:50+08:00" content="2019-06-08"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
                 &nbsp;2019-06-08
               </time>
             
@@ -380,7 +380,7 @@
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#关于返回右值引用或使用移动语义可能会导致的问题"><span class="toc-text">关于返回右值引用或使用移动语义可能会导致的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数形参中的左值引用不能置入匿名变量（不会自动折叠）"><span class="toc-text">函数形参中的左值引用不能置入匿名变量（不会自动折叠）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#头文件中不能出现定义"><span class="toc-text">头文件中不能出现定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#匿名对象就是右值，不能传入左值引用中"><span class="toc-text">匿名对象就是右值，不能传入左值引用中</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#关于返回右值引用或使用移动语义可能会导致的问题"><span class="toc-text">关于返回右值引用或使用移动语义可能会导致的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数形参中的左值引用不能置入匿名变量（不会自动折叠）"><span class="toc-text">函数形参中的左值引用不能置入匿名变量（不会自动折叠）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#头文件中不能出现定义"><span class="toc-text">头文件中不能出现定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#匿名对象就是右值，不能传入左值引用中"><span class="toc-text">匿名对象就是右值，不能传入左值引用中</span></a></li></ol>
     </div>
   </section>
 
