@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>耦合与解耦 | mian&#39;s blog</title>
+  <title>我踩过的c++的坑 续 | mian&#39;s blog</title>
   
   
   <meta name="description" content="这是mian的博客">
@@ -197,13 +197,13 @@
   <div class="meta" id="header-meta">
     
       
-          <h1 class="title">耦合与解耦</h1>
+          <h1 class="title">我踩过的c++的坑 续</h1>
       
     
 
     
       <time class="metatag time">
-        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2018-10-23
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-06-06
       </time>
     
 
@@ -232,57 +232,53 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <p>高内聚，低耦合是<del>你们</del>我一直所追求的目标<br><a id="more"></a></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本人只是个菜鸡，只是写一些自己对于架构的一些小小的理解，可能会出偏差</p>
-<h2 id="何为耦合"><a href="#何为耦合" class="headerlink" title="何为耦合"></a>何为耦合</h2><p><strong>耦合性</strong>（英语：Coupling，dependency。或称耦合力或耦合度）是一种软件工程的度量，是指一程序中，模块及模块之间信息或参数依赖的程度。</p>
-<p>内聚性是一个和耦合性相对的概念，一般而言低耦合性代表高内聚性，反之亦然。耦合性和内聚性都是由提出结构化设计概念的赖瑞·康斯坦丁所提出。低耦合性是结构良好程序的特性，低耦合性程序的可读性及可维护性会比较好。</p>
-<p>看到了上面的那句话，可能会感觉概念还是有所模糊。我们毕竟是写代码的不是写文章的嘛，也就不需要说那么多没什么用的废话了。</p>
-<p>也就是说我们的一个程序中几个<strong>不同</strong>的<strong>基本模块</strong>（可能是函数、类或者更小的基本单位）中存在着互相调用或者互相依赖的行为。</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Coupling_sketches_cropped_1.svg/400px-Coupling_sketches_cropped_1.svg.png" alt="耦合"></p>
-<h2 id="耦合的例子"><a href="#耦合的例子" class="headerlink" title="耦合的例子"></a>耦合的例子</h2><h3 id="例子1"><a href="#例子1" class="headerlink" title="例子1"></a>例子1</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">change</span><span class="params">(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; source)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    GetTool(<span class="string">"H_1"</span>)-&gt;add(source[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">if</span> (source[<span class="number">1</span>] &gt; <span class="number">10</span>)</span><br><span class="line">        GetTool(<span class="string">"A_0"</span>)-&gt;change(source[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">if</span> (source[<span class="number">1</span>] &lt; <span class="number">10</span>)</span><br><span class="line">        GetTool(<span class="string">"A_1"</span>)-&gt;change(source[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>举这一个并不极端的例子，是因为<del>我编不出来了</del>这是我平时碰到的真实的问题。当我写完代码是又回头看了一眼,发现。</p>
-<p><strong>我*</strong>。</p>
-<p><del>他妈的</del>应该是source[2]…于是我一一把他们从1改为2。也许你们觉得这也没什么大不了的，不就是<strong>一一替换</strong>嘛，有什么大不了的。但是如果我给你个500行的复合模块，然后你把source[2]写成了source[1]，而且在函数的正确的逻辑中本来就有source[1]。那我们就不能简单的替换，而需要从头审逻辑，再改。甚至可能需要重写，这个代价就太大了。</p>
-<p>这就是耦合的一种，<strong>过度</strong>（自己体会）使用了其他的模块的数据</p>
-<h3 id="例子2"><a href="#例子2" class="headerlink" title="例子2"></a>例子2</h3><p>举个比较zz的例子</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xxx_0 = xxx_0 * <span class="number">11</span> + <span class="number">1</span>;</span><br><span class="line">xxx = ToList(xxx_0);</span><br><span class="line">GetTool(<span class="string">"IDX"</span>)-&gt;add(xxx);</span><br></pre></td></tr></table></figure>
-<p>这样的代码大家一定经常用到。有些人（<del>我</del>），经常性的将这些段落直接复制粘贴来来去去。最后在改动的时候，就需要全篇的瞎瘠薄乱改，最后浪费了巨量的时间。</p>
-<h3 id="例子3"><a href="#例子3" class="headerlink" title="例子3"></a>例子3</h3><p>比方说我们有菜单类和按钮类。而按钮显然是在菜单里的。</p>
-<p>我们现在是把按钮写死在菜单里好呢，还是各自独立好呢。</p>
-<p>显然的，自然是同为独立类，再讲按键映射到菜单里好。因为菜单和按钮显然不是固定的关系，一个菜单拥有不定数量的按钮。如果写在一起的话，其实是很僵化的，换言之，耦合度太高，不利于维护和扩展。我们应该在菜单里以引用表的形式将按钮组合进去</p>
-<h3 id="例子4"><a href="#例子4" class="headerlink" title="例子4"></a>例子4</h3><p>想必大家对于java的set、get这个段子，应该有所耳熟，可是为什么这么写呢。</p>
-<p>主要是为了<strong>解耦</strong>。我呢，架构能力很差，就引用大佬的话来说说吧。</p>
+        <p>之前我写过一篇长期更新的《我踩过的c++的坑》，因为时间很长，文章太长了，所以以后遇到的坑都记在这篇续里</p>
+<p><a href="https://www.intmian.com/2018/07/21/%E6%88%91%E8%B8%A9%E8%BF%87%E7%9A%84c++%E7%9A%84%E5%9D%91/">旧文链接</a></p>
+<p><strong>持续更新</strong></p>
+<a id="more"></a>
+<h3 id="关于返回右值引用或使用移动语义可能会导致的问题"><a href="#关于返回右值引用或使用移动语义可能会导致的问题" class="headerlink" title="关于返回右值引用或使用移动语义可能会导致的问题"></a>关于返回右值引用或使用移动语义可能会导致的问题</h3><p>今天写了一个这样的函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">T&amp;&amp; <span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    T t;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="keyword">return</span> move(t);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样的代码显然是错误的，因为右值引用实际上也是一种引用，而返回一个临时变量的引用是会出问题的。可以通过编译但是退出f时会报错（在vs2019上，理论上也有可能返回不正确的临时堆栈内容）。</p>
+<p>以下的代码才是正确的演示，只要不反回临时变量的都行。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">S</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">S</span>&amp;&amp; <span class="title">forward</span>(<span class="title">typename</span> <span class="title">remove_reference</span>&lt;S&gt;:</span>:type&amp; a) <span class="keyword">noexcept</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;S&amp;&amp;&gt;(a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出来我的目的是为了避免一次拷贝。</p>
+<p>但是这样的代码也是错的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">T <span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    T t;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="keyword">return</span> move(t);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为</p>
+<p>实际上这种是不需要的。因为编译器会做返回值优化（Return Value Optimization）。在C++11标准中有如下规定：</p>
 <blockquote>
-<p>很多人，并不是面向对象学得不好，但总觉得差什么，我也经历过，面向对象，封装，多态，继承，学过的人都知道，都认为自己了解了，其实不然，很多很奇妙的因素，让你误解了，大部分的人认为封装很简单，其实大错特错了，封装是最奇妙的，也是最难用好的。只要你记住以下原则，必然能很好地用好封装，成员尽量使用protected和private，不要去使用public.尽量不要提供给外部对成员属性getter的接口，意思就是不要暴露成员，为什么要这样呢？很简单，暴露成员属性必然会导致自身业务的外泄，业务外泄，会导致，类之间的无谓耦合，如A类有成员a,而程序需要对a数据改变，而你提供一个B类可以访问a成员的getter接口，B类在其自身对a修改，看上去没什么，实际上，就是类耦合，对a的修改是类A的职务，由于习惯的提供getter，导致了，在写类B的时候错误地添加了修改业务，使类A内聚能力降低，程序逐步庞大必然会越发明显，真所谓牵一发动全身，小程序确实是很难看出问题所在。</p>
+<p>When the criteria for elision of a copy operation are met or would be met save for the fact that the source object is a function parameter, and the object to be copied is designated by an lvalue, overload resolution to select the constructor for the copy is ﬁrst performed as if the object were designated by an rvalue.</p>
 </blockquote>
-<h2 id="如何避免耦合"><a href="#如何避免耦合" class="headerlink" title="如何避免耦合"></a>如何避免耦合</h2><blockquote>
-<p>我呢水平一般，只能提出一点点微小的建议</p>
+<p>直接return x;是NRVO支持的一种用例场景，可以做到多余的拷贝构造。编译器会自己选择使用拷贝构造还是move构造函数。</p>
+<p>但是如果用std::move(x);那么可能会带来额外的影响：可能会阻止NRVO。也就是说可能需要额外的开销来执行move语义。</p>
+<blockquote>
+<p>学艺不精，哎。一直没有研究过右值作为返回值，今天出问题了。以后学东西还是要实践同行。</p>
 </blockquote>
-<ul>
-<li>大的函数如果有可能只用到小的功能时，一定要把它分割。</li>
-<li>如果重复的一部分反复用到的话，需要注意把它单独拿出来。</li>
-<li>注意封装与设计模式。</li>
-</ul>
-<h2 id="具体实现方法"><a href="#具体实现方法" class="headerlink" title="具体实现方法"></a>具体实现方法</h2><h3 id="part-1"><a href="#part-1" class="headerlink" title="part 1"></a>part 1</h3><p>先看一段代码</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Set</span><span class="params">(MODE mode)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (mode)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">case</span> A:</span><br><span class="line">            ...</span><br><span class="line">        <span class="keyword">case</span> B:</span><br><span class="line">            ...</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            assert(<span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这是一个实际程序中的设置方法，其中MODE是一个枚举类。根据解耦的思想应该改为。<br>    void SetA(…)<br>        …<br>    void SetB(…)<br>        …<br>    …<br>    void Set(MODE mode)<br>    {<br>        switch (mode)<br>        {<br>            case A:<br>                SetA(…);<br>            case B:<br>                SetB(…);<br>            default:<br>                assert(false);<br>        }<br>    }</p>
-<h3 id="part-2"><a href="#part-2" class="headerlink" title="part 2"></a>part 2</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config_add = None</span><br><span class="line">def SetConfigAdd():</span><br><span class="line">    global config_add</span><br><span class="line">    config_add = xxx</span><br><span class="line">def PushSetToFile():</span><br><span class="line">    # use config_add to <span class="keyword">do</span> sth</span><br></pre></td></tr></table></figure>
-<p>像是这样的代码就不大好，全局的设置变量是一种相当不安全、不专业的行为(<del>但是我很喜欢啊</del>)。</p>
-<p>应该在需要出现<code>config_add</code>的最大作用域(不超过主函数)，声明config_add，把它作为<strong>引用</strong>或者<strong>常引用</strong>映射进去。(特指某些语言)</p>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>架构设计对于程序员要求非常高。我只学了一些皮毛，甚至有些方法都只是我自己想的。所以只做参考吧。</p>
-<p><strong>学习！学习！</strong></p>
+<h3 id="函数形参中的左值引用不能置入匿名变量（不会自动折叠）"><a href="#函数形参中的左值引用不能置入匿名变量（不会自动折叠）" class="headerlink" title="函数形参中的左值引用不能置入匿名变量（不会自动折叠）"></a>函数形参中的左值引用不能置入匿名变量（不会自动折叠）</h3><p>例</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fun</span><span class="params">(T&amp; t)</span></span>;</span><br><span class="line">func(T());</span><br></pre></td></tr></table></figure>
+<p>T()不会自动折叠T&amp;</p>
+<p>只能这样写</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> t = T()</span><br><span class="line"><span class="keyword">void</span> fun(T&amp; t);</span><br><span class="line">func(t);</span><br></pre></td></tr></table></figure>
+<h3 id="头文件中不能出现定义"><a href="#头文件中不能出现定义" class="headerlink" title="头文件中不能出现定义"></a>头文件中不能出现定义</h3><p>只能出现声明哦，不然一定会出现链接问题。</p>
+<p>像是全局变量应该在头文件中</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> T t;</span><br></pre></td></tr></table></figure>
+<p>.cpp中</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T t = t0;</span><br></pre></td></tr></table></figure>
+<h3 id="匿名对象就是右值，不能传入左值引用中"><a href="#匿名对象就是右值，不能传入左值引用中" class="headerlink" title="匿名对象就是右值，不能传入左值引用中"></a>匿名对象就是右值，不能传入左值引用中</h3><p>像是<code>T(arg...)</code>这样的匿名对象本质上和<code>1</code> <code>1.0</code>这样的数值常量差不多。如果你的函数参数是 <code>const T&amp;</code> 或 <code>T&amp;</code>，的话是不能正常调用的。事实上不能通过编译。因为在调用函数后匿名对象就析构了，然后函数里传进去的引用就没有意义了。</p>
+<p>正确的函数格式</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(T t)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(T&amp;&amp; t)</span></span>;</span><br></pre></td></tr></table></figure>
 
       </div>
         
           <section class='meta' id="footer-meta">
             
-              <time class="metatag time" itemprop="dateUpdated" datetime="2019-01-25T15:20:28+08:00" content="2019-01-25"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
-                &nbsp;2019-01-25
+              <time class="metatag time" itemprop="dateUpdated" datetime="2019-06-08T11:06:46+08:00" content="2019-06-08"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
+                &nbsp;2019-06-08
               </time>
             
             
                 
-                <div class="metatag tags"><a class="tag" href="/tags/编程/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>&nbsp;编程</a></div> <div class="metatag tags"><a class="tag" href="/tags/架构/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>&nbsp;架构</a></div>
+                <div class="metatag tags"><a class="tag" href="/tags/编程/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>&nbsp;编程</a></div> <div class="metatag tags"><a class="tag" href="/tags/c/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>&nbsp;c++</a></div>
             
             
           </section>
@@ -291,33 +287,14 @@
         
             <div class="prev-next">
                 
-                    <section class="prev">
-                        <span class="art-item-left">
-                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
-                            <h4>
-                                <a href="/2018/12/01/泛型/" rel="prev" title="在vs2017进行泛型模板编程的一些笔记">
-                                  
-                                      在vs2017进行泛型模板编程的一些笔记
-                                  
-                                </a>
-                            </h4>
-                            
-                                
-                                <h6 class="tags">
-                                    <a class="tag" href="/tags/编程/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>编程</a> <a class="tag" href="/tags/c/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>c++</a>
-                                </h6>
-                            
-                        </span>
-                    </section>
-                
                 
                     <section class="next">
                         <span class="art-item-right" aria-hidden="true">
                             <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/2018/08/11/关于谷歌c-编程规范的一些理解/" rel="prev" title="关于谷歌c++编程规范">
+                                <a href="/2019/05/25/c++多返回值/" rel="prev" title="C++ 中的多返回值的实现">
                                     
-                                        关于谷歌c++编程规范
+                                        C++ 中的多返回值的实现
                                     
                                 </a>
                             </h4>
@@ -356,13 +333,13 @@
         <h4><i class="fas fa-bookmark fa-fw" aria-hidden="true"></i>&nbsp;相关文章</h4>
         <ul>
             
-                <li><a href="https://www.intmian.com/2019/01/23/sql 连接/">sql中的连接</a></li>
+                <li><a href="https://www.intmian.com/2019/05/25/c++多返回值/">C++ 中的多返回值的实现</a></li>
             
-                <li><a href="https://www.intmian.com/2018/12/01/泛型/">在vs2017进行泛型模板编程的一些笔记</a></li>
+                <li><a href="https://www.intmian.com/2019/02/21/《effective STL》读后感/">Effective STL 读后感</a></li>
             
-                <li><a href="https://www.intmian.com/2018/08/11/关于谷歌c-编程规范的一些理解/">关于谷歌c++编程规范</a></li>
+                <li><a href="https://www.intmian.com/2019/01/28/leetcode 121周赛 writeup/">leetcode contest 121 writeup</a></li>
             
-                <li><a href="https://www.intmian.com/2018/07/28/hexo原生无插件快速引入图片/">hexo原生无插件快速引入图片</a></li>
+                <li><a href="https://www.intmian.com/2019/01/27/重装系统/">如何重装系统</a></li>
             
         </ul>
     </div>
@@ -378,7 +355,7 @@
 
 <script>
     window.subData = {
-        title: '耦合与解耦',
+        title: '我踩过的c++的坑 续',
         tools: true
     }
 </script>
@@ -403,7 +380,7 @@
 </header>
 
     <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#何为耦合"><span class="toc-text">何为耦合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#耦合的例子"><span class="toc-text">耦合的例子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#例子1"><span class="toc-text">例子1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#例子2"><span class="toc-text">例子2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#例子3"><span class="toc-text">例子3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#例子4"><span class="toc-text">例子4</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何避免耦合"><span class="toc-text">如何避免耦合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体实现方法"><span class="toc-text">具体实现方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#part-1"><span class="toc-text">part 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#part-2"><span class="toc-text">part 2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后记"><span class="toc-text">后记</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#关于返回右值引用或使用移动语义可能会导致的问题"><span class="toc-text">关于返回右值引用或使用移动语义可能会导致的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数形参中的左值引用不能置入匿名变量（不会自动折叠）"><span class="toc-text">函数形参中的左值引用不能置入匿名变量（不会自动折叠）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#头文件中不能出现定义"><span class="toc-text">头文件中不能出现定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#匿名对象就是右值，不能传入左值引用中"><span class="toc-text">匿名对象就是右值，不能传入左值引用中</span></a></li></ol>
     </div>
   </section>
 
