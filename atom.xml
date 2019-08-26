@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.intmian.com/"/>
-  <updated>2019-06-08T03:09:50.091Z</updated>
+  <updated>2019-08-26T09:09:12.577Z</updated>
   <id>https://www.intmian.com/</id>
   
   <author>
@@ -15,6 +15,63 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode contest 151 writeup</title>
+    <link href="https://www.intmian.com/2019/08/26/leetcode%20121%E5%91%A8%E8%B5%9B%20writeup/"/>
+    <id>https://www.intmian.com/2019/08/26/leetcode 121周赛 writeup/</id>
+    <published>2019-08-25T16:00:00.000Z</published>
+    <updated>2019-08-26T09:09:12.577Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><blockquote><p><a href="https://leetcode-cn.com/contest/weekly-contest-151" target="_blank" rel="noopener">leetcode第151周周赛</a></p></blockquote><table><thead><tr><th style="text-align:center">题目</th><th style="text-align:center">难度</th><th style="text-align:center">知识点</th></tr></thead><tbody><tr><td style="text-align:center"><a href="https://leetcode-cn.com/contest/weekly-contest-151/problems/invalid-transactions" target="_blank" rel="noopener">查询无效交易</a></td><td style="text-align:center">简单</td><td style="text-align:center">无</td></tr><tr><td style="text-align:center"><a href="https://leetcode-cn.com/contest/weekly-contest-151/problems/compare-strings-by-frequency-of-the-smallest-character" target="_blank" rel="noopener">比较字符串最小字母出现频次</a></td><td style="text-align:center">简单</td><td style="text-align:center">无</td></tr><tr><td style="text-align:center"><a href="https://leetcode-cn.com/contest/weekly-contest-151/problems/remove-zero-sum-consecutive-nodes-from-linked-list" target="_blank" rel="noopener">从链表中删去总和值为零的连续节点</a></td><td style="text-align:center">中等</td><td style="text-align:center">链表</td></tr><tr><td style="text-align:center"><a href="https://leetcode-cn.com/contest/weekly-contest-151/problems/dinner-plate-stacks" target="_blank" rel="noopener">餐盘栈</a></td><td style="text-align:center">困难</td><td style="text-align:center">设计/无</td></tr></tbody></table><a id="more"></a><blockquote><p>注:思路是理想思路,代码有可能是我比赛时写的,就不那么理想.</p><p>所以代码与思路不一定等价</p></blockquote><h2 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h2><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>将数据处理后，双重map，然后去重。当然直接做也可以，我在比赛时就是直接做的。</p><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">invalidTransactions</span><span class="params">(self, transactions: List[str])</span> -&gt; List[str]:</span></span><br><span class="line">        transactions_after: [str, int, int, str] = []</span><br><span class="line">        results: List[str] = []</span><br><span class="line">        <span class="keyword">for</span> t <span class="keyword">in</span> transactions:</span><br><span class="line">            name, time, num, local = str.split(t, <span class="string">","</span>)</span><br><span class="line">            num = int(num)</span><br><span class="line">            time = int(time)</span><br><span class="line">            <span class="keyword">if</span> num &gt; <span class="number">1000</span>:</span><br><span class="line">                results.append(t)</span><br><span class="line">            transactions_after.append((name, time, num, local))</span><br><span class="line">        <span class="keyword">for</span> (n1, t1, num1, l1) <span class="keyword">in</span> transactions_after:</span><br><span class="line">            <span class="keyword">for</span> (n2, t2, num2, l2) <span class="keyword">in</span> transactions_after:</span><br><span class="line">                <span class="keyword">if</span> n1 == n2 <span class="keyword">and</span> abs(t2 - t1) &lt;= <span class="number">60</span> <span class="keyword">and</span> l1 != l2:</span><br><span class="line">                    results.append(n1 + <span class="string">","</span> + str(t1) + <span class="string">","</span> + str(num1) + <span class="string">","</span> + l1)</span><br><span class="line">        <span class="keyword">return</span> list(set(results))</span><br></pre></td></tr></table></figure><h2 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h2><h3 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h3><ol><li>将字符串根据f处理成数据</li><li>对word排序（代码中，我没有</li><li>依次迭代处理（对于排序过得数据可以用二分法确认有几个比较大，由于py中的stl很弱，所以代码中我没有</li></ol><h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(self, s: str)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> s == <span class="string">""</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        i = <span class="number">1</span></span><br><span class="line">        min_c = s[<span class="number">0</span>]</span><br><span class="line">        min_n = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> i != len(s):</span><br><span class="line">            c = s[i]</span><br><span class="line">            <span class="keyword">if</span> c &lt; min_c:</span><br><span class="line">                min_c = c</span><br><span class="line">                min_n = <span class="number">1</span></span><br><span class="line">            <span class="keyword">elif</span> c == min_c:</span><br><span class="line">                min_n += <span class="number">1</span></span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> min_n</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">numSmallerByFrequency</span><span class="params">(self, queries: List[str], words: List[str])</span> -&gt; List[int]:</span></span><br><span class="line">        queries_n: List[int] = []</span><br><span class="line">        words_n: List[int] = []</span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> queries:</span><br><span class="line">            queries_n.append(self.f(n))</span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> words:</span><br><span class="line">            words_n.append(self.f(n))</span><br><span class="line">        result = []</span><br><span class="line">        <span class="keyword">for</span> i, n <span class="keyword">in</span> enumerate(queries_n):</span><br><span class="line">            low = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> n2 <span class="keyword">in</span> words_n:</span><br><span class="line">                <span class="keyword">if</span> n &lt; n2:</span><br><span class="line">                    low += <span class="number">1</span></span><br><span class="line">            result.append(low)</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure><h2 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h2><h3 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h3><ol><li>求出前缀和。例 12 3 -3 1 求出  0 1 3 6 3 4。</li><li>可以发现前缀和序列中相等的值对，其序号对应的范围在原序列中的子序列恰好值为零。</li><li>不停迭代删除子序列，直到有不存在这样的值对</li></ol><blockquote><p>动归也可</p></blockquote><h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">removeZeroSumSublists</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, ListNode*&gt; prefixSum;</span><br><span class="line">        <span class="comment">// 因为头结点也有可能会被消掉，所以这里加一个虚拟节点作为头结点</span></span><br><span class="line">        ListNode* dummy = <span class="keyword">new</span> ListNode(<span class="number">0</span>), *p = dummy;</span><br><span class="line">        dummy-&gt;next = head;</span><br><span class="line">        </span><br><span class="line">        prefixSum[<span class="number">0</span>] = p;</span><br><span class="line">        <span class="keyword">int</span> cur = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (p = p-&gt;next) &#123;</span><br><span class="line">            cur += p-&gt;val;</span><br><span class="line">            <span class="keyword">if</span> (prefixSum.find(cur) != prefixSum.end()) &#123;</span><br><span class="line">                prefixSum[cur]-&gt;next = p-&gt;next;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                prefixSum[cur] = p;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dummy-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><h2 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h2><h3 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h3><ol><li>使用栈数组</li><li>保存最后一个可以插入的位置一提高push速度</li></ol><h3 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> List</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DinnerPlates</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, capacity: int)</span>:</span></span><br><span class="line">        self.stacks: &#123;int: List[int]&#125; = dict()</span><br><span class="line">        self.size = <span class="number">0</span></span><br><span class="line">        self.capacity = capacity</span><br><span class="line">        self.last_not_full = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self, val: int)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.last_not_full <span class="keyword">not</span> <span class="keyword">in</span> self.stacks:</span><br><span class="line">            self.stacks[self.last_not_full] = [val]</span><br><span class="line">            self.size += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.stacks[self.last_not_full].append(val)</span><br><span class="line">            i = self.last_not_full</span><br><span class="line">            <span class="keyword">while</span> i &lt; self.size <span class="keyword">and</span> len(self.stacks[i]) == self.capacity:</span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">            self.last_not_full = i</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pop</span><span class="params">(self)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> self.size == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span>  <span class="number">-1</span></span><br><span class="line">        last = self.stacks[self.size - <span class="number">1</span>]</span><br><span class="line">        r = last.pop()</span><br><span class="line">        <span class="keyword">if</span> len(last) == self.capacity - <span class="number">1</span>:</span><br><span class="line">            self.last_not_full = self.size - <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> len(last) == <span class="number">0</span>:</span><br><span class="line">            self.size -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span>  r</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">popAtStack</span><span class="params">(self, index: int)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> index &gt;= self.size <span class="keyword">or</span> len(self.stacks[index]) == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">        self.last_not_full = index</span><br><span class="line">        <span class="keyword">return</span> self.stacks[index].pop()</span><br></pre></td></tr></table></figure><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>这次的题目翻译差一点，竞赛的时候看错了好几次。设计题对于性能的限制比预想的低，不需要hack技巧就可以通过，所以其实比第三题简单。第三题想通了其实也挺简单的。还需努力</p><p>垃圾hexo，加载latex公式时出错了。。。。。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概要&quot;&gt;&lt;a href=&quot;#概要&quot; class=&quot;headerlink&quot; title=&quot;概要&quot;&gt;&lt;/a&gt;概要&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/contest/weekly-contest-151&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;leetcode第151周周赛&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&quot;text-align:center&quot;&gt;题目&lt;/th&gt;
+&lt;th style=&quot;text-align:center&quot;&gt;难度&lt;/th&gt;
+&lt;th style=&quot;text-align:center&quot;&gt;知识点&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;&lt;a href=&quot;https://leetcode-cn.com/contest/weekly-contest-151/problems/invalid-transactions&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;查询无效交易&lt;/a&gt;&lt;/td&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;简单&lt;/td&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;无&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;&lt;a href=&quot;https://leetcode-cn.com/contest/weekly-contest-151/problems/compare-strings-by-frequency-of-the-smallest-character&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;比较字符串最小字母出现频次&lt;/a&gt;&lt;/td&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;简单&lt;/td&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;无&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;&lt;a href=&quot;https://leetcode-cn.com/contest/weekly-contest-151/problems/remove-zero-sum-consecutive-nodes-from-linked-list&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;从链表中删去总和值为零的连续节点&lt;/a&gt;&lt;/td&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;中等&lt;/td&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;链表&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;&lt;a href=&quot;https://leetcode-cn.com/contest/weekly-contest-151/problems/dinner-plate-stacks&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;餐盘栈&lt;/a&gt;&lt;/td&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;困难&lt;/td&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;设计/无&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+    
+    </summary>
+    
+      <category term="从零开始的编程之路" scheme="https://www.intmian.com/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%B7%AF/"/>
+    
+    
+      <category term="算法" scheme="https://www.intmian.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="编程" scheme="https://www.intmian.com/tags/%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title>我踩过的c++的坑 续</title>
@@ -92,8 +149,8 @@
   
   <entry>
     <title>leetcode contest 121 writeup</title>
-    <link href="https://www.intmian.com/2019/01/28/leetcode%20121%E5%91%A8%E8%B5%9B%20writeup/"/>
-    <id>https://www.intmian.com/2019/01/28/leetcode 121周赛 writeup/</id>
+    <link href="https://www.intmian.com/2019/01/28/leetcode%20%E7%AC%AC%20151%20%E5%9C%BA%E5%91%A8%E8%B5%9B%20writeup/"/>
+    <id>https://www.intmian.com/2019/01/28/leetcode 第 151 场周赛 writeup/</id>
     <published>2019-01-28T03:17:05.000Z</published>
     <updated>2019-01-30T12:29:51.777Z</updated>
     
@@ -413,6 +470,30 @@
   </entry>
   
   <entry>
+    <title>bin实用小工具</title>
+    <link href="https://www.intmian.com/2018/06/14/%E5%AE%9E%E7%94%A8%E5%B0%8F%E5%B7%A5%E5%85%B7/"/>
+    <id>https://www.intmian.com/2018/06/14/实用小工具/</id>
+    <published>2018-06-14T11:04:15.000Z</published>
+    <updated>2018-07-01T07:59:13.708Z</updated>
+    
+    <content type="html"><![CDATA[<p>一些bin学习过程中常用的工具</p><a id="more"></a><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>glibc版本&lt;= 2.23</p><h2 id="bin必要工具："><a href="#bin必要工具：" class="headerlink" title="bin必要工具："></a>bin必要工具：</h2><p>Ubuntu:<br><a href="https://mirrors.aliyun.com/ubuntu-releases/16.04/" target="_blank" rel="noopener">https://mirrors.aliyun.com/ubuntu-releases/16.04/</a><br>你大可换其他的，例如kali</p><p>windows：<br>不解释</p><p>IDA7.0:<br>链接：<a href="https://pan.baidu.com/s/1s9K1TurV_bvlnWAAGJ4z-g" target="_blank" rel="noopener">https://pan.baidu.com/s/1s9K1TurV_bvlnWAAGJ4z-g</a> 密码：1e9i</p><p>没有IDA不知道怎么做bin题。。。</p><h2 id="pwn必要工具："><a href="#pwn必要工具：" class="headerlink" title="pwn必要工具："></a>pwn必要工具：</h2><p>pwntools:<br>apt-get update<br>apt-get install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential<br>pip install –upgrade pip<br>pip install –upgrade pwntools</p><p>pwn题必备，使用方法可以百度下，很容易找到的</p><p>Pwngdb:<br>链接：<a href="https://pan.baidu.com/s/1XtbuCfh_09ahlNAdly-KcA" target="_blank" rel="noopener">https://pan.baidu.com/s/1XtbuCfh_09ahlNAdly-KcA</a> 密码：mfz0</p><p>gdb的插件，简直是太好用了</p><p>msfvenom:<br><a href="https://github.com/rapid7/metasploit-framework/wiki/Nightly-Installers" target="_blank" rel="noopener">https://github.com/rapid7/metasploit-framework/wiki/Nightly-Installers</a></p><p>shellcode生成工具，可以生成各种要求的shellcode，蛮好用的</p><p>roputils:<br><a href="https://github.com/inaz2/roputils" target="_blank" rel="noopener">https://github.com/inaz2/roputils</a></p><p>和pwntools一起导入可能有点问题，一开始可能用不到，我用这个做过dl-resolve的题</p><p>ROPgadget:<br><a href="https://github.com/JonathanSalwan/ROPgadget" target="_blank" rel="noopener">https://github.com/JonathanSalwan/ROPgadget</a></p><p>ROP基本也是做pwn必备的东西，用法看自行看readme</p><h2 id="Re必要工具："><a href="#Re必要工具：" class="headerlink" title="Re必要工具："></a>Re必要工具：</h2><p>听逆向大神说好像一个IDA可以走天下了……<br>此外还需要用到OD。偶发性地，还需要一些小工具。</p><blockquote><p>建议安装吾爱破解工具包，再把里面的IDA等更新到最新版本。</p></blockquote><h2 id="小建议："><a href="#小建议：" class="headerlink" title="小建议："></a>小建议：</h2><blockquote><p>有余力的朋友建议购买正版。</p></blockquote><blockquote><p>要下载github上的东西，可以在虚拟机里输入 git clone +项目地址</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;一些bin学习过程中常用的工具&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="从零开始的ctf之路" scheme="https://www.intmian.com/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84ctf%E4%B9%8B%E8%B7%AF/"/>
+    
+    
+      <category term="pwn" scheme="https://www.intmian.com/tags/pwn/"/>
+    
+      <category term="re" scheme="https://www.intmian.com/tags/re/"/>
+    
+  </entry>
+  
+  <entry>
     <title>linux上的链接</title>
     <link href="https://www.intmian.com/2018/06/14/linux%E4%B8%8A%E7%9A%84%E5%BB%B6%E8%BF%9F%E9%87%8D%E5%AE%9A%E4%BD%8D/"/>
     <id>https://www.intmian.com/2018/06/14/linux上的延迟重定位/</id>
@@ -479,52 +560,6 @@
       <category term="linux" scheme="https://www.intmian.com/tags/linux/"/>
     
       <category term="plt&amp;got" scheme="https://www.intmian.com/tags/plt-got/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>pwn的杂记</title>
-    <link href="https://www.intmian.com/2018/06/14/pwn%E7%9A%84%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%9A%84%E6%9D%82%E8%AE%B0/"/>
-    <id>https://www.intmian.com/2018/06/14/pwn的小知识的杂记/</id>
-    <published>2018-06-14T11:04:15.000Z</published>
-    <updated>2018-07-28T01:02:02.380Z</updated>
-    
-    <content type="html"><![CDATA[<p>这是我的一些pwn的随笔</p><a id="more"></a><h2 id="先讲一些关于pwn的术语吧"><a href="#先讲一些关于pwn的术语吧" class="headerlink" title="先讲一些关于pwn的术语吧"></a>先讲一些关于pwn的术语吧</h2><blockquote><ul><li><strong>payload</strong>（有效攻击负载）是包含在你用于一次漏洞利用（exploit）中的ShellCode中的主要功能代码</li><li><strong>shellcode</strong>（可提权代码） 对于一个漏洞来说，ShellCode就是一个用于某个漏洞的二进制代码框架，有了这个框架你可以在这个ShellCode中包含你需要的Payload来做一些事情</li><li><strong>exp</strong> (Exploit )漏洞利用，一般是个demo程序</li><li><strong>poc</strong>.(Proof of Concept)漏洞证明，一般就是个样本 用来证明和复现</li><li><strong>vul</strong>：(Vulnerability)  :漏洞”Pwn”：是一个黑客语法的俚语词  ，是指攻破设备或者系统</li></ul></blockquote><h2 id="gdb-peda-使用中的常用技巧"><a href="#gdb-peda-使用中的常用技巧" class="headerlink" title="gdb-peda 使用中的常用技巧"></a>gdb-peda 使用中的常用技巧</h2><p>可以使用pattern_create()创建一个形如</p><blockquote><p>pattern_create(200)<br>‘AAA%AAsAABAA$AAnAACAA-AA(AADAA;AA)AAEAAaAA0AAFAAbAA1AAGAAcAA2AAHAAdAA3AAIAAeAA4AAJAAfAA5AAKAAgAA6AALAAhAA7AAMAAiAA8AANAAjAA9AAOAAkAAPAAlAAQAAmAARAAnAASAAoAATAApAAUAAqAAVAArAAWAAsAAXAAtAAYAAuAAZAAvAAwA’</p></blockquote><p>的字符串，把他输入进程序就可以得到eip被误占所引发的错误。<br>再用pattern_offset 输入出错信息里的地址，就可以算出距离首地址的偏移<br>在简单的栈溢出中应当在覆盖完所有的临时变量后再顺便把bp（x86 4个 x64 8个）盖了<br>在叫完system以后会自动把其后的作为参数但是中间会需要加入参数中作为返回地址的数据（相当于传入四个字节换掉堆栈中的eip）（参数中字符串请用指针）。（当然64位中是不可以用的，因为64位中用寄存器传前七个参数）</p><p>64位自动对应p64 32位使用p32</p><blockquote><p>sh.recvuntil(‘:‘)<br>address = sh.recvuntil(‘?‘, drop=True)<br>address = int(address, 16)</p></blockquote><p>这样的方法可以获得写得起始点的地址，以确认shellcode的地址，免于重复运行计算<br>‘sadsaddas’+’asdsadsda’ == ‘saddsdsdsdsa’  ‘asdasdasda<br>checksec 可以获得保护开启情况;</p><p>break <em>0x400100 (b main):在 0x400100 处下断点<br>tb一次性断点<br>info b：查看断点信息<br>delete [number]：删除断点<br>watch </em>(int *)0x08044530：在内存0x0804453处的数据改变时stop<br>x /4xg \$ebp：查看ebp开始的4个8字节内容（b：单字节，h：双字节，w：四字节，g：八字节；x：十六进制，s：字符串输出，i：反汇编，c：单字符）<br>p $eax：输出eax的内容<br>set \$eax=4：修改变量值start<br>ls -f 可以展示隐藏文件</p><h2 id="gdb-peda常用指令（机翻）"><a href="#gdb-peda常用指令（机翻）" class="headerlink" title="gdb-peda常用指令（机翻）"></a>gdb-peda常用指令（机翻）</h2><p>c：继续运行<br>r：重新开始运行<br>ni：单步步过<br>si：单步步入<br>fini：运行至函数刚结束处<br>return expression：将函数返回值指定为expression<br>bt：查看当前栈帧<br>info f：查看当前栈帧<br>context：查看运行上下文<br>stack：查看当前堆栈<br>call func：强制函数调用<br>ropgagdet：找common rop<br>vmmap：查看虚拟地址分布<br>shellcode：搜索，生成shellcode<br>ptype struct link_map：查看link_map定义<br>p &amp;((struct link_map*)0)-&gt;l_info：查看l_info成员偏移<br>libc ：打印libc的基址<br>ld ：打印ld的基地址<br>codebase ：打印代码段的基础<br>heap ：打印堆的基础<br>got ：打印全局偏移表信息<br>dyn ：打印动态部分信息<br>findcall ：找到一些函数调用<br>bcall ：在某个函数调用中设置断点<br>tls ：打印线程本地存储地址<br>at ：按进程名称附加<br>findsyscall ：找到系统调用<br>fmtarg ：计算格式字符串的索引<br>你需要停止有漏洞的printf。<br>force ：计算力所在之处的nb。<br>heapinfo ：打印堆的一些信息<br>heapinfo（竞技场地址）<br>默认是当前线程的舞台<br>如果启用了tcache，它会显示tcache条目的信息<br>heapinfoall ：打印堆的一些信息（所有线程）<br>arenainfo ：打印所有竞技场的一些信息<br>chunkinfo：打印块的信息<br>chunkinfo（受害者的地址）<br>chunkptr ：打印块的信息<br>chunkptr（用户ptr的地址）<br>mergeinfo ：打印合并信息<br>mergeinfo（受f害者地址）<br>printfastbin ：打印fastbin的一些信息<br>tracemalloc on ：跟踪malloc并释放并检测到一些错误。<br>你需要首先运行这个进程tracemalloc on，它会记录所有的malloc和free。<br>你可以设置DEBUGpwngdb.py，比打印所有的malloc和免费的信息如screeshot。<br>parseheap ：解析堆布局<br>magic ：在glibc中打印有用的变量和函数<br>fp ：显示FILE结构<br>fp（文件的地址）<br>fpchain：显示FILE的链接列表<br>orange：中的测试house of orange条件_IO_flush_lockp<br>z() : 调出此时的调试界面<br>橙色（FILE的地址）<br>ctrl + c停止调试</p><hr><p>栈是从高向低发展<br>栈溢出是从低向高溢出<br>而单个数据内部则是从高向低按字节存放的<br>而大多数的看内存的软件则是从低向高看的</p><hr><p>ROPgadget <strong>常用</strong>指令</p><ul><li><code>binary</code></li><li><code>ropchain</code></li></ul><blockquote><p>格式： <code>ROPgadget --binary the_binary_elf ropchain</code></p></blockquote><hr><p>程序中已经用到的会被link进程序固定的<strong>plt表</strong>中</p><p>而没有被用到的也会被放在libc中，只需要无限leak即可找到system地址。</p><blockquote><p>无限leak通常出现在栈溢出可以使程序重现进入该函数。</p></blockquote><hr>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这是我的一些pwn的随笔&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="从零开始的ctf之路" scheme="https://www.intmian.com/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84ctf%E4%B9%8B%E8%B7%AF/"/>
-    
-    
-      <category term="pwn" scheme="https://www.intmian.com/tags/pwn/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>bin实用小工具</title>
-    <link href="https://www.intmian.com/2018/06/14/%E5%AE%9E%E7%94%A8%E5%B0%8F%E5%B7%A5%E5%85%B7/"/>
-    <id>https://www.intmian.com/2018/06/14/实用小工具/</id>
-    <published>2018-06-14T11:04:15.000Z</published>
-    <updated>2018-07-01T07:59:13.708Z</updated>
-    
-    <content type="html"><![CDATA[<p>一些bin学习过程中常用的工具</p><a id="more"></a><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>glibc版本&lt;= 2.23</p><h2 id="bin必要工具："><a href="#bin必要工具：" class="headerlink" title="bin必要工具："></a>bin必要工具：</h2><p>Ubuntu:<br><a href="https://mirrors.aliyun.com/ubuntu-releases/16.04/" target="_blank" rel="noopener">https://mirrors.aliyun.com/ubuntu-releases/16.04/</a><br>你大可换其他的，例如kali</p><p>windows：<br>不解释</p><p>IDA7.0:<br>链接：<a href="https://pan.baidu.com/s/1s9K1TurV_bvlnWAAGJ4z-g" target="_blank" rel="noopener">https://pan.baidu.com/s/1s9K1TurV_bvlnWAAGJ4z-g</a> 密码：1e9i</p><p>没有IDA不知道怎么做bin题。。。</p><h2 id="pwn必要工具："><a href="#pwn必要工具：" class="headerlink" title="pwn必要工具："></a>pwn必要工具：</h2><p>pwntools:<br>apt-get update<br>apt-get install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential<br>pip install –upgrade pip<br>pip install –upgrade pwntools</p><p>pwn题必备，使用方法可以百度下，很容易找到的</p><p>Pwngdb:<br>链接：<a href="https://pan.baidu.com/s/1XtbuCfh_09ahlNAdly-KcA" target="_blank" rel="noopener">https://pan.baidu.com/s/1XtbuCfh_09ahlNAdly-KcA</a> 密码：mfz0</p><p>gdb的插件，简直是太好用了</p><p>msfvenom:<br><a href="https://github.com/rapid7/metasploit-framework/wiki/Nightly-Installers" target="_blank" rel="noopener">https://github.com/rapid7/metasploit-framework/wiki/Nightly-Installers</a></p><p>shellcode生成工具，可以生成各种要求的shellcode，蛮好用的</p><p>roputils:<br><a href="https://github.com/inaz2/roputils" target="_blank" rel="noopener">https://github.com/inaz2/roputils</a></p><p>和pwntools一起导入可能有点问题，一开始可能用不到，我用这个做过dl-resolve的题</p><p>ROPgadget:<br><a href="https://github.com/JonathanSalwan/ROPgadget" target="_blank" rel="noopener">https://github.com/JonathanSalwan/ROPgadget</a></p><p>ROP基本也是做pwn必备的东西，用法看自行看readme</p><h2 id="Re必要工具："><a href="#Re必要工具：" class="headerlink" title="Re必要工具："></a>Re必要工具：</h2><p>听逆向大神说好像一个IDA可以走天下了……<br>此外还需要用到OD。偶发性地，还需要一些小工具。</p><blockquote><p>建议安装吾爱破解工具包，再把里面的IDA等更新到最新版本。</p></blockquote><h2 id="小建议："><a href="#小建议：" class="headerlink" title="小建议："></a>小建议：</h2><blockquote><p>有余力的朋友建议购买正版。</p></blockquote><blockquote><p>要下载github上的东西，可以在虚拟机里输入 git clone +项目地址</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;一些bin学习过程中常用的工具&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="从零开始的ctf之路" scheme="https://www.intmian.com/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84ctf%E4%B9%8B%E8%B7%AF/"/>
-    
-    
-      <category term="pwn" scheme="https://www.intmian.com/tags/pwn/"/>
-    
-      <category term="re" scheme="https://www.intmian.com/tags/re/"/>
     
   </entry>
   
