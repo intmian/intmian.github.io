@@ -461,11 +461,142 @@
     
     
     <entry>
+      <title>linux上的延迟重定位</title>
+      <link href="/2018/06/14/linux-banding/"/>
+      <url>/2018/06/14/linux-banding/</url>
+      
+        <content type="html"><![CDATA[<p>熟练地掌握linux的 <strong>链接</strong>与 <strong>绑定</strong>不仅仅是研究return to plt的必要，更是掌握linkmap、got表覆写、dlresolve等技术的基础</p><a id="more"></a><h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><ul><li>plt、got表</li><li>延迟绑定</li><li>软硬链接</li></ul><h2 id="文件外函数的调用原理"><a href="#文件外函数的调用原理" class="headerlink" title="文件外函数的调用原理"></a>文件外函数的调用原理</h2><h3 id="函数调用的汇编实现"><a href="#函数调用的汇编实现" class="headerlink" title="函数调用的汇编实现"></a>函数调用的汇编实现</h3><p>假如有这样一个代码<code>system(&quot;cat flag&quot;)</code></p><p>在程序流流向这里的时候会发生什么样的事情呢？</p><p>我事先写好了一个这样的程序。让我们拖到ida里面好好看一看。</p><pre><code>push    offset command ; &quot;cat flag&quot;call    _systemadd     esp, 10h</code></pre><p>可以看见他调用了_system，这个_system和libc里面的system不是一个东西。</p><p>我们点开_system可以看见</p><pre><code>.plt:08048410 ; =============== S U B R O U T I N E =========================.plt:08048410.plt:08048410 ; Attributes: thunk.plt:08048410.plt:08048410 ; int system(const char *command).plt:08048410 _system         proc near               ; CODE XREF: main+163↓p.plt:08048410.plt:08048410 command         = dword ptr  4.plt:08048410.plt:08048410                 jmp     ds:off_804A014.plt:08048410 _system         endp.plt:08048410.plt:08048416 ; --------------------------------------------------------------</code></pre><p>我们发现了这里面有着plt三个字，这就是所谓的plt表中的一部分。</p><p>再点开</p><pre><code>ds:off_804A014</code></pre><p>我们就会发现</p><pre><code>.got.plt:0804A014 off_804A014     dd offset system        ; DATA XREF: _system↑r</code></pre><p>我们发现了这里面有着got三个字，这就是所谓的got表中的一部分。</p><h3 id="生成汇编"><a href="#生成汇编" class="headerlink" title="生成汇编"></a>生成汇编</h3><p>为什么需要有plt与got这些东西，而不在程序中直接<code>call system</code>这样的方法来访问system，的原因在于system是在glibc库中，而glibc属于动态库。</p><blockquote><p>如果读者了解过windows的动态链接库的话，事实上这两者有所区别，但是大致原理基本相似</p></blockquote><p>之所以无法直接直接<code>call system</code>，这正是用为程序中调用system的代码是在编译和链接中（事实上主要在编译中）确立的，而在此过程中，system的地址，编辑器无从而知。而在现代操作系统中，代码段也无法更改，所以试图在加载过程<code>call aaaaa</code>改为<code>call xxxxx(&amp;system)</code>也是无用功。</p><p>同时因为编辑器同时无法确定system函数是在libc这样的动态库中还是在其他的中间文件（.o）中所以编辑会生成一样格式的代码，这使得无论你的某函数是在动态链接库中还是在其它文件中给出定义，这样的汇编代码都能实现调用system。</p><h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><p>但是函数的调用总归是需要函数的具体地址的。那么就可以把情况分为两种。</p><blockquote><ol><li>静态链接库</li><li>动态链接库（如glibc）</li></ol></blockquote><p>在这两种情况中：</p><p>前一种函数的位置在编译过程中是已知的，所以在编译过程中可以计算出在编译过程中填进去占位的地址距离程序在被载入后此函数位置的偏移量，并将其填入某个位置。这就是 <strong>链接时重定位</strong>。</p><p>后一种函数的位置在运行时是已知的，算出偏移量中也填入此表中。这就是 <strong>运行时重定位</strong>。</p><h3 id="函数的调用"><a href="#函数的调用" class="headerlink" title="函数的调用"></a>函数的调用</h3><p>在完成了重定向之后，函数的调用还面临着一个问题。那就是，在无法改变代码段的情况下，应当如何利用数据段中的偏移量呢。</p><p>答案是程序在链接中就生成一小段专门利用偏移量的代码。</p><p>链接器生成额外的伪代码如下：</p><pre><code>.text...// 调用system的call指令call system_stub...system_stub:mov rax, [system函数的储存地址] ; 获取system重定位之后的地址jmp rax ; 跳过去执行system函数.data...system函数的储存地址 ;这里储存system函数重定位后的地址</code></pre><p>在链接的过程中，如果发现函数实际上是动态链接库的代码，就会添加以上代码，并将system改为system_sub。</p><p>所以实际上在函数的调用中我们需要两样东西</p><blockquote><ul><li>需要存放外部函数的数据段</li><li>获取数据段存放函数地址，并且正确的访问他们的一小段额外代码</li></ul></blockquote><p>又因为动态库的函数往往不止一个所以许多这样的数据段与许多这样的代码形成了两张表。存储函数相对地址的表叫做 <strong>全局偏移表</strong>，即 <strong>got表</strong>,而存储那段额外的代码的表被叫做 <strong>程序链接表</strong>，即 <strong>plt表</strong>。</p><h3 id="延迟重定位"><a href="#延迟重定位" class="headerlink" title="延迟重定位"></a>延迟重定位</h3><p>前文提到了函数的地址放在got表中，所以把got中的数据段填充满必须优先于调用之前，</p><p><strong>延迟重定位</strong>，故名思意，一大特点是 <strong>延迟</strong>。</p><blockquote><p>延迟即尽可能的延迟，直到不得不执行为止。之所以linux会有这样的特性，是因为如果动态库函数非常之多，那么放在前面一起执行会大大地减弱程序的启动时间。所以linux使用延迟重定位机制来使载入动态库地时间被均匀分散到了执行时间中。</p></blockquote><p>这就产生了一个问题：程序如何知道GOT表中某一数据项是否已经被载入（因为程序中的函数可能会被执行多次，这样子就不必每一次都去重定位了）。</p><p>在程序中地具体实现大致为</p><pre><code>void system@plt(){address_good:jmp *system@got            // 链接器将system@got填成下一语句lookup_system的地址return；lookup_system:        调用重定位函数查找system地址，并写到system@got        goto address_good;}</code></pre><p>当第一次运行system函数时，程序流会跳到system@plt，然后会顺势执行jmp *system@got，但是很显然，got表中的数据项并没有填充正确的值。其实程序流并没有前往所谓的system@got，实际上它前往了lookup_system中去，这个函数的功能是调用重定位的函数来寻找system的函数地址，并将其写入system@got中去，然后再跳到addr_good，执行system然后返回到调用者。这样子下面的lookup_system就相当于被废除了。</p><p>然后在第二次调用system时，就直接走向system的真正的地址中。</p><p>事实上重定位中的最后实现并没有每一个plt中都含有符号解析与重定位的那一部分。所以程序中实现具体实现为。</p><pre><code>jmp     *system@gotpush    id(当前函数在plt中的偏移量/2)jmp     common@plt</code></pre><h3 id="公共plt的具体实现"><a href="#公共plt的具体实现" class="headerlink" title="公共plt的具体实现"></a>公共plt的具体实现</h3><p>在上文中我们基本缕清了函数重定向的前世今生与大致实现方式。接下来我要重点讲一下这个公共的函数的实现方式。</p><p>我们先在ida里看看这个函数的具体实现，在这里ida的F5已经无能为力了，我们硬刚下源码试试</p><pre><code>.plt:08048300 common          proc near               ; CODE XREF: .plt:0804831B↓j.plt:08048300                                         ; .plt:0804832B↓j ....plt:08048300 ; __unwind {.plt:08048300                 push    ds:dword_804A004.plt:08048306                 jmp     ds:dword_804A008.plt:08048306 common          endp</code></pre><p>很显然这个所谓的804A008就是所谓的重定向函数，而上面的804A004，就是参数。</p><p>而在这些地方放的就是</p><pre><code>.got.plt:0804A004 dword_804A004   dd 0                    ; DATA XREF: common↑r.got.plt:0804A008 ; int (*dword_804A008)(void).got.plt:0804A008 dword_804A008   dd 0                    ; DATA XREF: common+6↑r</code></pre><p>在下面我们发现了</p><pre><code>.got.plt:0804A00C off_804A00C     dd offset read          ; DATA XREF: _read↑r.got.plt:0804A010 off_804A010     dd offset __gmon_start__.got.plt:0804A010                                         ; DATA XREF: ___gmon_start__↑r.got.plt:0804A014 off_804A014     dd offset __libc_start_main.got.plt:0804A014                                         ; DATA XREF: ___libc_start_main↑r.got.plt:0804A018 off_804A018     dd offset write         ; DATA XREF: _write↑r.got.plt:0804A018 _got_plt        ends.got.plt:0804A018</code></pre><p>发现接着跑下去就已经看不懂了</p><p>随手点一个进去</p><pre><code>extern:0804A034                 extrn write:near        ; CODE XREF: _write↑jextern:0804A034                                         ; DATA XREF: .got.plt:off_804A018↑o</code></pre><p>好像是一个声明一样的东西。</p><p>经过了观看大神写的微博以后，我发现如果使用gdb进行动态调试的话，这个common，在没有进行运行时，其的值为0x0，在运行后会变成它的值会变成另一个值，而这个值最终指向的是 <strong>_dl_runtime_resolve</strong>,而这一个处于动态链接器中的函数。</p><h3 id="dl-runtime-resolve"><a href="#dl-runtime-resolve" class="headerlink" title="_dl_runtime_resolve"></a>_dl_runtime_resolve</h3><p>因为每一个plt表里的函数都需要调用这个公共的dlresolve项，所以dlresolve得知道需要查找的是哪一个函数，并将GOT表的值写在哪个函数的plt段。因为在plt表里push了一个参数，我上面也写了你如果去算算的话，它与函数在plt表中的偏移量相同</p><p>在程序内部，维持有一个重定位信息表。利用<code>readelf -r test</code>,可以看见.rel.plt段中的消息</p><pre><code>Offset     Info     Type             Sym.Value  Sym. Name080496f8   00000107 R_386_JUMP_SLOT  00000000   puts080496fc   00000207 R_386_JUMP_SLOT  00000000   __gmon_start__08049700   00000407 R_386_JUMP_SLOT 000000000   __libc_start_main</code></pre><p>程序可以通过这个公共的offset表，找到应当被填写GOT表函数的地址的位置。</p><blockquote><p>其实想要彻底搞清楚这个过程还需要对于elf文件在linux系统的装载有着更深的理解才行，所以我这边的讲解只是浅尝辄止不深究了。</p></blockquote><blockquote><p>日后讲解这个dlresolve的时候还会像详细讲解这个过程与可能的利用。</p></blockquote><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> 从零开始的ctf之路 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> linux </tag>
+            
+            <tag> plt&amp;got </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>linux上的链接</title>
+      <link href="/2018/06/14/linux%E4%B8%8A%E7%9A%84%E5%BB%B6%E8%BF%9F%E9%87%8D%E5%AE%9A%E4%BD%8D/"/>
+      <url>/2018/06/14/linux%E4%B8%8A%E7%9A%84%E5%BB%B6%E8%BF%9F%E9%87%8D%E5%AE%9A%E4%BD%8D/</url>
+      
+        <content type="html"><![CDATA[<p>linux上的软链接与硬连接</p><a id="more"></a><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>按照计划我应当更新绕过NX的一些攻击方式，但是我觉得既然讲了绑定，那就顺便来讲讲有关于链接的话题吧。</p><h2 id="linux内部文件管理"><a href="#linux内部文件管理" class="headerlink" title="linux内部文件管理"></a>linux内部文件管理</h2><p>在现代操作系统中，文件的意义是使信息独立于进程长期存在。而为了方便文件被多个进程相互独立的调用，linux系统设置了一组通用的api来对文件或其他被看作文件的东西进行操作。也就是说linux把所有除了进程以外的东西全部当成文件。</p><p>文件的操作是通过所谓的字节流来进行。而上文提到的通用的api就是来管理与操作这些字节流的，最常见自然是对文件或者屏幕（终端的用户输入）进行管理的api。并且，为了方便进行管理这些文件，linux使用了文件夹这一系统。</p><blockquote><p>在linus写linux的最初版本时文件夹还不是一项必须要实现的功能，例如大名鼎鼎的unix系统就不能实现这个功能。</p></blockquote><p>如果有细心的朋友在根目录下<code>ls -a</code>,就会发现有很多文件夹</p><pre><code>/              根目录├── bin     存放用户二进制文件├── boot    存放内核引导配置文件├── dev     存放设备文件├── etc     存放系统配置文件├── home    用户主目录├── lib     动态共享库├── lost+found  文件系统恢复时的恢复文件├── media   可卸载存储介质挂载点├── mnt     文件系统临时挂载点├── opt     附加的应用程序包├── proc    系统内存的映射目录，提供内核与进程信息├── root    root 用户主目录├── sbin    存放系统二进制文件├── srv     存放服务相关数据├── sys     sys 虚拟文件系统挂载点├── tmp     存放临时文件├── usr     存放用户应用程序└── var     存放邮件、系统日志等变化文件</code></pre><p>其中的home文件夹就是我们平常所使用的最多的文件夹。</p><blockquote><p>笔者认为Linux在系统文件的隐藏，这一方面做的比windows高得多。虽然windows的文件夹目录更为直观，但是同时也产生了用户很容误删这些关键的系统文件的问题。</p><blockquote><p><del>当然windows其它方面的易用性与生态会把linux秒成渣。</del></p><blockquote><p><del>但这又有什么用呢，服务器是linux的，你还不是老老实实得需要用linux做pwn题</del></p></blockquote></blockquote></blockquote><p>需要注意的是因为万物皆为文件的设计，所以linux中的文件夹并非与windows一样，是一个高于普通文件的顶层设计的产物，而是一种特殊的文件。</p><p>使用命令 <code>mkdir</code> 创建目录时，若期望创建的目录的名称与现有的文件名（或目录名）重复，则会创建失败。</p><p>Linux 将设备当做文件进行处理下面这段终端记录展示了如何打开设备文件 /dev/input/event5 并读取文件内容。文件 event5 表示一种输入设备，其可能是鼠标或键盘等。查看文件 /proc/bus/input/devices 可知 event5 对应设备的类型。设备文件 /dev/input/event5 使用 read() 以字符流的方式被读取。结构体 input_event 被定义在内核头文件 linux/input.h 中。</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> fd;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">input_event</span> <span class="title">ie</span>;</span></span><br><span class="line">fd = open(<span class="string">"/dev/input/event5"</span>, O_RDONLY);</span><br><span class="line">read(fd, &amp;ie, <span class="keyword">sizeof</span>(struct input_event));</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"type = %d  code = %d  value = %d\n"</span>,</span><br><span class="line">            ie.type, ie.code, ie.value);</span><br><span class="line">close(fd);</span><br></pre></td></tr></table></figure><p>从这里可以看出设备可以作为文件来进行读写。</p><h2 id="硬链接与软链接"><a href="#硬链接与软链接" class="headerlink" title="硬链接与软链接"></a>硬链接与软链接</h2><p>虽然文件这一数据结构的作用是存放数据，但是显然，它也存放了一些与这些数据相关的另一些数据，例如创建时间，文件名等信息。</p><blockquote><p>插一些题文无关的内容，文件并不以文件名来作为系统中的唯一标识，而将文件的 <strong>inode</strong> 号作为文件的唯一标识。就和windwos系统中不以进程名而已句柄来分辨进程其实是一个道理。</p></blockquote><p>一般来说将我们将这两种数据称作</p><blockquote><ol><li>用户数据</li><li>元数据</li></ol></blockquote><p>需要注意的是，进程对于文件其实是非独占的。换言之，多个进程可以使用同一个文件。文件的共享是一个难题。可以想象，如果说没有限制的使用同一个文件会导致读取方面产生多大的问题。</p><p>为解决文件的共享使用，Linux 系统引入了两种链接：<strong>硬链接</strong> (hard link) 与 <strong>软链接</strong>（又称符号链接，即 soft link 或 symbolic link）。</p><p>链接的作用有</p><blockquote><ol><li>解决了文件的共享使用</li><li>隐藏文件路径</li><li>增加权限安全</li><li>节省存储空间</li><li>…</li></ol></blockquote><p>上文也提到了linux系统下有文件夹这一个架构，那么如果我们需要在不同的文件下同时保留一个文件，我们当然可以简单的直接拷贝一份，但是这样浪费了大量的空间，而且在程序真正需要去改变文件的数据时会导致多个文件的数据不同步，丢失了我们复制一份的初衷。</p><p>我们需要一种结构，在改变它的数据时同时会改变原始的数据，而且占用空间小。</p><p>最优的解决方案就是：</p><ul><li>只有一个真实存在的文件</li><li>在其他文件夹下存放的数据其实只是这个文件的别名。</li></ul><p>这就是 <strong>硬链接</strong> ，硬链接就是一个文件的不同的文件名。可以为一个inode号创建不同的文件名，而这些文件名可以和现实中存在文件一样被程序读写。私以为它和c++的指针特别像</p><p>当然我们也可以创建和windows中快捷方式一样的东西，这就是 <strong>软链接</strong> 。软链接是现实中存在的文件，它也有着所谓的元数据与用户数据。但是它的数据块有着些许不同，它存放的是另一个文件的地址。</p><h2 id="连接的创建"><a href="#连接的创建" class="headerlink" title="连接的创建"></a>连接的创建</h2><h3 id="硬链接"><a href="#硬链接" class="headerlink" title="硬链接"></a>硬链接</h3><p>硬链接可以用以下指令来创建</p><ol><li><code>link oldfile newfile</code></li><li><code>ln oldfile newfile</code></li></ol><p>此外需要注意，<strong>不要向目录创建硬链接</strong></p><p>但是有以下注意事项</p><blockquote><ul><li>文件有相同的 inode 及 data block；</li><li>只能对已存在的文件进行创建；</li><li>不能交叉文件系统进行硬链接的创建；</li><li>不能对目录进行创建，只可对文件创建；</li><li>删除一个硬链接文件并不影响其他有相同 inode 号的文件。</li></ul></blockquote><h3 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h3><p>硬链接可以用以下指令来创建</p><ol><li><code>link -s oldfile newfile</code></li><li><code>ln -s oldfile newfile</code></li></ol><p>此外</p><blockquote><ul><li>软链接有自己的文件属性及权限等；</li><li>可对不存在的文件或目录创建软链接；</li><li>软链接可交叉文件系统；</li><li>软链接可对文件或目录创建；</li><li>创建软链接时，链接计数 i_nlink 不会增加；</li><li>删除软链接并不影响被指向的文件，但若被指向的原文件被删除，则相关软连接被称为死链接（即 dangling link，若被指向路径文件被重新创建，死链接可恢复为正常的软链接）</li></ul></blockquote><h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p><code>rm</code>,没啥好说的。</p><hr><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>文章拖了好久了，以后还是要多加努力。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 从零开始的ctf之路 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>bin实用小工具</title>
+      <link href="/2018/06/14/%E5%AE%9E%E7%94%A8%E5%B0%8F%E5%B7%A5%E5%85%B7/"/>
+      <url>/2018/06/14/%E5%AE%9E%E7%94%A8%E5%B0%8F%E5%B7%A5%E5%85%B7/</url>
+      
+        <content type="html"><![CDATA[<p>一些bin学习过程中常用的工具</p><a id="more"></a><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>glibc版本&lt;= 2.23</p><h2 id="bin必要工具："><a href="#bin必要工具：" class="headerlink" title="bin必要工具："></a>bin必要工具：</h2><p>Ubuntu:<br><a href="https://mirrors.aliyun.com/ubuntu-releases/16.04/" target="_blank" rel="noopener">https://mirrors.aliyun.com/ubuntu-releases/16.04/</a><br>你大可换其他的，例如kali</p><p>windows：<br>不解释</p><p>IDA7.0:<br>链接：<a href="https://pan.baidu.com/s/1s9K1TurV_bvlnWAAGJ4z-g" target="_blank" rel="noopener">https://pan.baidu.com/s/1s9K1TurV_bvlnWAAGJ4z-g</a> 密码：1e9i</p><p>没有IDA不知道怎么做bin题。。。</p><h2 id="pwn必要工具："><a href="#pwn必要工具：" class="headerlink" title="pwn必要工具："></a>pwn必要工具：</h2><p>pwntools:<br>apt-get update<br>apt-get install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential<br>pip install –upgrade pip<br>pip install –upgrade pwntools</p><p>pwn题必备，使用方法可以百度下，很容易找到的</p><p>Pwngdb:<br>链接：<a href="https://pan.baidu.com/s/1XtbuCfh_09ahlNAdly-KcA" target="_blank" rel="noopener">https://pan.baidu.com/s/1XtbuCfh_09ahlNAdly-KcA</a> 密码：mfz0</p><p>gdb的插件，简直是太好用了</p><p>msfvenom:<br><a href="https://github.com/rapid7/metasploit-framework/wiki/Nightly-Installers" target="_blank" rel="noopener">https://github.com/rapid7/metasploit-framework/wiki/Nightly-Installers</a></p><p>shellcode生成工具，可以生成各种要求的shellcode，蛮好用的</p><p>roputils:<br><a href="https://github.com/inaz2/roputils" target="_blank" rel="noopener">https://github.com/inaz2/roputils</a></p><p>和pwntools一起导入可能有点问题，一开始可能用不到，我用这个做过dl-resolve的题</p><p>ROPgadget:<br><a href="https://github.com/JonathanSalwan/ROPgadget" target="_blank" rel="noopener">https://github.com/JonathanSalwan/ROPgadget</a></p><p>ROP基本也是做pwn必备的东西，用法看自行看readme</p><h2 id="Re必要工具："><a href="#Re必要工具：" class="headerlink" title="Re必要工具："></a>Re必要工具：</h2><p>听逆向大神说好像一个IDA可以走天下了……<br>此外还需要用到OD。偶发性地，还需要一些小工具。</p><blockquote><p>建议安装吾爱破解工具包，再把里面的IDA等更新到最新版本。</p></blockquote><h2 id="小建议："><a href="#小建议：" class="headerlink" title="小建议："></a>小建议：</h2><blockquote><p>有余力的朋友建议购买正版。</p></blockquote><blockquote><p>要下载github上的东西，可以在虚拟机里输入 git clone +项目地址</p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 从零开始的ctf之路 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> pwn </tag>
+            
+            <tag> re </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>unlink</title>
+      <link href="/2018/06/14/unlink/"/>
+      <url>/2018/06/14/unlink/</url>
+      
+        <content type="html"><![CDATA[<p>一些堆溢出方面的关于unlink的知识</p><a id="more"></a><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>glibc中间维护的bins其实是用来存放malloc时从heap中割下来的堆,为了避免在heap中割下了太多的连续的free chunk，系统会将free chunk自动合并到top chunk中去（top chunk指系统heap中最高位未分配的那个chunk）或者合并成为更大的一个chunk。</p><h2 id="条件："><a href="#条件：" class="headerlink" title="条件："></a>条件：</h2><p>相邻的两块chunk 一块为top chunk 一块为free chunk 或者两块两块 free chunk。所以我们要做的是先连续割两块chunk，保证他们是连续的，以保证他们会unlink。</p><blockquote><p>在溢出时之所以要覆写p位，就是为了能够触发unlink</p></blockquote><h2 id="流程："><a href="#流程：" class="headerlink" title="流程："></a>流程：</h2><p>如果上一块是free chunk<br>&emsp;&emsp;合并上一块chunk并对上一块做unlink<br>如果下一块是<br>&emsp;&emsp;top：合并到top<br>&emsp;&emsp;一般chunk：<br>&emsp;&emsp;&emsp;&emsp;是free chunk：合并下一块chunk，并对下一块做unlin。最终加入unsortedbin<br>&emsp;&emsp;&emsp;&emsp;正在使用中：加入unsortedbin</p><h2 id="最终结果"><a href="#最终结果" class="headerlink" title="最终结果"></a>最终结果</h2><p>所有的同样大小的free chunk递归合并</p><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>假定有三块连续的smallchunk<br>第一块第二块freed，第三块issued。<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80<br>fd = &amp;smallbin<br>bk = &amp;smallbin<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x81(p位+1代表上一块已经使用已经使用)<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></p><p>free(p)(第二块),就会导致一二两块合并，从而触发unlink<br>系统检验p+size 与p-prevsize得到了上下两个块的头</p><blockquote><p>p+0x10为FD，p+0x18为BK</p></blockquote><pre><code>unlink(P,FD,BK){    P = p    FD = P -&gt; BK    BK = P -&gt; FD    FD -&gt; BK = BK    BK -&gt; FD = FD}</code></pre><p>相当于将这个块从bin中脱链。然后系统会将上一个块更改size之类的，然后链到unsortedbin上。</p><h2 id="预期利用方式"><a href="#预期利用方式" class="headerlink" title="预期利用方式"></a>预期利用方式</h2><p>将程序劫持到shellcode中</p><blockquote><p>shellcode是一段用于利用软件漏洞而执行的代码，以其经常让攻击者获得shell而得名。 shellcode常常使用机器语言编写。</p></blockquote><p>利用unlink导致返回了weichunk中指向的地址。最后触发任意写，将必须触发的函数在got表中值改到shellcode，或者更改函数指针变量的值导致触发system()。</p><h2 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路:"></a>利用思路:</h2><p>首先很直观地想到通过堆溢出q堆盖掉后面的FD和BK，将fd改为gou entry -12，将bk 改为 shellcode 的地址，将size低位改为1。在free(q)时会发生如下过程：</p><pre><code>free(q)FD = P-&gt;fd = got entry -12BK = P-&gt;bk =sc(shellcode) addrFD-&gt;bk=BK(got hijacking)got entry -12 +12 = sc addrBK-&gt;fd=FDsc addr+8=got entry -12</code></pre><p>在此过程后，会会进行一次任意写将FD+0x10的地方写入shellcode<br>然而在现实情况中，现代的glibc会有着针对chunk的检查以及其他保护机制，使得该方法无法使用。<br>因此我们的利用方式是<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80</p><p>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x91<br>&lt; r指向此处&gt;<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80(p位+1代表上一块已经使用已经使用)<br>&lt; q指向此处&gt;<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>通过对于第二个chunk进行堆溢出将第二个块整体盖掉然后在其中伪造一个chunk并且改写第三个堆块的prev_size<br>最后变为<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80</p><p>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x91<br>fake prev_size = 0x90&lt; r指向此处&gt;<br>fake size = 0x80<br>fake fd = &amp;r-0x18<br>fake bk = &amp;r-0x10<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0x80<br>size = 0x80(p位+1代表上一块已经使用已经使用)<br>&lt; q指向此处&gt;<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>这样子在可以绕过两个检查，成功将r并入了chunk中从而进行任意写。<br>具体流程：<br>free(q)<br>找到q与r都是freed<br>找到了最下面的q，通过q-0x10找到的prev_size。q-0x10-prev_size找到r。对于r执行unlink<br>跳过了check：<br>r-&gt;fd-&gt;bk == r = <em>(&amp;r-0x18+0x18) ==r<br>f-&gt;bk-&gt;fd == r = </em>(&amp;r-0x18+0x18) ==r</p><p>FD-&gt;bk = BK =》<em>（&amp;r-0x18+0x18）=&amp;r-0x10<br>BK-&gt;fd = FD =》</em>（&amp;r-0x10+0x10）=&amp;r-0x18</p><p>大功告成</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 从零开始的ctf之路 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> pwn </tag>
+            
+            <tag> 堆 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>格式化字符串漏洞</title>
       <link href="/2018/06/14/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/"/>
       <url>/2018/06/14/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/</url>
       
         <content type="html"><![CDATA[<p>printf家族的格式化漏洞</p><a id="more"></a><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>格式化字符串漏洞主要出现在printf家族中，当程序员为了偷懒将从用户处读入的字符串直接输出时，可能会触发格式化字符串漏洞，例如以下代码。</p><pre><code>printf(&quot;%s&quot;,str)//这是安全的printf(str)//这是危险的</code></pre><p>虽然说printf的第一个参数一定会输出，但是如果在其中拥有格式字符的话，就会从堆栈中找到一个变量的参数值进行输出，从而输出本不应该输出的内容。</p><h2 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h2><p>以下我将把一段c++代码作为例子解析原理</p><pre><code>#include &lt;iostream&gt;using namespace std;int main(){    char str[100];    cin &gt;&gt; str;    printf(str);    system(&quot;pause&quot;);}</code></pre><p>这段代码就会出现此类bug</p><blockquote><p>%s<br>閴J</p></blockquote><p>其中“閴J”这个奇怪的字符串就是从内存里读出来的<br>假如我们不使用%s这样的目的较纯粹的格式化字符，而是使用%n、%x这样恶意满满的格式化字符就会导致任意写或者堆栈中的东西被泄露出去。</p><h2 id="x查看栈的内容-s查看地址上的内容"><a href="#x查看栈的内容-s查看地址上的内容" class="headerlink" title="%x查看栈的内容%s查看地址上的内容"></a>%x查看栈的内容%s查看地址上的内容</h2><p>内容如下</p><blockquote><p>%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s</p></blockquote><p>-—-结果—-</p><blockquote><p>11d108211d10825b1000cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc7825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782578257825782573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325732573257325000000000000(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)(null)</p></blockquote><p>ps.请注意这样子操作访问的地址从高到低（堆栈从低向高利用）一个%x刚好跳过一个地址。</p><h2 id="sprint触发栈溢出"><a href="#sprint触发栈溢出" class="headerlink" title="sprint触发栈溢出"></a>sprint触发栈溢出</h2><p>例如</p><pre><code>char user[]=&quot;%496d\x39\x4a\x42\x00&quot;;char outbuf[512];char buffer[512]sprintf(buffer,&quot;ERR Wrong command：%.400s&quot;,user);</code></pre><blockquote><p>两个16进制表示一个字符，以这种方式将他们捆成整体，这样子会两个16进制会作为一个整体写入而不是作为两个字符写入毕竟我们需要在内存中写入的是00434a39而不是16个16进制。也只有以这种方式才能在内存中写入00434a39</p></blockquote><p>这里有一个小技巧利用%496d，快速向buffer里面丢垃圾这样子就往栈中存放eip的位置写入了“00434a39”</p><blockquote><p>低&emsp; 临时变量3 EBP-xxx<br>↓↓&emsp;  临时变量2 EBP-xxx<br>↓↓&emsp;  临时变量1 EBP-xxx<br>↓↓&emsp;  &lt;——EBP<br>↓↓&emsp; EBP原值<br>↓↓&emsp; EIP原值<br>↓↓&emsp; 参数1<br>↓↓&emsp; 参数2<br>高&emsp; 参数3</p></blockquote><p>调用函数附近的内存情况</p><h2 id="任意内存写"><a href="#任意内存写" class="headerlink" title="任意内存写"></a>任意内存写</h2><p>先通过这样的方式确定那个字符串放在那里<br>输入<br><code>AAAA %08x %08x %08x %08x %08x %08x %08x</code> </p><blockquote><p>\x58\x74\x04\x08%.Md%n<br>形如这样的代码可以在08047458中写入一个M+4<br>大致原理基本如此</p></blockquote><hr><p>pentools 可以很快速的进行此漏洞利用，下次有空补上</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 从零开始的ctf之路 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> pwn </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>pwn的杂记</title>
+      <link href="/2018/06/14/pwn%E7%9A%84%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%9A%84%E6%9D%82%E8%AE%B0/"/>
+      <url>/2018/06/14/pwn%E7%9A%84%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%9A%84%E6%9D%82%E8%AE%B0/</url>
+      
+        <content type="html"><![CDATA[<p>这是我的一些pwn的随笔</p><a id="more"></a><h2 id="先讲一些关于pwn的术语吧"><a href="#先讲一些关于pwn的术语吧" class="headerlink" title="先讲一些关于pwn的术语吧"></a>先讲一些关于pwn的术语吧</h2><blockquote><ul><li><strong>payload</strong>（有效攻击负载）是包含在你用于一次漏洞利用（exploit）中的ShellCode中的主要功能代码</li><li><strong>shellcode</strong>（可提权代码） 对于一个漏洞来说，ShellCode就是一个用于某个漏洞的二进制代码框架，有了这个框架你可以在这个ShellCode中包含你需要的Payload来做一些事情</li><li><strong>exp</strong> (Exploit )漏洞利用，一般是个demo程序</li><li><strong>poc</strong>.(Proof of Concept)漏洞证明，一般就是个样本 用来证明和复现</li><li><strong>vul</strong>：(Vulnerability)  :漏洞”Pwn”：是一个黑客语法的俚语词  ，是指攻破设备或者系统</li></ul></blockquote><h2 id="gdb-peda-使用中的常用技巧"><a href="#gdb-peda-使用中的常用技巧" class="headerlink" title="gdb-peda 使用中的常用技巧"></a>gdb-peda 使用中的常用技巧</h2><p>可以使用pattern_create()创建一个形如</p><blockquote><p>pattern_create(200)<br>‘AAA%AAsAABAA$AAnAACAA-AA(AADAA;AA)AAEAAaAA0AAFAAbAA1AAGAAcAA2AAHAAdAA3AAIAAeAA4AAJAAfAA5AAKAAgAA6AALAAhAA7AAMAAiAA8AANAAjAA9AAOAAkAAPAAlAAQAAmAARAAnAASAAoAATAApAAUAAqAAVAArAAWAAsAAXAAtAAYAAuAAZAAvAAwA’</p></blockquote><p>的字符串，把他输入进程序就可以得到eip被误占所引发的错误。<br>再用pattern_offset 输入出错信息里的地址，就可以算出距离首地址的偏移<br>在简单的栈溢出中应当在覆盖完所有的临时变量后再顺便把bp（x86 4个 x64 8个）盖了<br>在叫完system以后会自动把其后的作为参数但是中间会需要加入参数中作为返回地址的数据（相当于传入四个字节换掉堆栈中的eip）（参数中字符串请用指针）。（当然64位中是不可以用的，因为64位中用寄存器传前七个参数）</p><p>64位自动对应p64 32位使用p32</p><blockquote><p>sh.recvuntil(‘:‘)<br>address = sh.recvuntil(‘?‘, drop=True)<br>address = int(address, 16)</p></blockquote><p>这样的方法可以获得写得起始点的地址，以确认shellcode的地址，免于重复运行计算<br>‘sadsaddas’+’asdsadsda’ == ‘saddsdsdsdsa’  ‘asdasdasda<br>checksec 可以获得保护开启情况;</p><p>break <em>0x400100 (b main):在 0x400100 处下断点<br>tb一次性断点<br>info b：查看断点信息<br>delete [number]：删除断点<br>watch </em>(int *)0x08044530：在内存0x0804453处的数据改变时stop<br>x /4xg \$ebp：查看ebp开始的4个8字节内容（b：单字节，h：双字节，w：四字节，g：八字节；x：十六进制，s：字符串输出，i：反汇编，c：单字符）<br>p $eax：输出eax的内容<br>set \$eax=4：修改变量值start<br>ls -f 可以展示隐藏文件</p><h2 id="gdb-peda常用指令（机翻）"><a href="#gdb-peda常用指令（机翻）" class="headerlink" title="gdb-peda常用指令（机翻）"></a>gdb-peda常用指令（机翻）</h2><p>c：继续运行<br>r：重新开始运行<br>ni：单步步过<br>si：单步步入<br>fini：运行至函数刚结束处<br>return expression：将函数返回值指定为expression<br>bt：查看当前栈帧<br>info f：查看当前栈帧<br>context：查看运行上下文<br>stack：查看当前堆栈<br>call func：强制函数调用<br>ropgagdet：找common rop<br>vmmap：查看虚拟地址分布<br>shellcode：搜索，生成shellcode<br>ptype struct link_map：查看link_map定义<br>p &amp;((struct link_map*)0)-&gt;l_info：查看l_info成员偏移<br>libc ：打印libc的基址<br>ld ：打印ld的基地址<br>codebase ：打印代码段的基础<br>heap ：打印堆的基础<br>got ：打印全局偏移表信息<br>dyn ：打印动态部分信息<br>findcall ：找到一些函数调用<br>bcall ：在某个函数调用中设置断点<br>tls ：打印线程本地存储地址<br>at ：按进程名称附加<br>findsyscall ：找到系统调用<br>fmtarg ：计算格式字符串的索引<br>你需要停止有漏洞的printf。<br>force ：计算力所在之处的nb。<br>heapinfo ：打印堆的一些信息<br>heapinfo（竞技场地址）<br>默认是当前线程的舞台<br>如果启用了tcache，它会显示tcache条目的信息<br>heapinfoall ：打印堆的一些信息（所有线程）<br>arenainfo ：打印所有竞技场的一些信息<br>chunkinfo：打印块的信息<br>chunkinfo（受害者的地址）<br>chunkptr ：打印块的信息<br>chunkptr（用户ptr的地址）<br>mergeinfo ：打印合并信息<br>mergeinfo（受f害者地址）<br>printfastbin ：打印fastbin的一些信息<br>tracemalloc on ：跟踪malloc并释放并检测到一些错误。<br>你需要首先运行这个进程tracemalloc on，它会记录所有的malloc和free。<br>你可以设置DEBUGpwngdb.py，比打印所有的malloc和免费的信息如screeshot。<br>parseheap ：解析堆布局<br>magic ：在glibc中打印有用的变量和函数<br>fp ：显示FILE结构<br>fp（文件的地址）<br>fpchain：显示FILE的链接列表<br>orange：中的测试house of orange条件_IO_flush_lockp<br>z() : 调出此时的调试界面<br>橙色（FILE的地址）<br>ctrl + c停止调试</p><hr><p>栈是从高向低发展<br>栈溢出是从低向高溢出<br>而单个数据内部则是从高向低按字节存放的<br>而大多数的看内存的软件则是从低向高看的</p><hr><p>ROPgadget <strong>常用</strong>指令</p><ul><li><code>binary</code></li><li><code>ropchain</code></li></ul><blockquote><p>格式： <code>ROPgadget --binary the_binary_elf ropchain</code></p></blockquote><hr><p>程序中已经用到的会被link进程序固定的<strong>plt表</strong>中</p><p>而没有被用到的也会被放在libc中，只需要无限leak即可找到system地址。</p><blockquote><p>无限leak通常出现在栈溢出可以使程序重现进入该函数。</p></blockquote><hr>]]></content>
       
       
       <categories>
@@ -505,137 +636,6 @@
             <tag> pwn </tag>
             
             <tag> 堆 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>bin实用小工具</title>
-      <link href="/2018/06/14/%E5%AE%9E%E7%94%A8%E5%B0%8F%E5%B7%A5%E5%85%B7/"/>
-      <url>/2018/06/14/%E5%AE%9E%E7%94%A8%E5%B0%8F%E5%B7%A5%E5%85%B7/</url>
-      
-        <content type="html"><![CDATA[<p>一些bin学习过程中常用的工具</p><a id="more"></a><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>glibc版本&lt;= 2.23</p><h2 id="bin必要工具："><a href="#bin必要工具：" class="headerlink" title="bin必要工具："></a>bin必要工具：</h2><p>Ubuntu:<br><a href="https://mirrors.aliyun.com/ubuntu-releases/16.04/" target="_blank" rel="noopener">https://mirrors.aliyun.com/ubuntu-releases/16.04/</a><br>你大可换其他的，例如kali</p><p>windows：<br>不解释</p><p>IDA7.0:<br>链接：<a href="https://pan.baidu.com/s/1s9K1TurV_bvlnWAAGJ4z-g" target="_blank" rel="noopener">https://pan.baidu.com/s/1s9K1TurV_bvlnWAAGJ4z-g</a> 密码：1e9i</p><p>没有IDA不知道怎么做bin题。。。</p><h2 id="pwn必要工具："><a href="#pwn必要工具：" class="headerlink" title="pwn必要工具："></a>pwn必要工具：</h2><p>pwntools:<br>apt-get update<br>apt-get install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential<br>pip install –upgrade pip<br>pip install –upgrade pwntools</p><p>pwn题必备，使用方法可以百度下，很容易找到的</p><p>Pwngdb:<br>链接：<a href="https://pan.baidu.com/s/1XtbuCfh_09ahlNAdly-KcA" target="_blank" rel="noopener">https://pan.baidu.com/s/1XtbuCfh_09ahlNAdly-KcA</a> 密码：mfz0</p><p>gdb的插件，简直是太好用了</p><p>msfvenom:<br><a href="https://github.com/rapid7/metasploit-framework/wiki/Nightly-Installers" target="_blank" rel="noopener">https://github.com/rapid7/metasploit-framework/wiki/Nightly-Installers</a></p><p>shellcode生成工具，可以生成各种要求的shellcode，蛮好用的</p><p>roputils:<br><a href="https://github.com/inaz2/roputils" target="_blank" rel="noopener">https://github.com/inaz2/roputils</a></p><p>和pwntools一起导入可能有点问题，一开始可能用不到，我用这个做过dl-resolve的题</p><p>ROPgadget:<br><a href="https://github.com/JonathanSalwan/ROPgadget" target="_blank" rel="noopener">https://github.com/JonathanSalwan/ROPgadget</a></p><p>ROP基本也是做pwn必备的东西，用法看自行看readme</p><h2 id="Re必要工具："><a href="#Re必要工具：" class="headerlink" title="Re必要工具："></a>Re必要工具：</h2><p>听逆向大神说好像一个IDA可以走天下了……<br>此外还需要用到OD。偶发性地，还需要一些小工具。</p><blockquote><p>建议安装吾爱破解工具包，再把里面的IDA等更新到最新版本。</p></blockquote><h2 id="小建议："><a href="#小建议：" class="headerlink" title="小建议："></a>小建议：</h2><blockquote><p>有余力的朋友建议购买正版。</p></blockquote><blockquote><p>要下载github上的东西，可以在虚拟机里输入 git clone +项目地址</p></blockquote>]]></content>
-      
-      
-      <categories>
-          
-          <category> 从零开始的ctf之路 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> pwn </tag>
-            
-            <tag> re </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>linux上的链接</title>
-      <link href="/2018/06/14/linux%E4%B8%8A%E7%9A%84%E5%BB%B6%E8%BF%9F%E9%87%8D%E5%AE%9A%E4%BD%8D/"/>
-      <url>/2018/06/14/linux%E4%B8%8A%E7%9A%84%E5%BB%B6%E8%BF%9F%E9%87%8D%E5%AE%9A%E4%BD%8D/</url>
-      
-        <content type="html"><![CDATA[<p>linux上的软链接与硬连接</p><a id="more"></a><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>按照计划我应当更新绕过NX的一些攻击方式，但是我觉得既然讲了绑定，那就顺便来讲讲有关于链接的话题吧。</p><h2 id="linux内部文件管理"><a href="#linux内部文件管理" class="headerlink" title="linux内部文件管理"></a>linux内部文件管理</h2><p>在现代操作系统中，文件的意义是使信息独立于进程长期存在。而为了方便文件被多个进程相互独立的调用，linux系统设置了一组通用的api来对文件或其他被看作文件的东西进行操作。也就是说linux把所有除了进程以外的东西全部当成文件。</p><p>文件的操作是通过所谓的字节流来进行。而上文提到的通用的api就是来管理与操作这些字节流的，最常见自然是对文件或者屏幕（终端的用户输入）进行管理的api。并且，为了方便进行管理这些文件，linux使用了文件夹这一系统。</p><blockquote><p>在linus写linux的最初版本时文件夹还不是一项必须要实现的功能，例如大名鼎鼎的unix系统就不能实现这个功能。</p></blockquote><p>如果有细心的朋友在根目录下<code>ls -a</code>,就会发现有很多文件夹</p><pre><code>/              根目录├── bin     存放用户二进制文件├── boot    存放内核引导配置文件├── dev     存放设备文件├── etc     存放系统配置文件├── home    用户主目录├── lib     动态共享库├── lost+found  文件系统恢复时的恢复文件├── media   可卸载存储介质挂载点├── mnt     文件系统临时挂载点├── opt     附加的应用程序包├── proc    系统内存的映射目录，提供内核与进程信息├── root    root 用户主目录├── sbin    存放系统二进制文件├── srv     存放服务相关数据├── sys     sys 虚拟文件系统挂载点├── tmp     存放临时文件├── usr     存放用户应用程序└── var     存放邮件、系统日志等变化文件</code></pre><p>其中的home文件夹就是我们平常所使用的最多的文件夹。</p><blockquote><p>笔者认为Linux在系统文件的隐藏，这一方面做的比windows高得多。虽然windows的文件夹目录更为直观，但是同时也产生了用户很容误删这些关键的系统文件的问题。</p><blockquote><p><del>当然windows其它方面的易用性与生态会把linux秒成渣。</del></p><blockquote><p><del>但这又有什么用呢，服务器是linux的，你还不是老老实实得需要用linux做pwn题</del></p></blockquote></blockquote></blockquote><p>需要注意的是因为万物皆为文件的设计，所以linux中的文件夹并非与windows一样，是一个高于普通文件的顶层设计的产物，而是一种特殊的文件。</p><p>使用命令 <code>mkdir</code> 创建目录时，若期望创建的目录的名称与现有的文件名（或目录名）重复，则会创建失败。</p><p>Linux 将设备当做文件进行处理下面这段终端记录展示了如何打开设备文件 /dev/input/event5 并读取文件内容。文件 event5 表示一种输入设备，其可能是鼠标或键盘等。查看文件 /proc/bus/input/devices 可知 event5 对应设备的类型。设备文件 /dev/input/event5 使用 read() 以字符流的方式被读取。结构体 input_event 被定义在内核头文件 linux/input.h 中。</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> fd;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">input_event</span> <span class="title">ie</span>;</span></span><br><span class="line">fd = open(<span class="string">"/dev/input/event5"</span>, O_RDONLY);</span><br><span class="line">read(fd, &amp;ie, <span class="keyword">sizeof</span>(struct input_event));</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"type = %d  code = %d  value = %d\n"</span>,</span><br><span class="line">            ie.type, ie.code, ie.value);</span><br><span class="line">close(fd);</span><br></pre></td></tr></table></figure><p>从这里可以看出设备可以作为文件来进行读写。</p><h2 id="硬链接与软链接"><a href="#硬链接与软链接" class="headerlink" title="硬链接与软链接"></a>硬链接与软链接</h2><p>虽然文件这一数据结构的作用是存放数据，但是显然，它也存放了一些与这些数据相关的另一些数据，例如创建时间，文件名等信息。</p><blockquote><p>插一些题文无关的内容，文件并不以文件名来作为系统中的唯一标识，而将文件的 <strong>inode</strong> 号作为文件的唯一标识。就和windwos系统中不以进程名而已句柄来分辨进程其实是一个道理。</p></blockquote><p>一般来说将我们将这两种数据称作</p><blockquote><ol><li>用户数据</li><li>元数据</li></ol></blockquote><p>需要注意的是，进程对于文件其实是非独占的。换言之，多个进程可以使用同一个文件。文件的共享是一个难题。可以想象，如果说没有限制的使用同一个文件会导致读取方面产生多大的问题。</p><p>为解决文件的共享使用，Linux 系统引入了两种链接：<strong>硬链接</strong> (hard link) 与 <strong>软链接</strong>（又称符号链接，即 soft link 或 symbolic link）。</p><p>链接的作用有</p><blockquote><ol><li>解决了文件的共享使用</li><li>隐藏文件路径</li><li>增加权限安全</li><li>节省存储空间</li><li>…</li></ol></blockquote><p>上文也提到了linux系统下有文件夹这一个架构，那么如果我们需要在不同的文件下同时保留一个文件，我们当然可以简单的直接拷贝一份，但是这样浪费了大量的空间，而且在程序真正需要去改变文件的数据时会导致多个文件的数据不同步，丢失了我们复制一份的初衷。</p><p>我们需要一种结构，在改变它的数据时同时会改变原始的数据，而且占用空间小。</p><p>最优的解决方案就是：</p><ul><li>只有一个真实存在的文件</li><li>在其他文件夹下存放的数据其实只是这个文件的别名。</li></ul><p>这就是 <strong>硬链接</strong> ，硬链接就是一个文件的不同的文件名。可以为一个inode号创建不同的文件名，而这些文件名可以和现实中存在文件一样被程序读写。私以为它和c++的指针特别像</p><p>当然我们也可以创建和windows中快捷方式一样的东西，这就是 <strong>软链接</strong> 。软链接是现实中存在的文件，它也有着所谓的元数据与用户数据。但是它的数据块有着些许不同，它存放的是另一个文件的地址。</p><h2 id="连接的创建"><a href="#连接的创建" class="headerlink" title="连接的创建"></a>连接的创建</h2><h3 id="硬链接"><a href="#硬链接" class="headerlink" title="硬链接"></a>硬链接</h3><p>硬链接可以用以下指令来创建</p><ol><li><code>link oldfile newfile</code></li><li><code>ln oldfile newfile</code></li></ol><p>此外需要注意，<strong>不要向目录创建硬链接</strong></p><p>但是有以下注意事项</p><blockquote><ul><li>文件有相同的 inode 及 data block；</li><li>只能对已存在的文件进行创建；</li><li>不能交叉文件系统进行硬链接的创建；</li><li>不能对目录进行创建，只可对文件创建；</li><li>删除一个硬链接文件并不影响其他有相同 inode 号的文件。</li></ul></blockquote><h3 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h3><p>硬链接可以用以下指令来创建</p><ol><li><code>link -s oldfile newfile</code></li><li><code>ln -s oldfile newfile</code></li></ol><p>此外</p><blockquote><ul><li>软链接有自己的文件属性及权限等；</li><li>可对不存在的文件或目录创建软链接；</li><li>软链接可交叉文件系统；</li><li>软链接可对文件或目录创建；</li><li>创建软链接时，链接计数 i_nlink 不会增加；</li><li>删除软链接并不影响被指向的文件，但若被指向的原文件被删除，则相关软连接被称为死链接（即 dangling link，若被指向路径文件被重新创建，死链接可恢复为正常的软链接）</li></ul></blockquote><h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p><code>rm</code>,没啥好说的。</p><hr><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>文章拖了好久了，以后还是要多加努力。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 从零开始的ctf之路 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>unlink</title>
-      <link href="/2018/06/14/unlink/"/>
-      <url>/2018/06/14/unlink/</url>
-      
-        <content type="html"><![CDATA[<p>一些堆溢出方面的关于unlink的知识</p><a id="more"></a><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>glibc中间维护的bins其实是用来存放malloc时从heap中割下来的堆,为了避免在heap中割下了太多的连续的free chunk，系统会将free chunk自动合并到top chunk中去（top chunk指系统heap中最高位未分配的那个chunk）或者合并成为更大的一个chunk。</p><h2 id="条件："><a href="#条件：" class="headerlink" title="条件："></a>条件：</h2><p>相邻的两块chunk 一块为top chunk 一块为free chunk 或者两块两块 free chunk。所以我们要做的是先连续割两块chunk，保证他们是连续的，以保证他们会unlink。</p><blockquote><p>在溢出时之所以要覆写p位，就是为了能够触发unlink</p></blockquote><h2 id="流程："><a href="#流程：" class="headerlink" title="流程："></a>流程：</h2><p>如果上一块是free chunk<br>&emsp;&emsp;合并上一块chunk并对上一块做unlink<br>如果下一块是<br>&emsp;&emsp;top：合并到top<br>&emsp;&emsp;一般chunk：<br>&emsp;&emsp;&emsp;&emsp;是free chunk：合并下一块chunk，并对下一块做unlin。最终加入unsortedbin<br>&emsp;&emsp;&emsp;&emsp;正在使用中：加入unsortedbin</p><h2 id="最终结果"><a href="#最终结果" class="headerlink" title="最终结果"></a>最终结果</h2><p>所有的同样大小的free chunk递归合并</p><h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>假定有三块连续的smallchunk<br>第一块第二块freed，第三块issued。<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80<br>fd = &amp;smallbin<br>bk = &amp;smallbin<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x81(p位+1代表上一块已经使用已经使用)<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></p><p>free(p)(第二块),就会导致一二两块合并，从而触发unlink<br>系统检验p+size 与p-prevsize得到了上下两个块的头</p><blockquote><p>p+0x10为FD，p+0x18为BK</p></blockquote><pre><code>unlink(P,FD,BK){    P = p    FD = P -&gt; BK    BK = P -&gt; FD    FD -&gt; BK = BK    BK -&gt; FD = FD}</code></pre><p>相当于将这个块从bin中脱链。然后系统会将上一个块更改size之类的，然后链到unsortedbin上。</p><h2 id="预期利用方式"><a href="#预期利用方式" class="headerlink" title="预期利用方式"></a>预期利用方式</h2><p>将程序劫持到shellcode中</p><blockquote><p>shellcode是一段用于利用软件漏洞而执行的代码，以其经常让攻击者获得shell而得名。 shellcode常常使用机器语言编写。</p></blockquote><p>利用unlink导致返回了weichunk中指向的地址。最后触发任意写，将必须触发的函数在got表中值改到shellcode，或者更改函数指针变量的值导致触发system()。</p><h2 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路:"></a>利用思路:</h2><p>首先很直观地想到通过堆溢出q堆盖掉后面的FD和BK，将fd改为gou entry -12，将bk 改为 shellcode 的地址，将size低位改为1。在free(q)时会发生如下过程：</p><pre><code>free(q)FD = P-&gt;fd = got entry -12BK = P-&gt;bk =sc(shellcode) addrFD-&gt;bk=BK(got hijacking)got entry -12 +12 = sc addrBK-&gt;fd=FDsc addr+8=got entry -12</code></pre><p>在此过程后，会会进行一次任意写将FD+0x10的地方写入shellcode<br>然而在现实情况中，现代的glibc会有着针对chunk的检查以及其他保护机制，使得该方法无法使用。<br>因此我们的利用方式是<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80</p><p>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x91<br>&lt; r指向此处&gt;<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80(p位+1代表上一块已经使用已经使用)<br>&lt; q指向此处&gt;<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>通过对于第二个chunk进行堆溢出将第二个块整体盖掉然后在其中伪造一个chunk并且改写第三个堆块的prev_size<br>最后变为<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x80</p><p>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0<br>size = 0x91<br>fake prev_size = 0x90&lt; r指向此处&gt;<br>fake size = 0x80<br>fake fd = &amp;r-0x18<br>fake bk = &amp;r-0x10<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>prevsize = 0x80<br>size = 0x80(p位+1代表上一块已经使用已经使用)<br>&lt; q指向此处&gt;<br>*<strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong><br>这样子在可以绕过两个检查，成功将r并入了chunk中从而进行任意写。<br>具体流程：<br>free(q)<br>找到q与r都是freed<br>找到了最下面的q，通过q-0x10找到的prev_size。q-0x10-prev_size找到r。对于r执行unlink<br>跳过了check：<br>r-&gt;fd-&gt;bk == r = <em>(&amp;r-0x18+0x18) ==r<br>f-&gt;bk-&gt;fd == r = </em>(&amp;r-0x18+0x18) ==r</p><p>FD-&gt;bk = BK =》<em>（&amp;r-0x18+0x18）=&amp;r-0x10<br>BK-&gt;fd = FD =》</em>（&amp;r-0x10+0x10）=&amp;r-0x18</p><p>大功告成</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 从零开始的ctf之路 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> pwn </tag>
-            
-            <tag> 堆 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>linux上的延迟重定位</title>
-      <link href="/2018/06/14/linux-banding/"/>
-      <url>/2018/06/14/linux-banding/</url>
-      
-        <content type="html"><![CDATA[<p>熟练地掌握linux的 <strong>链接</strong>与 <strong>绑定</strong>不仅仅是研究return to plt的必要，更是掌握linkmap、got表覆写、dlresolve等技术的基础</p><a id="more"></a><h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><ul><li>plt、got表</li><li>延迟绑定</li><li>软硬链接</li></ul><h2 id="文件外函数的调用原理"><a href="#文件外函数的调用原理" class="headerlink" title="文件外函数的调用原理"></a>文件外函数的调用原理</h2><h3 id="函数调用的汇编实现"><a href="#函数调用的汇编实现" class="headerlink" title="函数调用的汇编实现"></a>函数调用的汇编实现</h3><p>假如有这样一个代码<code>system(&quot;cat flag&quot;)</code></p><p>在程序流流向这里的时候会发生什么样的事情呢？</p><p>我事先写好了一个这样的程序。让我们拖到ida里面好好看一看。</p><pre><code>push    offset command ; &quot;cat flag&quot;call    _systemadd     esp, 10h</code></pre><p>可以看见他调用了_system，这个_system和libc里面的system不是一个东西。</p><p>我们点开_system可以看见</p><pre><code>.plt:08048410 ; =============== S U B R O U T I N E =========================.plt:08048410.plt:08048410 ; Attributes: thunk.plt:08048410.plt:08048410 ; int system(const char *command).plt:08048410 _system         proc near               ; CODE XREF: main+163↓p.plt:08048410.plt:08048410 command         = dword ptr  4.plt:08048410.plt:08048410                 jmp     ds:off_804A014.plt:08048410 _system         endp.plt:08048410.plt:08048416 ; --------------------------------------------------------------</code></pre><p>我们发现了这里面有着plt三个字，这就是所谓的plt表中的一部分。</p><p>再点开</p><pre><code>ds:off_804A014</code></pre><p>我们就会发现</p><pre><code>.got.plt:0804A014 off_804A014     dd offset system        ; DATA XREF: _system↑r</code></pre><p>我们发现了这里面有着got三个字，这就是所谓的got表中的一部分。</p><h3 id="生成汇编"><a href="#生成汇编" class="headerlink" title="生成汇编"></a>生成汇编</h3><p>为什么需要有plt与got这些东西，而不在程序中直接<code>call system</code>这样的方法来访问system，的原因在于system是在glibc库中，而glibc属于动态库。</p><blockquote><p>如果读者了解过windows的动态链接库的话，事实上这两者有所区别，但是大致原理基本相似</p></blockquote><p>之所以无法直接直接<code>call system</code>，这正是用为程序中调用system的代码是在编译和链接中（事实上主要在编译中）确立的，而在此过程中，system的地址，编辑器无从而知。而在现代操作系统中，代码段也无法更改，所以试图在加载过程<code>call aaaaa</code>改为<code>call xxxxx(&amp;system)</code>也是无用功。</p><p>同时因为编辑器同时无法确定system函数是在libc这样的动态库中还是在其他的中间文件（.o）中所以编辑会生成一样格式的代码，这使得无论你的某函数是在动态链接库中还是在其它文件中给出定义，这样的汇编代码都能实现调用system。</p><h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><p>但是函数的调用总归是需要函数的具体地址的。那么就可以把情况分为两种。</p><blockquote><ol><li>静态链接库</li><li>动态链接库（如glibc）</li></ol></blockquote><p>在这两种情况中：</p><p>前一种函数的位置在编译过程中是已知的，所以在编译过程中可以计算出在编译过程中填进去占位的地址距离程序在被载入后此函数位置的偏移量，并将其填入某个位置。这就是 <strong>链接时重定位</strong>。</p><p>后一种函数的位置在运行时是已知的，算出偏移量中也填入此表中。这就是 <strong>运行时重定位</strong>。</p><h3 id="函数的调用"><a href="#函数的调用" class="headerlink" title="函数的调用"></a>函数的调用</h3><p>在完成了重定向之后，函数的调用还面临着一个问题。那就是，在无法改变代码段的情况下，应当如何利用数据段中的偏移量呢。</p><p>答案是程序在链接中就生成一小段专门利用偏移量的代码。</p><p>链接器生成额外的伪代码如下：</p><pre><code>.text...// 调用system的call指令call system_stub...system_stub:mov rax, [system函数的储存地址] ; 获取system重定位之后的地址jmp rax ; 跳过去执行system函数.data...system函数的储存地址 ;这里储存system函数重定位后的地址</code></pre><p>在链接的过程中，如果发现函数实际上是动态链接库的代码，就会添加以上代码，并将system改为system_sub。</p><p>所以实际上在函数的调用中我们需要两样东西</p><blockquote><ul><li>需要存放外部函数的数据段</li><li>获取数据段存放函数地址，并且正确的访问他们的一小段额外代码</li></ul></blockquote><p>又因为动态库的函数往往不止一个所以许多这样的数据段与许多这样的代码形成了两张表。存储函数相对地址的表叫做 <strong>全局偏移表</strong>，即 <strong>got表</strong>,而存储那段额外的代码的表被叫做 <strong>程序链接表</strong>，即 <strong>plt表</strong>。</p><h3 id="延迟重定位"><a href="#延迟重定位" class="headerlink" title="延迟重定位"></a>延迟重定位</h3><p>前文提到了函数的地址放在got表中，所以把got中的数据段填充满必须优先于调用之前，</p><p><strong>延迟重定位</strong>，故名思意，一大特点是 <strong>延迟</strong>。</p><blockquote><p>延迟即尽可能的延迟，直到不得不执行为止。之所以linux会有这样的特性，是因为如果动态库函数非常之多，那么放在前面一起执行会大大地减弱程序的启动时间。所以linux使用延迟重定位机制来使载入动态库地时间被均匀分散到了执行时间中。</p></blockquote><p>这就产生了一个问题：程序如何知道GOT表中某一数据项是否已经被载入（因为程序中的函数可能会被执行多次，这样子就不必每一次都去重定位了）。</p><p>在程序中地具体实现大致为</p><pre><code>void system@plt(){address_good:jmp *system@got            // 链接器将system@got填成下一语句lookup_system的地址return；lookup_system:        调用重定位函数查找system地址，并写到system@got        goto address_good;}</code></pre><p>当第一次运行system函数时，程序流会跳到system@plt，然后会顺势执行jmp *system@got，但是很显然，got表中的数据项并没有填充正确的值。其实程序流并没有前往所谓的system@got，实际上它前往了lookup_system中去，这个函数的功能是调用重定位的函数来寻找system的函数地址，并将其写入system@got中去，然后再跳到addr_good，执行system然后返回到调用者。这样子下面的lookup_system就相当于被废除了。</p><p>然后在第二次调用system时，就直接走向system的真正的地址中。</p><p>事实上重定位中的最后实现并没有每一个plt中都含有符号解析与重定位的那一部分。所以程序中实现具体实现为。</p><pre><code>jmp     *system@gotpush    id(当前函数在plt中的偏移量/2)jmp     common@plt</code></pre><h3 id="公共plt的具体实现"><a href="#公共plt的具体实现" class="headerlink" title="公共plt的具体实现"></a>公共plt的具体实现</h3><p>在上文中我们基本缕清了函数重定向的前世今生与大致实现方式。接下来我要重点讲一下这个公共的函数的实现方式。</p><p>我们先在ida里看看这个函数的具体实现，在这里ida的F5已经无能为力了，我们硬刚下源码试试</p><pre><code>.plt:08048300 common          proc near               ; CODE XREF: .plt:0804831B↓j.plt:08048300                                         ; .plt:0804832B↓j ....plt:08048300 ; __unwind {.plt:08048300                 push    ds:dword_804A004.plt:08048306                 jmp     ds:dword_804A008.plt:08048306 common          endp</code></pre><p>很显然这个所谓的804A008就是所谓的重定向函数，而上面的804A004，就是参数。</p><p>而在这些地方放的就是</p><pre><code>.got.plt:0804A004 dword_804A004   dd 0                    ; DATA XREF: common↑r.got.plt:0804A008 ; int (*dword_804A008)(void).got.plt:0804A008 dword_804A008   dd 0                    ; DATA XREF: common+6↑r</code></pre><p>在下面我们发现了</p><pre><code>.got.plt:0804A00C off_804A00C     dd offset read          ; DATA XREF: _read↑r.got.plt:0804A010 off_804A010     dd offset __gmon_start__.got.plt:0804A010                                         ; DATA XREF: ___gmon_start__↑r.got.plt:0804A014 off_804A014     dd offset __libc_start_main.got.plt:0804A014                                         ; DATA XREF: ___libc_start_main↑r.got.plt:0804A018 off_804A018     dd offset write         ; DATA XREF: _write↑r.got.plt:0804A018 _got_plt        ends.got.plt:0804A018</code></pre><p>发现接着跑下去就已经看不懂了</p><p>随手点一个进去</p><pre><code>extern:0804A034                 extrn write:near        ; CODE XREF: _write↑jextern:0804A034                                         ; DATA XREF: .got.plt:off_804A018↑o</code></pre><p>好像是一个声明一样的东西。</p><p>经过了观看大神写的微博以后，我发现如果使用gdb进行动态调试的话，这个common，在没有进行运行时，其的值为0x0，在运行后会变成它的值会变成另一个值，而这个值最终指向的是 <strong>_dl_runtime_resolve</strong>,而这一个处于动态链接器中的函数。</p><h3 id="dl-runtime-resolve"><a href="#dl-runtime-resolve" class="headerlink" title="_dl_runtime_resolve"></a>_dl_runtime_resolve</h3><p>因为每一个plt表里的函数都需要调用这个公共的dlresolve项，所以dlresolve得知道需要查找的是哪一个函数，并将GOT表的值写在哪个函数的plt段。因为在plt表里push了一个参数，我上面也写了你如果去算算的话，它与函数在plt表中的偏移量相同</p><p>在程序内部，维持有一个重定位信息表。利用<code>readelf -r test</code>,可以看见.rel.plt段中的消息</p><pre><code>Offset     Info     Type             Sym.Value  Sym. Name080496f8   00000107 R_386_JUMP_SLOT  00000000   puts080496fc   00000207 R_386_JUMP_SLOT  00000000   __gmon_start__08049700   00000407 R_386_JUMP_SLOT 000000000   __libc_start_main</code></pre><p>程序可以通过这个公共的offset表，找到应当被填写GOT表函数的地址的位置。</p><blockquote><p>其实想要彻底搞清楚这个过程还需要对于elf文件在linux系统的装载有着更深的理解才行，所以我这边的讲解只是浅尝辄止不深究了。</p></blockquote><blockquote><p>日后讲解这个dlresolve的时候还会像详细讲解这个过程与可能的利用。</p></blockquote><hr>]]></content>
-      
-      
-      <categories>
-          
-          <category> 从零开始的ctf之路 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> linux </tag>
-            
-            <tag> plt&amp;got </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>pwn的杂记</title>
-      <link href="/2018/06/14/pwn%E7%9A%84%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%9A%84%E6%9D%82%E8%AE%B0/"/>
-      <url>/2018/06/14/pwn%E7%9A%84%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%9A%84%E6%9D%82%E8%AE%B0/</url>
-      
-        <content type="html"><![CDATA[<p>这是我的一些pwn的随笔</p><a id="more"></a><h2 id="先讲一些关于pwn的术语吧"><a href="#先讲一些关于pwn的术语吧" class="headerlink" title="先讲一些关于pwn的术语吧"></a>先讲一些关于pwn的术语吧</h2><blockquote><ul><li><strong>payload</strong>（有效攻击负载）是包含在你用于一次漏洞利用（exploit）中的ShellCode中的主要功能代码</li><li><strong>shellcode</strong>（可提权代码） 对于一个漏洞来说，ShellCode就是一个用于某个漏洞的二进制代码框架，有了这个框架你可以在这个ShellCode中包含你需要的Payload来做一些事情</li><li><strong>exp</strong> (Exploit )漏洞利用，一般是个demo程序</li><li><strong>poc</strong>.(Proof of Concept)漏洞证明，一般就是个样本 用来证明和复现</li><li><strong>vul</strong>：(Vulnerability)  :漏洞”Pwn”：是一个黑客语法的俚语词  ，是指攻破设备或者系统</li></ul></blockquote><h2 id="gdb-peda-使用中的常用技巧"><a href="#gdb-peda-使用中的常用技巧" class="headerlink" title="gdb-peda 使用中的常用技巧"></a>gdb-peda 使用中的常用技巧</h2><p>可以使用pattern_create()创建一个形如</p><blockquote><p>pattern_create(200)<br>‘AAA%AAsAABAA$AAnAACAA-AA(AADAA;AA)AAEAAaAA0AAFAAbAA1AAGAAcAA2AAHAAdAA3AAIAAeAA4AAJAAfAA5AAKAAgAA6AALAAhAA7AAMAAiAA8AANAAjAA9AAOAAkAAPAAlAAQAAmAARAAnAASAAoAATAApAAUAAqAAVAArAAWAAsAAXAAtAAYAAuAAZAAvAAwA’</p></blockquote><p>的字符串，把他输入进程序就可以得到eip被误占所引发的错误。<br>再用pattern_offset 输入出错信息里的地址，就可以算出距离首地址的偏移<br>在简单的栈溢出中应当在覆盖完所有的临时变量后再顺便把bp（x86 4个 x64 8个）盖了<br>在叫完system以后会自动把其后的作为参数但是中间会需要加入参数中作为返回地址的数据（相当于传入四个字节换掉堆栈中的eip）（参数中字符串请用指针）。（当然64位中是不可以用的，因为64位中用寄存器传前七个参数）</p><p>64位自动对应p64 32位使用p32</p><blockquote><p>sh.recvuntil(‘:‘)<br>address = sh.recvuntil(‘?‘, drop=True)<br>address = int(address, 16)</p></blockquote><p>这样的方法可以获得写得起始点的地址，以确认shellcode的地址，免于重复运行计算<br>‘sadsaddas’+’asdsadsda’ == ‘saddsdsdsdsa’  ‘asdasdasda<br>checksec 可以获得保护开启情况;</p><p>break <em>0x400100 (b main):在 0x400100 处下断点<br>tb一次性断点<br>info b：查看断点信息<br>delete [number]：删除断点<br>watch </em>(int *)0x08044530：在内存0x0804453处的数据改变时stop<br>x /4xg \$ebp：查看ebp开始的4个8字节内容（b：单字节，h：双字节，w：四字节，g：八字节；x：十六进制，s：字符串输出，i：反汇编，c：单字符）<br>p $eax：输出eax的内容<br>set \$eax=4：修改变量值start<br>ls -f 可以展示隐藏文件</p><h2 id="gdb-peda常用指令（机翻）"><a href="#gdb-peda常用指令（机翻）" class="headerlink" title="gdb-peda常用指令（机翻）"></a>gdb-peda常用指令（机翻）</h2><p>c：继续运行<br>r：重新开始运行<br>ni：单步步过<br>si：单步步入<br>fini：运行至函数刚结束处<br>return expression：将函数返回值指定为expression<br>bt：查看当前栈帧<br>info f：查看当前栈帧<br>context：查看运行上下文<br>stack：查看当前堆栈<br>call func：强制函数调用<br>ropgagdet：找common rop<br>vmmap：查看虚拟地址分布<br>shellcode：搜索，生成shellcode<br>ptype struct link_map：查看link_map定义<br>p &amp;((struct link_map*)0)-&gt;l_info：查看l_info成员偏移<br>libc ：打印libc的基址<br>ld ：打印ld的基地址<br>codebase ：打印代码段的基础<br>heap ：打印堆的基础<br>got ：打印全局偏移表信息<br>dyn ：打印动态部分信息<br>findcall ：找到一些函数调用<br>bcall ：在某个函数调用中设置断点<br>tls ：打印线程本地存储地址<br>at ：按进程名称附加<br>findsyscall ：找到系统调用<br>fmtarg ：计算格式字符串的索引<br>你需要停止有漏洞的printf。<br>force ：计算力所在之处的nb。<br>heapinfo ：打印堆的一些信息<br>heapinfo（竞技场地址）<br>默认是当前线程的舞台<br>如果启用了tcache，它会显示tcache条目的信息<br>heapinfoall ：打印堆的一些信息（所有线程）<br>arenainfo ：打印所有竞技场的一些信息<br>chunkinfo：打印块的信息<br>chunkinfo（受害者的地址）<br>chunkptr ：打印块的信息<br>chunkptr（用户ptr的地址）<br>mergeinfo ：打印合并信息<br>mergeinfo（受f害者地址）<br>printfastbin ：打印fastbin的一些信息<br>tracemalloc on ：跟踪malloc并释放并检测到一些错误。<br>你需要首先运行这个进程tracemalloc on，它会记录所有的malloc和free。<br>你可以设置DEBUGpwngdb.py，比打印所有的malloc和免费的信息如screeshot。<br>parseheap ：解析堆布局<br>magic ：在glibc中打印有用的变量和函数<br>fp ：显示FILE结构<br>fp（文件的地址）<br>fpchain：显示FILE的链接列表<br>orange：中的测试house of orange条件_IO_flush_lockp<br>z() : 调出此时的调试界面<br>橙色（FILE的地址）<br>ctrl + c停止调试</p><hr><p>栈是从高向低发展<br>栈溢出是从低向高溢出<br>而单个数据内部则是从高向低按字节存放的<br>而大多数的看内存的软件则是从低向高看的</p><hr><p>ROPgadget <strong>常用</strong>指令</p><ul><li><code>binary</code></li><li><code>ropchain</code></li></ul><blockquote><p>格式： <code>ROPgadget --binary the_binary_elf ropchain</code></p></blockquote><hr><p>程序中已经用到的会被link进程序固定的<strong>plt表</strong>中</p><p>而没有被用到的也会被放在libc中，只需要无限leak即可找到system地址。</p><blockquote><p>无限leak通常出现在栈溢出可以使程序重现进入该函数。</p></blockquote><hr>]]></content>
-      
-      
-      <categories>
-          
-          <category> 从零开始的ctf之路 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> pwn </tag>
             
         </tags>
       
