@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>leetcode contest 155 writeup | mian&#39;s blog</title>
+  
+  
+  <meta name="description" content="这是mian的博客">
+  
+
+  <link rel="alternate" href="/atom.xml" title="mian's blog">
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+  
+  <meta name="theme-color" content="#f24e32">
+  
+  <meta name="msapplication-TileColor" content="#f24e32">
+  
+  <meta name="msapplication-config" content="https://cdn.jsdelivr.net/gh/xaoxuu/assets@18.12.27/favicon/favicons/browserconfig.xml">
+  
+  
+  <!-- link -->
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.6.3/css/all.min.css">
+
+  
+  
+  <link rel="shortcut icon" href="https://i.loli.net/2019/01/24/5c49b35441c12.png"
+   type="image/x-icon"
+  
+  
+  
+  >
+  
+  <link rel="icon" href="https://i.loli.net/2019/01/24/5c49b35441c12.png"
+   type="image/x-icon"
+   sizes="32x32"
+  
+  
+  >
+  
+  <link rel="apple-touch-icon" href="https://i.loli.net/2019/01/24/5c49b35441c12.png"
+   type="image/png"
+   sizes="180x180"
+  
+  
+  >
+  
+  <link rel="mask-icon" href="https://i.loli.net/2019/01/24/5c49b35441c12.png"
+  
+  
+  
+  
+   color="#f24e32">
+  
+  <link rel="manifest" href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@18.12.27/favicon/favicons/site.webmanifest"
+  
+  
+  
+  
+  >
+  
+  
+
+  
+  <link rel="stylesheet" href="/style.css">
+  
+
+  
+
+
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+<body>
+    <div id="loading-bar-wrapper">
+  <div id="loading-bar" class="pure"></div>
+</div>
+
+    <script>setLoadingBarProgress(20)</script>
+    <header class="l_header pure">
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          mian's blog
+        
+      </a>
+			<div class='menu'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a id="home"
+								 class="nav flat-box" href="/">
+									<i class='fas fa-rss fa-fw'></i>&nbsp;博客
+								</a>
+							</li>
+      			
+  						<li>
+								<a id="archives"
+								 class="nav flat-box" href="/archives/">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+  						<li>
+								<a id="friends"
+								 class="nav flat-box" href="/friends/">
+									<i class='fas fa-users fa-fw'></i>&nbsp;朋友
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<span class="icon"><i class="fas fa-search fa-fw"></i></span>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+				<li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu">
+      <ul>
+          
+              
+                  <li>
+										<a id="home" class="nav flat-box" href="/">
+											<i class='fas fa-rss fa-fw'></i>&nbsp;博客
+										</a>
+                  </li>
+              
+                  <li>
+										<a id="archives" class="nav flat-box" href="/archives/">
+											<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+										</a>
+                  </li>
+              
+                  <li>
+										<a id="friends" class="nav flat-box" href="/friends/">
+											<i class='fas fa-users fa-fw'></i>&nbsp;朋友
+										</a>
+                  </li>
+              
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+
+    <script>setLoadingBarProgress(40);</script>
+    <div class="l_body">
+    <div class='container clearfix'>
+        <div class='l_main'>
+            <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+  
+<section class='meta'>
+  
+  <div class="meta" id="header-meta">
+    
+      
+          <h1 class="title">leetcode contest 155 writeup</h1>
+      
+    
+
+    
+      <time class="metatag time">
+        <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;2019-09-23
+      </time>
+    
+
+    
+      
+    
+    <div class='metatag cats'>
+        <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;<a class="categories" href="/categories/从零开始的编程之路/">从零开始的编程之路</a>
+    </div>
+
+
+    
+
+    
+      
+        <div class="metatag browse busuanzi"><i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+          &nbsp;<span id="busuanzi_value_page_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+        </div>
+      
+    
+
+    
+
+  </div>
+</section>
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><blockquote>
+<p>比赛链接:<a href="https://leetcode-cn.com/contest/weekly-contest-155" target="_blank" rel="noopener">leetcode第155周周赛</a></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">题目</th>
+<th style="text-align:center">难度</th>
+<th style="text-align:center">知识点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://leetcode-cn.com/contest/weekly-contest-155/problems/minimum-absolute-difference" target="_blank" rel="noopener">最小绝对差</a></td>
+<td style="text-align:center">简单</td>
+<td style="text-align:center">无</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://leetcode-cn.com/contest/weekly-contest-155/problems/ugly-number-iii" target="_blank" rel="noopener">丑数 III</a></td>
+<td style="text-align:center">中等</td>
+<td style="text-align:center">容斥+二分</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://leetcode-cn.com/contest/weekly-contest-155/problems/smallest-string-with-swaps" target="_blank" rel="noopener">交换字符串中的元素</a></td>
+<td style="text-align:center">中等</td>
+<td style="text-align:center">并查集</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://leetcode-cn.com/contest/weekly-contest-155/problems/sort-items-by-groups-respecting-dependencies" target="_blank" rel="noopener">项目管理</a></td>
+<td style="text-align:center">困难</td>
+<td style="text-align:center">拓扑排序</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<blockquote>
+<p>注:思路是理想思路,代码有可能是我比赛时写的,就不那么理想.</p>
+<p>所以代码与思路不一定等价</p>
+</blockquote>
+<h2 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h2><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>遍历</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> List</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minimumAbsDifference</span><span class="params">(self, arr: List[int])</span> -&gt; List[List[int]]:</span></span><br><span class="line">        arr.sort()</span><br><span class="line">        min = arr[<span class="number">1</span>] - arr[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(arr) - <span class="number">1</span>):</span><br><span class="line">            i_ = abs(arr[i + <span class="number">1</span>] - arr[i])</span><br><span class="line">            <span class="keyword">if</span> min &gt; i_:</span><br><span class="line">                min = i_</span><br><span class="line">        re = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(arr) - <span class="number">1</span>):</span><br><span class="line">            i_ = abs(arr[i + <span class="number">1</span>] - arr[i])</span><br><span class="line">            <span class="keyword">if</span> min == i_:</span><br><span class="line">                re.append([arr[i],arr[i+<span class="number">1</span>]])</span><br><span class="line">        <span class="keyword">return</span> re</span><br><span class="line"></span><br><span class="line">s = Solution()</span><br><span class="line">print(s.minimumAbsDifference([<span class="number">3</span>,<span class="number">8</span>,<span class="number">-10</span>,<span class="number">23</span>,<span class="number">19</span>,<span class="number">-4</span>,<span class="number">-14</span>,<span class="number">27</span>]))</span><br></pre></td></tr></table></figure>
+<h2 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h2><h3 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h3><p>容斥原理加上二分法。容斥法确认范围内有几个丑数。二分法右界设为最大值就行。</p>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lcm</span><span class="params">(x, y)</span>:</span></span><br><span class="line">    <span class="comment">#  获取最大的数</span></span><br><span class="line">    <span class="keyword">return</span> x * y / gcd(x, y)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gcd</span><span class="params">(m, n)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> n:</span><br><span class="line">        <span class="keyword">return</span> m</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> gcd(n, m % n)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">low</span><span class="params">(self, n: int, a: int, b: int, c: int)</span> -&gt; int:</span>  <span class="comment"># [1,n]内含有几个丑数</span></span><br><span class="line">        <span class="keyword">return</span> n // a + n // b + n // c - n // lcm(a, b) - n // lcm(a, c) - n // lcm(b, c) + n // lcm(lcm(a, b), c)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">nthUglyNumber</span><span class="params">(self, n: int, a: int, b: int, c: int)</span> -&gt; int:</span></span><br><span class="line">        l = <span class="number">1</span></span><br><span class="line">        r = <span class="number">2</span> * <span class="number">10</span> ** <span class="number">9</span> + <span class="number">1</span></span><br><span class="line">        m = <span class="keyword">None</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">            mid = (l + r) // <span class="number">2</span></span><br><span class="line">            mid_v = self.low(mid, a, b, c)</span><br><span class="line">            <span class="keyword">if</span> mid_v == n:</span><br><span class="line">                m = mid</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">if</span> mid_v &lt; n:</span><br><span class="line">                l = mid + <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                r = mid - <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">not</span> (self.low(m, a, b, c) == n <span class="keyword">and</span> self.low(m - <span class="number">1</span>, a, b, c) == n - <span class="number">1</span>):</span><br><span class="line">            m -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> m</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">s = Solution()</span><br><span class="line"><span class="comment"># print(s.nthUglyNumber(5, 2, 11, 13))</span></span><br><span class="line">print(s.nthUglyNumber(<span class="number">1000000000</span>,</span><br><span class="line">                <span class="number">2</span>,</span><br><span class="line">                <span class="number">217983653</span>,</span><br><span class="line">                <span class="number">336916467</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h2><h3 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h3><p>首先我们知道如果数组内索引1和2对应的数可以随意调换，索引2和3对应的数可以随意调换的话，那么等价于索引1、2、3对应的数可以任意调换，以此类推。</p>
+<p>也就是我们只需求求出groups最终归并成的集合进行排序即可。</p>
+<p>并查集一把梭（网上的并查集代码没有导出集合，所以我添了这个，竞赛时没写好超时了，下面的这个版本可以过。</p>
+<h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">unionfind</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, groups)</span>:</span></span><br><span class="line">        self.groups = groups</span><br><span class="line">        self.items = []</span><br><span class="line">        <span class="keyword">for</span> g <span class="keyword">in</span> groups:</span><br><span class="line">            self.items += list(g)</span><br><span class="line">        self.items = set(self.items)</span><br><span class="line">        self.parent = &#123;&#125;</span><br><span class="line">        self.rootdict = &#123;&#125;  <span class="comment"># 记住每个root下节点的数量</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> self.items:</span><br><span class="line">            self.rootdict[item] = <span class="number">1</span></span><br><span class="line">            self.parent[item] = item</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">union</span><span class="params">(self, r1, r2)</span>:</span></span><br><span class="line">        rr1 = self.findroot(r1)</span><br><span class="line">        rr2 = self.findroot(r2)</span><br><span class="line">        cr1 = self.rootdict[rr1]</span><br><span class="line">        cr2 = self.rootdict[rr2]</span><br><span class="line">        <span class="keyword">if</span> cr1 &gt;= cr2:  <span class="comment"># 将节点数量较小的树归并给节点数更大的树</span></span><br><span class="line">            self.parent[rr2] = rr1</span><br><span class="line">            self.rootdict.pop(rr2)</span><br><span class="line">            self.rootdict[rr1] = cr1 + cr2</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.parent[rr1] = rr2</span><br><span class="line">            self.rootdict.pop(rr1)</span><br><span class="line">            self.rootdict[rr2] = cr1 + cr2</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">is_connected</span><span class="params">(self, i, j)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.findroot(i) == self.findroot(j)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findroot</span><span class="params">(self, r)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        可以通过压缩路径来优化算法,即遍历路径上的每个节点直接指向根节点</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> r <span class="keyword">in</span> self.rootdict.keys():</span><br><span class="line">            <span class="keyword">return</span> r</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> self.findroot(self.parent[r])</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">createtree</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> g <span class="keyword">in</span> self.groups:</span><br><span class="line">            <span class="keyword">if</span> len(g) &lt; <span class="number">2</span>:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(g) - <span class="number">1</span>):</span><br><span class="line">                    <span class="keyword">if</span> self.findroot(g[i]) != self.findroot(g[i + <span class="number">1</span>]):  <span class="comment"># 如果处于同一个集合的节点有不同的根节点，归并之</span></span><br><span class="line">                        self.union(g[i], g[i + <span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">to_lists</span><span class="params">(self)</span>:</span></span><br><span class="line">        re: Dict[List] = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> self.rootdict:</span><br><span class="line">            re[k] = []</span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> self.parent:</span><br><span class="line">            re[self.findroot(n)].append(n)</span><br><span class="line">        r = []</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> re:</span><br><span class="line">            r.append(re[k])</span><br><span class="line">        <span class="keyword">return</span> r</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">smallestStringWithSwaps</span><span class="params">(self, s: str, pairs: List[List[int]])</span> -&gt; str:</span></span><br><span class="line">        u = unionfind(pairs)</span><br><span class="line">        u.createtree()</span><br><span class="line">        a = u.to_lists()</span><br><span class="line">        li = list(s)</span><br><span class="line">        <span class="keyword">for</span> se <span class="keyword">in</span> a:</span><br><span class="line">            keys = list(se)</span><br><span class="line">            keys.sort()</span><br><span class="line">            values = [li[x] <span class="keyword">for</span> x <span class="keyword">in</span> keys]</span><br><span class="line">            values.sort()</span><br><span class="line">            <span class="keyword">for</span> i, v <span class="keyword">in</span> zip(keys, values):</span><br><span class="line">                li[i] = v</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span>.join(li)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">s = Solution()</span><br><span class="line">print(s.smallestStringWithSwaps(<span class="string">"dcab"</span>, [[<span class="number">0</span>, <span class="number">3</span>], [<span class="number">1</span>, <span class="number">2</span>], [<span class="number">0</span>, <span class="number">2</span>]]))</span><br></pre></td></tr></table></figure>
+<h2 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h2><h3 id="思路-3"><a href="#思路-3" class="headerlink" title="思路"></a>思路</h3><p>不会呀，题都不大看的懂，好像是一个复杂版的拓扑排序，姑且放一个别人的题解吧</p>
+<h3 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Queue</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sortItems</span><span class="params">(self, n, m, group, beforeItems)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">            :type n: int</span></span><br><span class="line"><span class="string">            :type m: int</span></span><br><span class="line"><span class="string">            :type group: List[int]</span></span><br><span class="line"><span class="string">            :type beforeItems: List[List[int]]</span></span><br><span class="line"><span class="string">            :rtype: List[int]</span></span><br><span class="line"><span class="string">            """</span></span><br><span class="line">        <span class="comment">#组内拓扑排序</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">get_group_ans</span><span class="params">(group_points,group_edges)</span>:</span></span><br><span class="line">            <span class="comment">#组内级别建图</span></span><br><span class="line">            graph = &#123;group_point:[] <span class="keyword">for</span> group_point <span class="keyword">in</span> group_points&#125;</span><br><span class="line">            degree = &#123;group_point:<span class="number">0</span> <span class="keyword">for</span> group_point <span class="keyword">in</span> group_points&#125;</span><br><span class="line">            <span class="keyword">for</span> x,y <span class="keyword">in</span> group_edges:</span><br><span class="line">                graph[y].append(x)</span><br><span class="line">                degree[x] += <span class="number">1</span></span><br><span class="line">                <span class="comment">#top sort</span></span><br><span class="line">                q = Queue.Queue()</span><br><span class="line">                <span class="keyword">for</span> graph_point <span class="keyword">in</span> group_points:</span><br><span class="line">                    <span class="keyword">if</span> degree[graph_point] == <span class="number">0</span>:</span><br><span class="line">                        q.put(graph_point)</span><br><span class="line"></span><br><span class="line">                        <span class="comment">#组内拓扑排序</span></span><br><span class="line">                        task_res = []</span><br><span class="line">                        <span class="keyword">while</span> <span class="keyword">not</span> q.empty():</span><br><span class="line">                            x = q.get()</span><br><span class="line">                            task_res.append(x)</span><br><span class="line">                            <span class="keyword">for</span> y <span class="keyword">in</span> graph[x]:</span><br><span class="line">                                degree[y] -= <span class="number">1</span></span><br><span class="line">                                <span class="keyword">if</span> degree[y] == <span class="number">0</span>:</span><br><span class="line">                                    q.put(y)</span><br><span class="line">                                    <span class="keyword">if</span> len(task_res) != len(group_points):</span><br><span class="line">                                        <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">                                    <span class="keyword">return</span> task_res</span><br><span class="line">                                group_cnt = max(group)+<span class="number">1</span></span><br><span class="line">                                <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">                                    <span class="keyword">if</span> group[i] == <span class="number">-1</span>:</span><br><span class="line">                                        group[i] = group_cnt</span><br><span class="line">                                        group_cnt += <span class="number">1</span></span><br><span class="line">                                        <span class="comment">#组级别建图</span></span><br><span class="line">                                        group_ids = np.unique(group)</span><br><span class="line">                                        graph = &#123;group_id:[] <span class="keyword">for</span> group_id <span class="keyword">in</span> group_ids&#125;</span><br><span class="line">                                        degree = &#123;group_id:<span class="number">0</span> <span class="keyword">for</span> group_id <span class="keyword">in</span> group_ids&#125;</span><br><span class="line">                                        group_inner_edges = &#123;group_id:[] <span class="keyword">for</span> group_id <span class="keyword">in</span> group_ids&#125;</span><br><span class="line">                                        group_points = &#123;group_id:[] <span class="keyword">for</span> group_id <span class="keyword">in</span> group_ids&#125;</span><br><span class="line">                                        <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">                                            groupa = group[i]</span><br><span class="line">                                            group_points[groupa].append(i)</span><br><span class="line">                                            <span class="keyword">for</span> j <span class="keyword">in</span> beforeItems[i]:</span><br><span class="line">                                                groupb = group[j]</span><br><span class="line">                                                <span class="keyword">if</span> groupa == groupb:</span><br><span class="line">                                                    group_inner_edges[groupa].append([i,j])</span><br><span class="line">                                                    <span class="keyword">continue</span></span><br><span class="line">                                                    graph[groupb].append(groupa)</span><br><span class="line">                                                    degree[groupa] += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">                                                    <span class="comment">#组级别拓扑排序</span></span><br><span class="line">                                                    q = Queue.Queue()</span><br><span class="line">                                                    <span class="keyword">for</span> group_id <span class="keyword">in</span> group_ids:</span><br><span class="line">                                                        <span class="keyword">if</span> degree[group_id] == <span class="number">0</span>:</span><br><span class="line">                                                            q.put(group_id)</span><br><span class="line">                                                            group_res = []</span><br><span class="line">                                                            <span class="keyword">while</span> <span class="keyword">not</span> q.empty():</span><br><span class="line">                                                                x = q.get()</span><br><span class="line">                                                                group_res.append(x)</span><br><span class="line">                                                                <span class="keyword">for</span> y <span class="keyword">in</span> graph[x]:</span><br><span class="line">                                                                    degree[y] -= <span class="number">1</span></span><br><span class="line">                                                                    <span class="keyword">if</span> degree[y] == <span class="number">0</span>:</span><br><span class="line">                                                                        q.put(y)</span><br><span class="line"></span><br><span class="line">                                                                        <span class="keyword">if</span> len(group_res) != len(group_ids):</span><br><span class="line">                                                                            <span class="keyword">return</span> []</span><br><span class="line">                                                                        <span class="comment">#根据组拓扑序整合结果</span></span><br><span class="line">                                                                        task_res = []</span><br><span class="line">                                                                        <span class="keyword">for</span> group_id <span class="keyword">in</span> group_res:</span><br><span class="line">                                                                            ans = get_group_ans(group_points[group_id],group_inner_edges[group_id])</span><br><span class="line">                                                                            <span class="keyword">if</span> ans <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">                                                                                <span class="keyword">return</span> []</span><br><span class="line">                                                                            task_res += ans</span><br><span class="line">                                                                            <span class="keyword">return</span> task_res</span><br></pre></td></tr></table></figure>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>这次竞赛意外繁多，最后就一题过了，其它的都是超时。。。结果竞赛后稍微改了改都能过。。。。</p>
+<p>反思一下，其实还是心态崩了，本来都做得出的</p>
+
+      </div>
+        
+          <section class='meta' id="footer-meta">
+            
+              <time class="metatag time" itemprop="dateUpdated" datetime="2019-09-23T16:58:46+08:00" content="2019-09-23"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
+                &nbsp;2019-09-23
+              </time>
+            
+            
+                
+                <div class="metatag tags"><a class="tag" href="/tags/算法/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>&nbsp;算法</a></div> <div class="metatag tags"><a class="tag" href="/tags/编程/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>&nbsp;编程</a></div>
+            
+            
+          </section>
+        
+
+        
+            <div class="prev-next">
+                
+                
+                    <section class="next">
+                        <span class="art-item-right" aria-hidden="true">
+                            <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h4>
+                                <a href="/2019/09/20/154/" rel="prev" title="leetcode contest 154 writeup">
+                                    
+                                        leetcode contest 154 writeup
+                                    
+                                </a>
+                            </h4>
+                            
+                                
+                                <h6 class="tags">
+                                    <a class="tag" href="/tags/算法/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>算法</a> <a class="tag" href="/tags/编程/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>编程</a>
+                                </h6>
+                            
+                        </span>
+                    </section>
+                
+            </div>
+        
+
+    </section>
+
+</article>
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+    <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      preferredFont: "TeX",
+      availableFonts: ["STIX","TeX"],
+      linebreaks: { automatic:true },
+      EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+      inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+      processEscapes: true,
+      ignoreClass: "tex2jax_ignore|dno",
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: { autoNumber: "AMS" },
+      noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+      Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+  });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += (all[i].SourceElement().parentNode.className ? ' ' : '') + 'has-jax';
+    }
+    console.log("mathjax did loaded!");
+  });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+<br>
+
+<!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments">
+    <section class="article typo">
+
+      
+        
+
+    <div class="recommended_posts">
+        <h4><i class="fas fa-bookmark fa-fw" aria-hidden="true"></i>&nbsp;相关文章</h4>
+        <ul>
+            
+                <li><a href="https://www.intmian.com/2019/09/20/154/">leetcode contest 154 writeup</a></li>
+            
+                <li><a href="https://www.intmian.com/2019/09/16/设计模式/">设计模式读后感</a></li>
+            
+                <li><a href="https://www.intmian.com/2019/09/10/leetcode 第 153 场周赛 writeup/">leetcode contest 153 writeup</a></li>
+            
+                <li><a href="https://www.intmian.com/2019/08/26/leetcode 121周赛 writeup/">leetcode contest 151 writeup</a></li>
+            
+        </ul>
+    </div>
+
+
+      
+
+      
+    </section>
+  </article>
+
+
+
+<script>
+    window.subData = {
+        title: 'leetcode contest 155 writeup',
+        tools: true
+    }
+</script>
+
+
+        </div>
+        <aside class='l_side'>
+            
+  
+  
+    
+      
+      
+        
+  <section class='toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章目录</div>
+  
+    <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div>
+  
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概要"><span class="toc-text">概要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第一题"><span class="toc-text">第一题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二题"><span class="toc-text">第二题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#思路-1"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-1"><span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三题"><span class="toc-text">第三题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#思路-2"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-2"><span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四题"><span class="toc-text">第四题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#思路-3"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-3"><span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后记"><span class="toc-text">后记</span></a></li></ol>
+    </div>
+  </section>
+
+
+      
+    
+  
+    
+      
+      
+        <section class='author'>
+  <div class='content pure'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='https://i.loli.net/2019/06/01/5cf227a921a9e48931.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+          <h2>mian</h2>
+        
+        
+          <p>一名普普通通的<del>死宅</del><strong>大学生</strong>，ctf、开发、算法<strong>业余</strong>爱好者。非典型<strong>菜鸡</strong>。</p>
+
+        
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="https://github.com/intmian" class="social flat-btn" target="_blank" rel="external"><i class="social fab fa-github" aria-hidden="true"></i></a>
+          
+        
+          
+            <a href="https://leetcode-cn.com/" class="social flat-btn" target="_blank" rel="external"><i class="social fas fa-code" aria-hidden="true"></i></a>
+          
+        
+          
+            <a href="https://music.163.com/#/user/home?id=468482485" class="social flat-btn" target="_blank" rel="external"><i class="social fas fa-music" aria-hidden="true"></i></a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+      
+    
+  
+    
+      
+      
+        <section class='plain'>
+  
+<header class='pure'>
+  <div><i class="fas fa-bullhorn fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;注意啦～</div>
+  
+    <a class="rightBtn" target="_blank"
+    rel="external nofollow noopener noreferrer"
+    href="https://www.intmian.com"
+    title="https://www.intmian.com">
+    <i class="fas fa-question-circle fa-fw"></i></a>
+  
+</header>
+
+  <div class='content pure'>
+    <p>认识我的朋友请在各大社交平台上联系我，不认识的麻烦发邮件。邮箱<a href="mailto:hztlfjy@gmail.com">hztlfjy@gmail.com</a></p>
+
+  </div>
+</section>
+
+      
+    
+  
+    
+      
+      
+        <section class='plain'>
+  
+<header class='pure'>
+  <div><i class="fas fa-bullhorn fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;rss 订阅地址</div>
+  
+</header>
+
+  <div class='content pure'>
+    <p><a href="https://www.intmian.com/atom.xml">https://www.intmian.com/atom.xml</a></p>
+
+  </div>
+</section>
+
+      
+    
+  
+    
+      
+      
+        
+  <section class='category'>
+    
+<header class='pure'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;所有分类</div>
+  
+</header>
+
+    <div class='content pure'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/一些小教程/" href="/categories/一些小教程/"><div class='name'>一些小教程</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/从零开始的ctf之路/" href="/categories/从零开始的ctf之路/"><div class='name'>从零开始的ctf之路</div><div class='badge'>(10)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/从零开始的编程之路/" href="/categories/从零开始的编程之路/"><div class='name'>从零开始的编程之路</div><div class='badge'>(14)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+      
+    
+  
+    
+      
+      
+        
+  <section class='tagcloud'>
+    
+<header class='pure'>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+</header>
+
+    <div class='content pure'>
+      <a href="/tags/c/" style="font-size: 20.67px; color: #6c6c6c">c++</a> <a href="/tags/hexo/" style="font-size: 14px; color: #999">hexo</a> <a href="/tags/linux/" style="font-size: 15.67px; color: #8e8e8e">linux</a> <a href="/tags/plt-got/" style="font-size: 15.67px; color: #8e8e8e">plt&got</a> <a href="/tags/pwn/" style="font-size: 22.33px; color: #606060">pwn</a> <a href="/tags/re/" style="font-size: 14px; color: #999">re</a> <a href="/tags/sql/" style="font-size: 14px; color: #999">sql</a> <a href="/tags/堆/" style="font-size: 15.67px; color: #8e8e8e">堆</a> <a href="/tags/架构/" style="font-size: 15.67px; color: #8e8e8e">架构</a> <a href="/tags/栈/" style="font-size: 17.33px; color: #828282">栈</a> <a href="/tags/电脑维护/" style="font-size: 14px; color: #999">电脑维护</a> <a href="/tags/算法/" style="font-size: 19px; color: #777">算法</a> <a href="/tags/编程/" style="font-size: 24px; color: #555">编程</a>
+    </div>
+  </section>
+
+
+      
+    
+  
+
+
+        </aside>
+        <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+    </div>
+    <footer id="footer" class="clearfix">
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="https://github.com/intmian" class="social fab fa-github flat-btn" target="_blank" rel="external"></a>
+        
+      
+        
+          <a href="https://leetcode-cn.com/" class="social fas fa-code flat-btn" target="_blank" rel="external"></a>
+        
+      
+        
+          <a href="https://music.163.com/#/user/home?id=468482485" class="social fas fa-music flat-btn" target="_blank" rel="external"></a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>本站使用 <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a> 作为主题，总访问量为 <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span> 次。
+  </div>
+</footer>
+
+    <script>setLoadingBarProgress(80);</script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+
+  
+    <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        const $reveal = $('.reveal');
+    		if ($reveal.length === 0) return;
+    		const sr = ScrollReveal({ distance: 0 });
+    		sr.reveal('.reveal');
+      });
+    </script>
+  
+  
+    <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        Waves.attach('.flat-btn', ['waves-button']);
+        Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+        Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+        Waves.attach('.flat-box', ['waves-block']);
+        Waves.attach('.float-box', ['waves-block', 'waves-float']);
+        Waves.attach('.waves-image');
+        Waves.init();
+      });
+    </script>
+  
+  
+    <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+  
+  
+  
+
+
+  
+  
+  
+  
+    <script src="/js/app.js"></script>
+<script src="/js/search.js"></script>
+  
+
+
+
+
+
+
+    <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
