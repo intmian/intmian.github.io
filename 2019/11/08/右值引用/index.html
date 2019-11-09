@@ -232,8 +232,8 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <a id="more"></a>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>好久没写c++了，因为最近做的一个工程需要解大规模的有特殊约束条件的线性方程组，库不好使，所以<del>被逼无奈</del>用了c++。又因为对效率要求较高，又想用oo的范式,所以还是免不了要用移动语义这种。而这几个东西我每次用到都要去查一下用法，下次又会忘记，所以我今天彻底理一理。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>好久没写c++了，因为最近做的一个工程需要解大规模的有特殊约束条件的线性方程组，库不好使，所以<del>被逼无奈</del>用了c++。又因为对效率要求较高，又想用oo的范式,所以还是免不了要用移动语义这种。而这几个东西我每次用到都要去查一下用法，下次又会忘记，所以我今天彻底理一理。</p>
+<a id="more"></a>
 <h2 id="左值与右值"><a href="#左值与右值" class="headerlink" title="左值与右值"></a>左值与右值</h2><p>设有类<code>A</code></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	A() &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"build\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	~A()</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"destroy\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>又有一段代码</p>
@@ -315,7 +315,7 @@
         
           <section class='meta' id="footer-meta">
             
-              <time class="metatag time" itemprop="dateUpdated" datetime="2019-11-09T17:04:14+08:00" content="2019-11-09"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
+              <time class="metatag time" itemprop="dateUpdated" datetime="2019-11-09T17:06:06+08:00" content="2019-11-09"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
                 &nbsp;2019-11-09
               </time>
             
