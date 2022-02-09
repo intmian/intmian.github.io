@@ -2,7 +2,7 @@
 
 ## 这是啥
 
-这是我的博客
+这是我的博客，文件已废弃，改用halo部署，但是还是欢迎访问[www.intmian.com](https://www.intmian.com)。
 
 ## 会写啥
 
